@@ -6,6 +6,7 @@ import Projects from './components/Projects'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
+// Force rebuild - 2026-03-15
 function App() {
 
   return (
