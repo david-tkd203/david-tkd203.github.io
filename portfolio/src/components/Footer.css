@@ -1,5 +1,5 @@
 .footer {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #b800ff 100%);
   color: white;
   padding: 2rem;
   text-align: center;
@@ -18,14 +18,15 @@
 }
 
 .social-links a {
-  color: white;
+  color: #b800ff;
   text-decoration: none;
   font-weight: 500;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .social-links a:hover {
-  opacity: 0.8;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #b800ff;
 }
 
 .footer p {

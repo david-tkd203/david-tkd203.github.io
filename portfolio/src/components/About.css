@@ -1,12 +1,14 @@
 .about {
   padding: 4rem 2rem;
-}
+  background-color: #0f0f0f;
+  color: white;
 
 .about h2 {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 3rem;
-  color: #333;
+  color: #b800ff;
+  text-shadow: 0 0 20px #b800ff;
 }
 
 .about-content {
@@ -19,16 +21,17 @@
 }
 
 .about-text p {
-  color: #666;
+  color: #cccccc;
   line-height: 1.8;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
 }
 
 .about-text h3 {
-  color: #333;
+  color: #b800ff;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+  text-shadow: 0 0 10px #b800ff;
 }
 
 .skills {
@@ -38,11 +41,13 @@
 }
 
 .skill {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background-color: transparent;
+  color: #b800ff;
   padding: 0.8rem 1.5rem;
-  border-radius: 5px;
+  border: 2px solid #b800ff;
+  border-radius: 20px;
   font-weight: 500;
+  box-shadow: 0 0 10px rgba(184, 0, 255, 0.3);
 }
 
 .about-stats {
@@ -54,18 +59,21 @@
 .stat {
   text-align: center;
   padding: 2rem;
-  background: #f9f9f9;
+  background: #1a1a1a;
   border-radius: 8px;
+  border: 2px solid #b800ff;
+  box-shadow: 0 0 20px rgba(184, 0, 255, 0.2);
 }
 
 .stat h3 {
   font-size: 2.5rem;
-  color: #667eea;
+  color: #b800ff;
   margin: 0;
+  text-shadow: 0 0 10px #b800ff;
 }
 
 .stat p {
-  color: #666;
+  color: #aaaaaa;
   margin: 0.5rem 0 0 0;
 }
 

@@ -62,14 +62,15 @@
 }
 
 .project-link {
-  color: #667eea;
+  color: #b800ff;
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease;
 }
 
 .project-link:hover {
-  color: #764ba2;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #b800ff;
 }
 
 @media (max-width: 768px) {

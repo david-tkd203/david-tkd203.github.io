@@ -1,5 +1,5 @@
 .hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #b800ff 100%);
   color: white;
   padding: 8rem 2rem;
   text-align: center;
@@ -45,24 +45,28 @@
 }
 
 .btn-primary {
-  background-color: white;
-  color: #667eea;
+  background-color: #b800ff;
+  color: white;
+  border: 2px solid #b800ff;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 30px #b800ff;
+  background-color: #ff00ff;
+  border-color: #ff00ff;
 }
 
 .btn-secondary {
   background-color: transparent;
-  color: white;
-  border: 2px solid white;
+  color: #b800ff;
+  border: 2px solid #b800ff;
 }
 
 .btn-secondary:hover {
-  background-color: white;
-  color: #667eea;
+  background-color: #b800ff;
+  color: white;
+  box-shadow: 0 0 30px #b800ff;
 }
 
 @keyframes fadeInUp {
