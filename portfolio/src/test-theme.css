@@ -1,0 +1,11 @@
+/* TEST NEW FILE - PURPLE THEME */
+body.test {
+  background-color: #b800ff;
+  color: #ffffff;
+}
+
+.test-box {
+  background: linear-gradient(135deg, #0a0a0a 0%, #b800ff 100%);
+  padding: 20px;
+  border: 2px solid #ff00ff;
+}
