@@ -68,12 +68,14 @@ const certifications = [
   { title: 'Rocketbot Framework - Certificación N1', institution: 'RocketBot', logo: '/images/logo_rocketbot.png', url: 'https://certificate.rocketbot.co/badges/25e6b377-0555-a869-e4d4-b2c3c6844ad3' },
   { title: 'Rocketbot Framework - Certificación N2', institution: 'RocketBot', logo: '/images/logo_rocketbot.png', url: 'https://certificate.rocketbot.co/badges/3f02ca03-c200-7422-dd10-09d91bc2ebd6' },
   { title: 'Rocketbot Framework - Certificación N3', institution: 'RocketBot', logo: '/images/logo_rocketbot.png', url: 'https://certificate.rocketbot.co/badges/0c5eddad-2418-4e7e-6a25-d502e992ce58' },
-  { title: 'React JS - Certificación', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '' },
-  { title: 'JavaScript - Certificación', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '' },
-  { title: 'Desarrollo Web (HTML, CSS, SASS, Bootstrap)', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '' },
-  { title: 'Excel Avanzado - Certificación', institution: 'Manpower', logo: '/education/logo_manpower.png', url: '' },
-  { title: 'Gestión de Proyectos Agile - Metodologías (Cascada, Lean, Scrum, Kanban)', institution: 'Conecta Empleo', logo: '/education/logo_conectaempleo.png', url: '' },
-  { title: 'Gestión del Desempeño', institution: 'Sence', logo: '/education/logo_sence.png', url: '' }
+  { title: 'React JS - Certificación', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '/certificates/certificado_react.png' },
+  { title: 'JavaScript - Certificación', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '/certificates/certificado_js.png' },
+  { title: 'Desarrollo Web (HTML, CSS, SASS, Bootstrap)', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '/certificates/certificado_desarrolloweb.png' },
+  { title: 'Excel Avanzado - Certificación', institution: 'Manpower', logo: '/education/logo_manpower.png', url: '/certificates/Diploma Alumno David Simón Ñanculeo Bastías_excel_basico_intermedio_avanzado.pdf' },
+  { title: 'Gestión de Proyectos Agile - Metodologías (Cascada, Lean, Scrum, Kanban)', institution: 'Conecta Empleo', logo: '/education/logo_conectaempleo.png', url: '/certificates/FT Movistar y SENCE - Certificado_gestion_proyectos_metodologias_agiles_enfoquelean.pdf' },
+  { title: 'Ciberseguridad en Entornos de Aprendizaje', institution: 'SENCE', logo: '/education/logo_sence.png', url: '/certificates/FT Movistar y SENCE - Certificado_ciberseguridad_entornos_aprendizaje.pdf' },
+  { title: 'Diplomado Diseño Programación Web', institution: 'AIEP', logo: '/education/logo_aiep.png', url: '/certificates/Diplomado - Certificado_diseño_programacionweb.pdf' },
+  { title: 'Certificado WordPress - Diplomado', institution: 'AIEP', logo: '/education/logo_aiep.png', url: '/certificates/Diplomado - certificado_wordpress.pdf' }
 ];
 
 export default function Education() {
