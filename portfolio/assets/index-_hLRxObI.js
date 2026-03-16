@@ -1,26 +1,3 @@
-//#region \0rolldown/runtime.js
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __commonJSMin = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
-var __copyProps = (to, from, except, desc) => {
-	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
-		key = keys[i];
-		if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
-			get: ((k) => from[k]).bind(null, key),
-			enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
-		});
-	}
-	return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
-	value: mod,
-	enumerable: true
-}) : target, mod));
-//#endregion
 //#region \0vite/modulepreload-polyfill.js
 (function polyfill() {
 	const relList = document.createElement("link").relList;
@@ -52,7 +29,57 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 	}
 })();
 //#endregion
-//#region node_modules/react/cjs/react.production.js
+//#region assets/index-B-IXcooG.js
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __commonJSMin = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
+var __copyProps = (to, from, except, desc) => {
+	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
+		key = keys[i];
+		if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
+			get: ((k) => from[k]).bind(null, key),
+			enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+		});
+	}
+	return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+	value: mod,
+	enumerable: true
+}) : target, mod));
+(function polyfill() {
+	const relList = document.createElement("link").relList;
+	if (relList && relList.supports && relList.supports("modulepreload")) return;
+	for (const link of document.querySelectorAll("link[rel=\"modulepreload\"]")) processPreload(link);
+	new MutationObserver((mutations) => {
+		for (const mutation of mutations) {
+			if (mutation.type !== "childList") continue;
+			for (const node of mutation.addedNodes) if (node.tagName === "LINK" && node.rel === "modulepreload") processPreload(node);
+		}
+	}).observe(document, {
+		childList: true,
+		subtree: true
+	});
+	function getFetchOpts(link) {
+		const fetchOpts = {};
+		if (link.integrity) fetchOpts.integrity = link.integrity;
+		if (link.referrerPolicy) fetchOpts.referrerPolicy = link.referrerPolicy;
+		if (link.crossOrigin === "use-credentials") fetchOpts.credentials = "include";
+		else if (link.crossOrigin === "anonymous") fetchOpts.credentials = "omit";
+		else fetchOpts.credentials = "same-origin";
+		return fetchOpts;
+	}
+	function processPreload(link) {
+		if (link.ep) return;
+		link.ep = true;
+		const fetchOpts = getFetchOpts(link);
+		fetch(link.href, fetchOpts);
+	}
+})();
 /**
 * @license React
 * react.production.js
@@ -411,13 +438,9 @@ var require_react_production = /* @__PURE__ */ __commonJSMin(((exports) => {
 	};
 	exports.version = "19.2.4";
 }));
-//#endregion
-//#region node_modules/react/index.js
 var require_react = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_production();
 }));
-//#endregion
-//#region node_modules/scheduler/cjs/scheduler.production.js
 /**
 * @license React
 * scheduler.production.js
@@ -657,13 +680,9 @@ var require_scheduler_production = /* @__PURE__ */ __commonJSMin(((exports) => {
 		};
 	};
 }));
-//#endregion
-//#region node_modules/scheduler/index.js
 var require_scheduler = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_scheduler_production();
 }));
-//#endregion
-//#region node_modules/react-dom/cjs/react-dom.production.js
 /**
 * @license React
 * react-dom.production.js
@@ -803,8 +822,6 @@ var require_react_dom_production = /* @__PURE__ */ __commonJSMin(((exports) => {
 	};
 	exports.version = "19.2.4";
 }));
-//#endregion
-//#region node_modules/react-dom/index.js
 var require_react_dom = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	function checkDCE() {
 		if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === "undefined" || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== "function") return;
@@ -817,8 +834,6 @@ var require_react_dom = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	checkDCE();
 	module.exports = require_react_dom_production();
 }));
-//#endregion
-//#region node_modules/react-dom/cjs/react-dom-client.production.js
 /**
 * @license React
 * react-dom-client.production.js
@@ -9897,8 +9912,6 @@ var require_react_dom_client_production = /* @__PURE__ */ __commonJSMin(((export
 		return new ReactDOMRoot(options);
 	};
 }));
-//#endregion
-//#region src/styles.css
 var import_client = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	function checkDCE() {
 		if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === "undefined" || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== "function") return;
@@ -9912,8 +9925,6 @@ var import_client = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_dom_client_production();
 })))();
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
-//#endregion
-//#region node_modules/react-icons/lib/iconContext.mjs
 var DefaultContext = {
 	color: void 0,
 	size: void 0,
@@ -9922,8 +9933,6 @@ var DefaultContext = {
 	attr: void 0
 };
 var IconContext = import_react.createContext && /* @__PURE__ */ import_react.createContext(DefaultContext);
-//#endregion
-//#region node_modules/react-icons/lib/iconBase.mjs
 var _excluded$11 = [
 	"attr",
 	"size",
@@ -10026,8 +10035,6 @@ function IconBase(props) {
 	};
 	return IconContext !== void 0 ? /* @__PURE__ */ import_react.createElement(IconContext.Consumer, null, (conf) => elem(conf)) : elem(DefaultContext);
 }
-//#endregion
-//#region node_modules/react-icons/fa/index.mjs
 function FaLinkedin(props) {
 	return GenIcon({
 		"tag": "svg",
@@ -10138,8 +10145,6 @@ function FaArrowRight(props) {
 		}]
 	})(props);
 }
-//#endregion
-//#region node_modules/react/cjs/react-jsx-runtime.production.js
 /**
 * @license React
 * react-jsx-runtime.production.js
@@ -10172,8 +10177,6 @@ var require_react_jsx_runtime_production = /* @__PURE__ */ __commonJSMin(((expor
 	exports.jsx = jsxProd;
 	exports.jsxs = jsxProd;
 }));
-//#endregion
-//#region src/components/Header.jsx
 var import_jsx_runtime = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_production();
 })))();
@@ -10306,8 +10309,6 @@ function Header() {
 		})
 	});
 }
-//#endregion
-//#region src/components/Hero.jsx
 function Hero() {
 	const [primaryHover, setPrimaryHover] = (0, import_react.useState)(false);
 	const [secondaryHover, setSecondaryHover] = (0, import_react.useState)(false);
@@ -10450,8 +10451,6 @@ function Hero() {
 		})
 	});
 }
-//#endregion
-//#region src/components/About.jsx
 function About() {
 	const primarySkills = [
 		{
@@ -10770,8 +10769,6 @@ function About() {
 		})
 	});
 }
-//#endregion
-//#region node_modules/prop-types/lib/ReactPropTypesSecret.js
 /**
 * Copyright (c) 2013-present, Facebook, Inc.
 *
@@ -10781,8 +10778,6 @@ function About() {
 var require_ReactPropTypesSecret = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED";
 }));
-//#endregion
-//#region node_modules/prop-types/factoryWithThrowingShims.js
 /**
 * Copyright (c) 2013-present, Facebook, Inc.
 *
@@ -10832,8 +10827,6 @@ var require_factoryWithThrowingShims = /* @__PURE__ */ __commonJSMin(((exports, 
 		return ReactPropTypes;
 	};
 }));
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/award-fill.js
 var import_prop_types = /* @__PURE__ */ __toESM((/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_factoryWithThrowingShims()();
 })))());
@@ -10892,8 +10885,6 @@ AwardFill.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/bar-chart-fill.js
 var _excluded$9 = [
 	"color",
 	"size",
@@ -10949,8 +10940,6 @@ BarChartFill.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/book-half.js
 var _excluded$8 = [
 	"color",
 	"size",
@@ -11006,8 +10995,6 @@ BookHalf.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/briefcase.js
 var _excluded$7 = [
 	"color",
 	"size",
@@ -11063,8 +11050,6 @@ Briefcase.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/code.js
 var _excluded$6 = [
 	"color",
 	"size",
@@ -11120,8 +11105,6 @@ Code.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/cpu.js
 var _excluded$5 = [
 	"color",
 	"size",
@@ -11177,8 +11160,6 @@ Cpu.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/database.js
 var _excluded$4 = [
 	"color",
 	"size",
@@ -11234,8 +11215,6 @@ Database.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/folder.js
 var _excluded$3 = [
 	"color",
 	"size",
@@ -11291,8 +11270,6 @@ Folder.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/gear.js
 var _excluded$2 = [
 	"color",
 	"size",
@@ -11348,8 +11325,6 @@ Gear.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/link.js
 var _excluded$1 = [
 	"color",
 	"size",
@@ -11405,8 +11380,6 @@ Link.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/palette-fill.js
 var _excluded = [
 	"color",
 	"size",
@@ -11462,8 +11435,6 @@ PaletteFill.propTypes = {
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
-//#endregion
-//#region src/components/Experience.jsx
 var CalendarIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
 	width: "20",
 	height: "20",
@@ -12191,8 +12162,6 @@ function Experience() {
 		})]
 	});
 }
-//#endregion
-//#region src/components/Projects.jsx
 var projects = [
 	{
 		id: 1,
@@ -12462,8 +12431,6 @@ function Projects() {
 		})
 	});
 }
-//#endregion
-//#region src/components/Education.jsx
 var EgressIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
 	width: "20",
 	height: "20",
@@ -12938,8 +12905,6 @@ function Education() {
 		})
 	});
 }
-//#endregion
-//#region src/components/Skills.jsx
 var TechLogo = ({ name, color, logoSrc }) => {
 	const [hover, setHover] = (0, import_react.useState)(false);
 	const logoStyle = {
@@ -13272,8 +13237,6 @@ function Skills() {
 		})
 	});
 }
-//#endregion
-//#region src/components/Contact.jsx
 var EmailIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
 	width: "48",
 	height: "48",
@@ -13580,8 +13543,6 @@ function Contact() {
 		})
 	});
 }
-//#endregion
-//#region src/components/Footer.jsx
 function Footer() {
 	const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
 	const footerStyle = {
@@ -13709,8 +13670,6 @@ function Footer() {
 		})]
 	});
 }
-//#endregion
-//#region src/App.jsx
 function App() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
@@ -13724,7 +13683,5 @@ function App() {
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {})
 	] });
 }
-//#endregion
-//#region src/main.jsx
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react.StrictMode, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(App, {}) }));
 //#endregion
