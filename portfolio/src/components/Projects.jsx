@@ -1,5 +1,3 @@
-import './Projects.css';
-
 const projects = [
   {
     id: 1,

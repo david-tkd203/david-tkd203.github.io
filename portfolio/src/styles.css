@@ -1,0 +1,9 @@
+/* Centralized Styles */
+@import './index.css';
+@import './App.css';
+@import './components/Header.css';
+@import './components/Hero.css';
+@import './components/About.css';
+@import './components/Projects.css';
+@import './components/Contact.css';
+@import './components/Footer.css';

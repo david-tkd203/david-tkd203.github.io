@@ -1,4 +1,3 @@
-import './Contact.css';
 import { useState } from 'react';
 
 export default function Contact() {
