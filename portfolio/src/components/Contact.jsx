@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 const EmailIcon = () => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="4" y="8" width="40" height="32" rx="2" stroke="#b800ff" strokeWidth="2"/>
@@ -22,49 +20,7 @@ const LocationIcon = () => (
   </svg>
 );
 
-const EgressIcon = () => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M30 10L16 24L10 18" stroke="#b800ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const InProgressIcon = () => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="20" cy="20" r="16" stroke="#ff6b6b" strokeWidth="2"/>
-    <circle cx="20" cy="20" r="8" stroke="#ff6b6b" strokeWidth="2" fill="rgba(255, 107, 107, 0.2)"/>
-  </svg>
-);
-
-const CompletedIcon = () => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 20L16 28L32 12" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  const [hoveredDetail, setHoveredDetail] = useState(null);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const mailtoLink = `mailto:david.203.52@gmail.com?subject=Contacto desde Portfolio - ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(`Nombre: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`)}`;
-    window.location.href = mailtoLink;
-    setFormData({ name: '', email: '', message: '' });
-  };
-
   const contactDetails = [
     { icon: EmailIcon, label: 'Email', value: 'david.203.52@gmail.com', link: 'mailto:david.203.52@gmail.com' },
     { icon: PhoneIcon, label: 'Teléfono', value: '+569 9505 2746', link: 'tel:+56995052746' },
@@ -79,107 +35,91 @@ export default function Contact() {
   const h2Style = {
     textAlign: 'center',
     color: '#b800ff',
-    marginBottom: '0.5rem',
+    marginBottom: '2rem',
     fontSize: '2.5rem'
   };
 
-  const subtitleStyle = {
-    textAlign: 'center',
-    color: '#aaaaaa',
-    marginBottom: '2rem',
-    fontSize: '1.1rem'
-  };
-
-  const formStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-    maxWidth: '500px',
+  const detailsContainerStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: '2rem',
+    maxWidth: '900px',
     margin: '0 auto'
   };
 
-  const groupStyle = {
-    display: 'flex',
-    flexDirection: 'column'
-  };
-
-  const inputStyle = {
-    border: '2px solid #b800ff',
-    borderRadius: '5px',
-    padding: '1rem',
-    fontFamily: 'inherit',
-    fontSize: '1rem',
-    transition: 'border-color 0.3s, box-shadow 0.3s',
+  const detailCardStyle = {
     backgroundColor: '#1a1a1a',
-    color: '#ffffff',
-    outline: 'none'
+    padding: '2.5rem 1.5rem',
+    borderRadius: '12px',
+    border: '2px solid #b800ff',
+    textAlign: 'center',
+    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+    cursor: 'pointer',
+    transform: 'translateY(0)'
   };
 
-  const buttonStyle = {
-    color: '#ffffff',
-    cursor: 'pointer',
-    background: 'linear-gradient(135deg, #b800ff 0%, #ff00ff 100%)',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '1rem',
-    fontSize: '1rem',
-    fontWeight: '700',
+  const detailCardHoverStyle = {
+    ...detailCardStyle,
+    transform: 'translateY(-8px)',
+    boxShadow: '0 15px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)'
+  };
+
+  const labelStyle = {
+    color: '#b800ff',
+    fontWeight: '600',
+    marginBottom: '0.8rem'
+  };
+
+  const valueStyle = {
+    color: '#cccccc',
+    textDecoration: 'none',
+    display: 'inline-block',
     transition: 'all 0.3s',
-    boxShadow: '0 0 20px rgba(184, 0, 255, 0.3)'
+    fontWeight: '500',
+    borderBottom: '2px solid transparent'
+  };
+
+  const iconContainerStyle = {
+    marginBottom: '1rem',
+    display: 'flex',
+    justifyContent: 'center'
   };
 
   return (
     <section id="contact" style={sectionStyle}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <h2 style={h2Style}>Contacto</h2>
-        <p style={subtitleStyle}>¿Tienes un proyecto en mente? ¡Hablemos!</p>
         
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '2rem',
-          marginBottom: '3rem'
-        }}>
+        <div style={detailsContainerStyle}>
           {contactDetails.map((detail, idx) => {
             const IconComponent = detail.icon;
             return (
               <div 
                 key={idx} 
-                style={{
-                  backgroundColor: '#1a1a1a',
-                  padding: '2.5rem 1.5rem',
-                  borderRadius: '12px',
-                  border: '2px solid #b800ff',
-                  textAlign: 'center',
-                  transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  cursor: hoveredDetail === idx ? 'pointer' : 'default',
-                  transform: hoveredDetail === idx ? 'translateY(-8px)' : 'translateY(0)',
-                  boxShadow: hoveredDetail === idx ? '0 15px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)' : '0 4px 6px rgba(184, 0, 255, 0.1)'
+                style={detailCardStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)';
                 }}
-                onMouseEnter={() => setHoveredDetail(idx)}
-                onMouseLeave={() => setHoveredDetail(null)}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(184, 0, 255, 0.1)';
+                }}
               >
-                <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                <div style={iconContainerStyle}>
                   <IconComponent />
                 </div>
-                <div style={{ color: '#b800ff', fontWeight: '600', marginBottom: '0.8rem' }}>{detail.label}</div>
+                <div style={labelStyle}>{detail.label}</div>
                 {detail.link ? (
-                  <a href={detail.link} style={{
-                    color: '#cccccc',
-                    textDecoration: 'none',
-                    display: 'inline-block',
-                    transition: 'all 0.3s',
-                    fontWeight: '500',
-                    borderBottom: '2px solid transparent'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.color = '#b800ff';
-                    e.target.style.borderBottomColor = '#b800ff';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.color = '#cccccc';
-                    e.target.style.borderBottomColor = 'transparent';
-                  }}
+                  <a href={detail.link} style={valueStyle}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = '#b800ff';
+                      e.target.style.borderBottomColor = '#b800ff';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = '#cccccc';
+                      e.target.style.borderBottomColor = 'transparent';
+                    }}
                   >
                     {detail.value}
                   </a>
@@ -190,56 +130,6 @@ export default function Contact() {
             );
           })}
         </div>
-
-        <form style={formStyle} onSubmit={handleSubmit}>
-          <div style={groupStyle}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Tu nombre"
-              value={formData.name}
-              onChange={handleChange}
-              style={inputStyle}
-              onFocus={(e) => e.target.style.boxShadow = '0 0 15px rgba(184, 0, 255, 0.5)'}
-              onBlur={(e) => e.target.style.boxShadow = 'none'}
-              required
-            />
-          </div>
-          <div style={groupStyle}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Tu email"
-              value={formData.email}
-              onChange={handleChange}
-              style={inputStyle}
-              onFocus={(e) => e.target.style.boxShadow = '0 0 15px rgba(184, 0, 255, 0.5)'}
-              onBlur={(e) => e.target.style.boxShadow = 'none'}
-              required
-            />
-          </div>
-          <div style={groupStyle}>
-            <textarea
-              name="message"
-              placeholder="Tu mensaje"
-              rows="5"
-              value={formData.message}
-              onChange={handleChange}
-              style={inputStyle}
-              onFocus={(e) => e.target.style.boxShadow = '0 0 15px rgba(184, 0, 255, 0.5)'}
-              onBlur={(e) => e.target.style.boxShadow = 'none'}
-              required
-            ></textarea>
-          </div>
-          <button 
-            type="submit" 
-            style={buttonStyle}
-            onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
-            onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-          >
-            Enviar Mensaje
-          </button>
-        </form>
       </div>
     </section>
   );

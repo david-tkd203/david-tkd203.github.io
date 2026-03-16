@@ -1,4 +1,4 @@
-import { FaGithub, FaLinkedin, FaEnvelope, FaHeart } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -44,19 +44,8 @@ export default function Footer() {
     lineHeight: '1.6'
   };
 
-  const heartStyle = {
-    color: '#ff00ff',
-    animation: 'pulse 1.5s infinite'
-  };
-
   return (
     <footer style={footerStyle}>
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.7; transform: scale(1.1); }
-        }
-      `}</style>
       <div style={contentStyle}>
         <div style={linksStyle}>
           <a href="https://github.com/david-tkd203" target="_blank" rel="noopener noreferrer" title="GitHub" style={linkStyle}
@@ -97,7 +86,7 @@ export default function Footer() {
           </a>
         </div>
         <p style={pStyle}>
-          &copy; {currentYear} David Nanculeo. Hecho con <span style={heartStyle}><FaHeart style={{ display: 'inline' }} /></span> y mucha dedicación.
+          &copy; {currentYear} David Nanculeo.
         </p>
         <p style={{ ...pStyle, marginTop: '0.5rem', fontSize: '0.85rem' }}>
           Ingeniero en Informática | Full Stack Developer | RPA Specialist
