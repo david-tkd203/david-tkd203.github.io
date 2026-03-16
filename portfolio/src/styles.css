@@ -1,9 +1,90 @@
-/* Centralized Styles */
-@import './index.css';
-@import './App.css';
-@import './components/Header.css';
-@import './components/Hero.css';
-@import './components/About.css';
-@import './components/Projects.css';
-@import './components/Contact.css';
-@import './components/Footer.css';
+/* Reset y estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Links y interacciones */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+/* Gradientes reutilizables */
+:root {
+  --primary-color: #b800ff;
+  --secondary-color: #ff00ff;
+  --dark-bg: #0a0a0a;
+  --card-bg: #1a1a1a;
+  --text-light: #ffffff;
+  --text-muted: #aaaaaa;
+  --border-color: #b800ff;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(184, 0, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(184, 0, 255, 0.5);
+  }
+}
+
+/* Media queries para responsivo */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}

@@ -1,4 +1,10 @@
+import { useState } from 'react';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+
 export default function Hero() {
+  const [primaryHover, setPrimaryHover] = useState(false);
+  const [secondaryHover, setSecondaryHover] = useState(false);
+
   const heroStyle = {
     background: 'linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #b800ff 100%)',
     color: 'white',
@@ -7,24 +13,29 @@ export default function Hero() {
     minHeight: '600px',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    position: 'relative',
+    overflow: 'hidden'
   };
 
   const contentStyle = {
-    maxWidth: '600px'
+    maxWidth: '600px',
+    position: 'relative',
+    zIndex: 10
   };
 
   const h1Style = {
     fontSize: '3.5rem',
     marginBottom: '1rem',
-    animation: 'fadeInUp 0.8s ease'
+    fontWeight: '800',
+    letterSpacing: '-1px'
   };
 
   const pStyle = {
     opacity: 0.9,
     marginBottom: '2rem',
     fontSize: '1.3rem',
-    animation: 'fadeInUp 0.8s ease 0.2s both'
+    lineHeight: '1.6'
   };
 
   const buttonsStyle = {
@@ -32,66 +43,94 @@ export default function Hero() {
     flexWrap: 'wrap',
     justifyContent: 'center',
     gap: '1rem',
-    animation: 'fadeInUp 0.8s ease 0.4s both'
+    marginBottom: '2rem'
   };
 
   const btnPrimaryStyle = {
     cursor: 'pointer',
     border: 'none',
-    borderRadius: '5px',
+    borderRadius: '8px',
     padding: '0.8rem 2rem',
     fontSize: '1rem',
     fontWeight: '700',
     transition: 'all 0.3s',
-    backgroundColor: '#b800ff',
+    backgroundColor: primaryHover ? '#ff00ff' : '#b800ff',
     color: '#ffffff',
-    boxShadow: '0 0 30px rgba(184, 0, 255, 0.4)'
+    boxShadow: primaryHover ? '0 10px 20px rgba(184, 0, 255, 0.6)' : '0 0 30px rgba(184, 0, 255, 0.4)',
+    transform: primaryHover ? 'translateY(-2px)' : 'translateY(0)'
   };
 
   const btnSecondaryStyle = {
     cursor: 'pointer',
     border: '2px solid #ffffff',
-    borderRadius: '5px',
+    borderRadius: '8px',
     padding: '0.8rem 2rem',
     fontSize: '1rem',
     fontWeight: '700',
     transition: 'all 0.3s',
-    backgroundColor: 'transparent',
-    color: '#ffffff'
+    backgroundColor: secondaryHover ? '#b800ff' : 'transparent',
+    color: secondaryHover ? '#000000' : '#ffffff',
+    borderColor: secondaryHover ? '#b800ff' : '#ffffff',
+    transform: secondaryHover ? 'translateY(-2px)' : 'translateY(0)'
+  };
+
+  const socialLinksStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '2rem',
+    marginTop: '3rem'
+  };
+
+  const iconLinkStyle = {
+    color: '#b800ff',
+    fontSize: '2rem',
+    transition: 'all 0.3s',
+    cursor: 'pointer',
+    textDecoration: 'none'
   };
 
   return (
     <section id="home" style={heroStyle}>
-      <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        button:hover {
-          transform: translateY(-2px);
-        }
-        .btn-primary:hover {
-          box-shadow: 0 10px 20px rgba(184, 0, 255, 0.6);
-          background-color: #ff00ff;
-        }
-        .btn-secondary:hover {
-          background-color: #b800ff;
-          color: #000000;
-          border-color: #b800ff;
-        }
-      `}</style>
       <div style={contentStyle}>
-        <h1 style={h1Style}>¡Hola! Soy Desarrollador</h1>
-        <p style={pStyle}>Creando soluciones innovadoras con tecnología moderna</p>
+        <h1 style={h1Style}>Hola, soy David Nanculeo</h1>
+        <p style={pStyle}>Ingeniero en Informática | Desarrollador Full Stack | Especialista en Tecnologías Web</p>
         <div style={buttonsStyle}>
-          <button className="btn-primary" style={btnPrimaryStyle}>Ver mis proyectos</button>
-          <button className="btn-secondary" style={btnSecondaryStyle}>Contactame</button>
+          <button
+            style={btnPrimaryStyle}
+            onMouseEnter={() => setPrimaryHover(true)}
+            onMouseLeave={() => setPrimaryHover(false)}
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            Ver mis proyectos
+          </button>
+          <button
+            style={btnSecondaryStyle}
+            onMouseEnter={() => setSecondaryHover(true)}
+            onMouseLeave={() => setSecondaryHover(false)}
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            Contactame
+          </button>
+        </div>
+        <div style={socialLinksStyle}>
+          <a href="https://github.com/david-tkd203" target="_blank" rel="noopener noreferrer" style={iconLinkStyle}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.2) translateY(-3px)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <FaGithub />
+          </a>
+          <a href="https://www.linkedin.com/in/david-nanculeo" target="_blank" rel="noopener noreferrer" style={iconLinkStyle}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.2) translateY(-3px)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <FaLinkedin />
+          </a>
+          <a href="mailto:david.203.52@gmail.com" style={iconLinkStyle}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.2) translateY(-3px)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <FaEnvelope />
+          </a>
         </div>
       </div>
     </section>
