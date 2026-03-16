@@ -12571,39 +12571,58 @@ var education = [
 ];
 var certifications = [
 	{
-		title: "Rocketbot Framework - Certificación N1, N2, N3",
+		title: "Rocketbot Framework - Certificación N1",
 		institution: "RocketBot",
-		logo: "/images/logo_rocketbot.png"
+		logo: "/images/logo_rocketbot.png",
+		url: "https://certificate.rocketbot.co/badges/25e6b377-0555-a869-e4d4-b2c3c6844ad3"
+	},
+	{
+		title: "Rocketbot Framework - Certificación N2",
+		institution: "RocketBot",
+		logo: "/images/logo_rocketbot.png",
+		url: "https://certificate.rocketbot.co/badges/3f02ca03-c200-7422-dd10-09d91bc2ebd6"
+	},
+	{
+		title: "Rocketbot Framework - Certificación N3",
+		institution: "RocketBot",
+		logo: "/images/logo_rocketbot.png",
+		url: "https://certificate.rocketbot.co/badges/0c5eddad-2418-4e7e-6a25-d502e992ce58"
 	},
 	{
 		title: "React JS - Certificación",
 		institution: "Coder House",
-		logo: "/education/logo_coderhouse.png"
+		logo: "/education/logo_coderhouse.png",
+		url: ""
 	},
 	{
 		title: "JavaScript - Certificación",
 		institution: "Coder House",
-		logo: "/education/logo_coderhouse.png"
+		logo: "/education/logo_coderhouse.png",
+		url: ""
 	},
 	{
 		title: "Desarrollo Web (HTML, CSS, SASS, Bootstrap)",
 		institution: "Coder House",
-		logo: "/education/logo_coderhouse.png"
+		logo: "/education/logo_coderhouse.png",
+		url: ""
 	},
 	{
 		title: "Excel Avanzado - Certificación",
 		institution: "Manpower",
-		logo: "/education/logo_manpower.png"
+		logo: "/education/logo_manpower.png",
+		url: ""
 	},
 	{
 		title: "Gestión de Proyectos Agile - Metodologías (Cascada, Lean, Scrum, Kanban)",
 		institution: "Conecta Empleo",
-		logo: "/education/logo_conectaempleo.png"
+		logo: "/education/logo_conectaempleo.png",
+		url: ""
 	},
 	{
 		title: "Gestión del Desempeño",
 		institution: "Sence",
-		logo: "/education/logo_sence.png"
+		logo: "/education/logo_sence.png",
+		url: ""
 	}
 ];
 function Education() {
@@ -12881,8 +12900,11 @@ function Education() {
 								flexDirection: "column",
 								alignItems: "center",
 								gap: "1.2rem",
-								transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)"
+								transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+								cursor: cert.url ? "pointer" : "default",
+								position: "relative"
 							},
+							onClick: () => cert.url && window.open(cert.url, "_blank"),
 							onMouseEnter: (e) => {
 								e.currentTarget.style.transform = "translateY(-12px) scale(1.06)";
 								e.currentTarget.style.boxShadow = "0 20px 50px rgba(0, 212, 255, 0.35), inset 0 0 30px rgba(0, 212, 255, 0.1)";
@@ -12895,7 +12917,7 @@ function Education() {
 								e.currentTarget.style.borderColor = "#00d4ff";
 								e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(26, 26, 46, 0.95) 100%)";
 							},
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								style: {
 									width: "100px",
 									height: "100px",
@@ -12907,9 +12929,10 @@ function Education() {
 									border: "2px solid rgba(0, 212, 255, 0.5)",
 									background: "linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(26, 26, 46, 0.85) 100%)",
 									boxShadow: "0 8px 25px rgba(0, 212, 255, 0.15)",
-									transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)"
+									transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+									position: "relative"
 								},
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 									src: cert.logo,
 									alt: cert.institution,
 									style: {
@@ -12917,28 +12940,57 @@ function Education() {
 										height: "80px",
 										objectFit: "contain"
 									}
-								})
+								}), cert.url && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: {
+										position: "absolute",
+										top: "5px",
+										right: "5px",
+										width: "24px",
+										height: "24px",
+										backgroundColor: "#00d4ff",
+										borderRadius: "50%",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										fontSize: "16px",
+										color: "#0a0a0a",
+										fontWeight: "800"
+									},
+									children: "↗"
+								})]
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								style: { textAlign: "center" },
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-									style: {
-										...descriptionStyle,
-										margin: 0,
-										color: "#00d4ff",
-										fontWeight: "700",
-										fontSize: "0.95rem",
-										marginBottom: "0.5rem"
-									},
-									children: ["✓ ", cert.title]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-									style: {
-										color: "#aaaaaa",
-										fontSize: "0.85rem",
-										margin: 0,
-										fontWeight: "600"
-									},
-									children: cert.institution
-								})]
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+										style: {
+											...descriptionStyle,
+											margin: 0,
+											color: "#00d4ff",
+											fontWeight: "700",
+											fontSize: "0.95rem",
+											marginBottom: "0.5rem"
+										},
+										children: ["✓ ", cert.title]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										style: {
+											color: "#aaaaaa",
+											fontSize: "0.85rem",
+											margin: 0,
+											fontWeight: "600"
+										},
+										children: cert.institution
+									}),
+									cert.url && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										style: {
+											color: "#b800ff",
+											fontSize: "0.8rem",
+											margin: "0.5rem 0 0 0",
+											fontWeight: "600"
+										},
+										children: "Haz clic para ver certificado"
+									})
+								]
 							})]
 						}, idx))
 					})]
