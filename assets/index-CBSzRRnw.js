@@ -10300,12 +10300,13 @@ function Header() {
 function Hero() {
 	const [primaryHover, setPrimaryHover] = (0, import_react.useState)(false);
 	const [secondaryHover, setSecondaryHover] = (0, import_react.useState)(false);
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 	const heroStyle = {
 		background: "linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #b800ff 100%)",
 		color: "white",
-		padding: "8rem 2rem",
+		padding: isMobile ? "4rem 1.5rem" : "8rem 2rem",
 		textAlign: "center",
-		minHeight: "600px",
+		minHeight: isMobile ? "450px" : "600px",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
@@ -10318,7 +10319,7 @@ function Hero() {
 		zIndex: 10
 	};
 	const h1Style = {
-		fontSize: "3.5rem",
+		fontSize: isMobile ? "2rem" : "3.5rem",
 		marginBottom: "1rem",
 		fontWeight: "800",
 		letterSpacing: "-1px"
@@ -10326,41 +10327,43 @@ function Hero() {
 	const pStyle = {
 		opacity: .9,
 		marginBottom: "2rem",
-		fontSize: "1.3rem",
+		fontSize: isMobile ? "1rem" : "1.3rem",
 		lineHeight: "1.6"
 	};
 	const buttonsStyle = {
 		display: "flex",
 		flexWrap: "wrap",
 		justifyContent: "center",
-		gap: "1rem",
+		gap: isMobile ? "0.8rem" : "1rem",
 		marginBottom: "2rem"
 	};
 	const btnPrimaryStyle = {
 		cursor: "pointer",
 		border: "none",
 		borderRadius: "8px",
-		padding: "0.8rem 2rem",
-		fontSize: "1rem",
+		padding: isMobile ? "0.7rem 1.5rem" : "0.8rem 2rem",
+		fontSize: isMobile ? "0.9rem" : "1rem",
 		fontWeight: "700",
 		transition: "all 0.3s",
 		backgroundColor: primaryHover ? "#ff00ff" : "#b800ff",
 		color: "#ffffff",
 		boxShadow: primaryHover ? "0 10px 20px rgba(184, 0, 255, 0.6)" : "0 0 30px rgba(184, 0, 255, 0.4)",
-		transform: primaryHover ? "translateY(-2px)" : "translateY(0)"
+		transform: primaryHover ? "translateY(-2px)" : "translateY(0)",
+		whiteSpace: "nowrap"
 	};
 	const btnSecondaryStyle = {
 		cursor: "pointer",
 		border: "2px solid #ffffff",
 		borderRadius: "8px",
-		padding: "0.8rem 2rem",
-		fontSize: "1rem",
+		padding: isMobile ? "0.7rem 1.5rem" : "0.8rem 2rem",
+		fontSize: isMobile ? "0.9rem" : "1rem",
 		fontWeight: "700",
 		transition: "all 0.3s",
 		backgroundColor: secondaryHover ? "#b800ff" : "transparent",
 		color: secondaryHover ? "#000000" : "#ffffff",
 		borderColor: secondaryHover ? "#b800ff" : "#ffffff",
-		transform: secondaryHover ? "translateY(-2px)" : "translateY(0)"
+		transform: secondaryHover ? "translateY(-2px)" : "translateY(0)",
+		whiteSpace: "nowrap"
 	};
 	const socialLinksStyle = {
 		display: "flex",
@@ -10498,7 +10501,8 @@ function About() {
 		backgroundColor: "#0f0f0f",
 		padding: "4rem 2rem",
 		color: "#ffffff",
-		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)"
+		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)",
+		"@media (max-width: 768px)": { padding: "2rem 1.5rem" }
 	};
 	const h2Style = {
 		textAlign: "center",
@@ -10506,13 +10510,18 @@ function About() {
 		marginBottom: "3rem",
 		fontSize: "2.5rem",
 		fontWeight: "800",
-		textShadow: "0 0 20px rgba(184, 0, 255, 0.3)"
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.3)",
+		"@media (max-width: 768px)": {
+			fontSize: "2rem",
+			marginBottom: "2rem"
+		}
 	};
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 	const contentStyle = {
 		display: "grid",
-		gridTemplateColumns: "1fr 1fr",
+		gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
 		alignItems: "start",
-		gap: "4rem",
+		gap: isMobile ? "2rem" : "4rem",
 		maxWidth: "1200px",
 		margin: "0 auto"
 	};
@@ -10520,7 +10529,7 @@ function About() {
 	const pStyle = {
 		color: "#cccccc",
 		marginBottom: "1.5rem",
-		fontSize: "1.1rem",
+		fontSize: isMobile ? "0.95rem" : "1.1rem",
 		lineHeight: "1.8"
 	};
 	const h3Style = {
@@ -10542,24 +10551,24 @@ function About() {
 		justifyContent: "center",
 		backgroundColor: "rgba(184, 0, 255, 0.15)",
 		borderRadius: "16px",
-		padding: "1.2rem",
+		padding: isMobile ? "0.8rem" : "1.2rem",
 		fontWeight: "600",
 		border: "1.5px solid rgba(184, 0, 255, 0.4)",
-		fontSize: "0.8rem",
+		fontSize: isMobile ? "0.7rem" : "0.8rem",
 		transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
 		cursor: "default",
-		width: "110px",
-		height: "110px",
+		width: isMobile ? "80px" : "110px",
+		height: isMobile ? "80px" : "110px",
 		background: "linear-gradient(135deg, rgba(184, 0, 255, 0.15) 0%, rgba(26, 26, 46, 0.8) 100%)",
 		boxShadow: "0 8px 20px rgba(184, 0, 255, 0.1), inset 0 0 15px rgba(184, 0, 255, 0.05)",
 		position: "relative",
 		overflow: "hidden"
 	};
 	const skillImgStyle = {
-		width: "50px",
-		height: "50px",
+		width: isMobile ? "35px" : "50px",
+		height: isMobile ? "35px" : "50px",
 		objectFit: "contain",
-		marginBottom: "0.6rem",
+		marginBottom: isMobile ? "0.3rem" : "0.6rem",
 		position: "relative",
 		zIndex: 1
 	};
@@ -10642,7 +10651,7 @@ function About() {
 									verticalAlign: "middle"
 								},
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2c-1.1 0-2 .9-2 2v8H8l4 6 4-6h-2V4c0-1.1-.9-2-2-2z" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M4 20h16v2H4z" })]
-							}), "Especialista en automatización de procesos (RPA) con Rocketbot y Power Automate, ingeniería de datos, web scraping y optimización de flujos operativos. Mi enfoque integra soluciones técnicas robustas que generan eficiencia y valor real en cada proyecto."]
+							}), "Especialista en automatización de procesos (RPA) utilizando Rocketbot, con sólida experiencia en ingeniería de datos, web scraping y optimización de flujos operativos. Conocimiento básico en Power Automate. Especializado en desarrollar soluciones que automatizan tareas repetitivas y generan eficiencia operativa."]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 							style: h3Style,
@@ -11673,16 +11682,17 @@ var experiences = [
 ];
 function Experience() {
 	const [currentSlide, setCurrentSlide] = (0, import_react.useState)(0);
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 	const sectionStyle = {
 		backgroundColor: "#0f0f0f",
-		padding: "6rem 2rem",
+		padding: isMobile ? "3rem 1.5rem" : "6rem 2rem",
 		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)"
 	};
 	const h2Style = {
 		textAlign: "center",
 		color: "#b800ff",
 		marginBottom: "1rem",
-		fontSize: "3rem",
+		fontSize: isMobile ? "2rem" : "3rem",
 		fontWeight: "800",
 		textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
 		letterSpacing: "2px"
@@ -11701,9 +11711,12 @@ function Experience() {
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "flex-start",
-		gap: "1rem",
+		gap: isMobile ? "0.5rem" : "1rem",
 		marginBottom: "3rem",
-		position: "relative"
+		position: "relative",
+		overflowX: isMobile ? "auto" : "visible",
+		paddingBottom: isMobile ? "0.5rem" : "0",
+		flexWrap: isMobile ? "nowrap" : "wrap"
 	};
 	const timelineItemStyle = (index) => ({
 		flex: 1,
@@ -11750,17 +11763,18 @@ function Experience() {
 		marginTop: "1.5rem",
 		textAlign: "center",
 		color: index === currentSlide ? "#b800ff" : "#aaaaaa",
-		fontSize: index === currentSlide ? "0.95rem" : "0.85rem",
+		fontSize: index === currentSlide ? isMobile ? "0.75rem" : "0.95rem" : isMobile ? "0.65rem" : "0.85rem",
 		fontWeight: index === currentSlide ? "700" : "600",
 		transition: "all 0.3s",
 		maxWidth: "100%",
 		overflow: "hidden",
 		textOverflow: "ellipsis",
-		whiteSpace: "nowrap"
+		whiteSpace: "nowrap",
+		minWidth: isMobile ? "60px" : "100%"
 	});
 	const slideContainerStyle = {
 		position: "relative",
-		minHeight: "800px",
+		minHeight: isMobile ? "600px" : "800px",
 		overflow: "hidden",
 		borderRadius: "20px",
 		border: "2px solid #b800ff",
@@ -12937,19 +12951,20 @@ function Education() {
 //#region src/components/Skills.jsx
 var TechLogo = ({ name, color, logoSrc }) => {
 	const [hover, setHover] = (0, import_react.useState)(false);
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 	const logoStyle = {
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
 		gap: "0.8rem",
-		padding: "2rem",
+		padding: isMobile ? "1.2rem" : "2rem",
 		backgroundColor: "linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%)",
 		borderRadius: "16px",
 		border: `2px solid ${color}`,
 		cursor: "pointer",
 		transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
-		transform: hover ? "translateY(-12px) scale(1.08)" : "translateY(0)",
+		transform: hover ? isMobile ? "scale(1.05)" : "translateY(-12px) scale(1.08)" : "translateY(0)",
 		boxShadow: hover ? `0 20px 50px ${color}50, inset 0 0 20px ${color}15, 0 0 30px ${color}30` : `0 4px 6px rgba(184, 0, 255, 0.1), inset 0 0 10px rgba(184, 0, 255, 0.05)`,
 		position: "relative",
 		overflow: "hidden",
@@ -12977,8 +12992,8 @@ var TechLogo = ({ name, color, logoSrc }) => {
 		width: "100%"
 	};
 	const imgStyle = {
-		width: "48px",
-		height: "48px",
+		width: isMobile ? "40px" : "48px",
+		height: isMobile ? "40px" : "48px",
 		objectFit: "contain",
 		filter: hover ? `drop-shadow(0 0 8px ${color})` : "none",
 		transition: "filter 0.4s"
@@ -13000,7 +13015,7 @@ var TechLogo = ({ name, color, logoSrc }) => {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				style: {
 					color: "#ffffff",
-					fontSize: "0.95rem",
+					fontSize: isMobile ? "0.85rem" : "0.95rem",
 					fontWeight: "600",
 					textAlign: "center",
 					position: "relative",
@@ -13012,9 +13027,10 @@ var TechLogo = ({ name, color, logoSrc }) => {
 	});
 };
 function Skills() {
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 	const sectionStyle = {
 		backgroundColor: "#0a0a0a",
-		padding: "6rem 2rem",
+		padding: isMobile ? "3rem 1.5rem" : "6rem 2rem",
 		background: "linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)"
 	};
 	const containerStyle = {
@@ -13025,7 +13041,7 @@ function Skills() {
 		textAlign: "center",
 		color: "#b800ff",
 		marginBottom: "1rem",
-		fontSize: "3rem",
+		fontSize: isMobile ? "2rem" : "3rem",
 		fontWeight: "800",
 		textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
 		letterSpacing: "2px"
@@ -13034,7 +13050,7 @@ function Skills() {
 		textAlign: "center",
 		color: "#aaaaaa",
 		marginBottom: "4rem",
-		fontSize: "1.1rem"
+		fontSize: isMobile ? "0.95rem" : "1.1rem"
 	};
 	const categoryStyle = { marginBottom: "4rem" };
 	const categoryTitleStyle = {
