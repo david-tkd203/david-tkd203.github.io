@@ -1,3 +1,4 @@
+// Iconos SVG
 const EmailIcon = () => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="4" y="8" width="40" height="32" rx="2" stroke="#b800ff" strokeWidth="2"/>
@@ -21,114 +22,44 @@ const LocationIcon = () => (
 );
 
 export default function Contact() {
-  const contactDetails = [
-    { icon: EmailIcon, label: 'Email', value: 'david.203.52@gmail.com', link: 'mailto:david.203.52@gmail.com' },
-    { icon: PhoneIcon, label: 'Teléfono', value: '+569 9505 2746', link: 'tel:+56995052746' },
-    { icon: LocationIcon, label: 'Ubicación', value: 'Santiago de Chile' }
-  ];
-
-  const sectionStyle = {
-    backgroundColor: '#0f0f0f',
-    padding: '4rem 2rem'
-  };
-
-  const h2Style = {
-    textAlign: 'center',
-    color: '#b800ff',
-    marginBottom: '2rem',
-    fontSize: '2.5rem'
-  };
-
-  const detailsContainerStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '2rem',
-    maxWidth: '900px',
-    margin: '0 auto'
-  };
-
-  const detailCardStyle = {
-    backgroundColor: '#1a1a1a',
-    padding: '2.5rem 1.5rem',
-    borderRadius: '12px',
-    border: '2px solid #b800ff',
-    textAlign: 'center',
-    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-    cursor: 'pointer',
-    transform: 'translateY(0)'
-  };
-
-  const detailCardHoverStyle = {
-    ...detailCardStyle,
-    transform: 'translateY(-8px)',
-    boxShadow: '0 15px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)'
-  };
-
-  const labelStyle = {
-    color: '#b800ff',
-    fontWeight: '600',
-    marginBottom: '0.8rem'
-  };
-
-  const valueStyle = {
-    color: '#cccccc',
-    textDecoration: 'none',
-    display: 'inline-block',
-    transition: 'all 0.3s',
-    fontWeight: '500',
-    borderBottom: '2px solid transparent'
-  };
-
-  const iconContainerStyle = {
-    marginBottom: '1rem',
-    display: 'flex',
-    justifyContent: 'center'
-  };
-
   return (
-    <section id="contact" style={sectionStyle}>
+    <section id="contact" style={{ backgroundColor: '#0f0f0f', padding: '4rem 2rem' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={h2Style}>Contacto</h2>
+        <h2 style={{ textAlign: 'center', color: '#b800ff', marginBottom: '2rem', fontSize: '2.5rem' }}>
+          Contacto
+        </h2>
         
-        <div style={detailsContainerStyle}>
-          {contactDetails.map((detail, idx) => {
-            const IconComponent = detail.icon;
-            return (
-              <div 
-                key={idx} 
-                style={detailCardStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(184, 0, 255, 0.1)';
-                }}
-              >
-                <div style={iconContainerStyle}>
-                  <IconComponent />
-                </div>
-                <div style={labelStyle}>{detail.label}</div>
-                {detail.link ? (
-                  <a href={detail.link} style={valueStyle}
-                    onMouseEnter={(e) => {
-                      e.target.style.color = '#b800ff';
-                      e.target.style.borderBottomColor = '#b800ff';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.color = '#cccccc';
-                      e.target.style.borderBottomColor = 'transparent';
-                    }}
-                  >
-                    {detail.value}
-                  </a>
-                ) : (
-                  <div style={{ color: '#cccccc', fontWeight: '500' }}>{detail.value}</div>
-                )}
-              </div>
-            );
-          })}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', maxWidth: '900px', margin: '0 auto' }}>
+          {/* Email */}
+          <div style={{ backgroundColor: '#1a1a1a', padding: '2.5rem 1.5rem', borderRadius: '12px', border: '2px solid #b800ff', textAlign: 'center', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 15px 40px rgba(184, 0, 255, 0.4)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
+            <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+              <EmailIcon />
+            </div>
+            <div style={{ color: '#b800ff', fontWeight: '600', marginBottom: '0.8rem' }}>Email</div>
+            <a href="mailto:david.203.52@gmail.com" style={{ color: '#cccccc', textDecoration: 'none', fontWeight: '500' }} onMouseEnter={(e) => e.target.style.color = '#b800ff'} onMouseLeave={(e) => e.target.style.color = '#cccccc'}>
+              david.203.52@gmail.com
+            </a>
+          </div>
+
+          {/* Teléfono */}
+          <div style={{ backgroundColor: '#1a1a1a', padding: '2.5rem 1.5rem', borderRadius: '12px', border: '2px solid #b800ff', textAlign: 'center', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 15px 40px rgba(184, 0, 255, 0.4)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
+            <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+              <PhoneIcon />
+            </div>
+            <div style={{ color: '#b800ff', fontWeight: '600', marginBottom: '0.8rem' }}>Teléfono</div>
+            <a href="tel:+56995052746" style={{ color: '#cccccc', textDecoration: 'none', fontWeight: '500' }} onMouseEnter={(e) => e.target.style.color = '#b800ff'} onMouseLeave={(e) => e.target.style.color = '#cccccc'}>
+              +569 9505 2746
+            </a>
+          </div>
+
+          {/* Ubicación */}
+          <div style={{ backgroundColor: '#1a1a1a', padding: '2.5rem 1.5rem', borderRadius: '12px', border: '2px solid #b800ff', textAlign: 'center', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 15px 40px rgba(184, 0, 255, 0.4)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
+            <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+              <LocationIcon />
+            </div>
+            <div style={{ color: '#b800ff', fontWeight: '600', marginBottom: '0.8rem' }}>Ubicación</div>
+            <div style={{ color: '#cccccc', fontWeight: '500' }}>Santiago de Chile</div>
+          </div>
         </div>
       </div>
     </section>
