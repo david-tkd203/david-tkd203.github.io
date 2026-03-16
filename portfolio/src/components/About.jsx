@@ -157,7 +157,7 @@ export default function About() {
             </p>
             <p style={pStyle}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="#b800ff" style={{display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle'}}><path d="M12 2c-1.1 0-2 .9-2 2v8H8l4 6 4-6h-2V4c0-1.1-.9-2-2-2z"/><path d="M4 20h16v2H4z"/></svg>
-              Especialista en automatización de procesos (RPA) con Rocketbot y Power Automate, ingeniería de datos, web scraping y optimización de flujos operativos. Mi enfoque integra soluciones técnicas robustas que generan eficiencia y valor real en cada proyecto.
+              Especialista en automatización de procesos (RPA) utilizando Rocketbot, con sólida experiencia en ingeniería de datos, web scraping y optimización de flujos operativos. Conocimiento básico en Power Automate. Especializado en desarrollar soluciones que automatizan tareas repetitivas y generan eficiencia operativa.
             </p>
             <h3 style={h3Style}>Habilidades Principales</h3>
             <div style={skillsStyle}>
