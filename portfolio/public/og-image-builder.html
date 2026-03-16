@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OG Image Generator</title>
+</head>
+<body>
+    <canvas id="canvas" width="1200" height="630"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+        gradient.addColorStop(0, '#1a0033');
+        gradient.addColorStop(0.5, '#0a0a0a');
+        gradient.addColorStop(1, '#b800ff');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 1200, 630);
+
+        // Add text
+        ctx.fillStyle = '#b800ff';
+        ctx.font = 'bold 80px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('David Nanculeo', 600, 250);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '40px Arial';
+        ctx.fillText('Ingeniero en Informática | Desarrollador Full Stack', 600, 350);
+
+        ctx.fillStyle = '#ff00ff';
+        ctx.font = '30px Arial';
+        ctx.fillText('Especialista en RPA y Tecnologías Web', 600, 420);
+
+        // Download
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'og-image.png';
+        link.click();
+    </script>
+</body>
+</html>

@@ -103,14 +103,15 @@ export default function Hero() {
           >
             Ver mis proyectos
           </button>
-          <button
-            style={btnSecondaryStyle}
+          <a
+            href="/document/cv/David_Nanculeo_cv_4_completo.pdf"
+            download
+            style={{...btnSecondaryStyle, display: 'inline-block', textDecoration: 'none', textAlign: 'center'}}
             onMouseEnter={() => setSecondaryHover(true)}
             onMouseLeave={() => setSecondaryHover(false)}
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            Contactame
-          </button>
+            Descargar CV
+          </a>
         </div>
         <div style={socialLinksStyle}>
           <a href="https://github.com/david-tkd203" target="_blank" rel="noopener noreferrer" style={iconLinkStyle}
