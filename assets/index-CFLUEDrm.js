@@ -12592,37 +12592,49 @@ var certifications = [
 		title: "React JS - Certificación",
 		institution: "Coder House",
 		logo: "/education/logo_coderhouse.png",
-		url: ""
+		url: "/certificates/certificado_react.png"
 	},
 	{
 		title: "JavaScript - Certificación",
 		institution: "Coder House",
 		logo: "/education/logo_coderhouse.png",
-		url: ""
+		url: "/certificates/certificado_js.png"
 	},
 	{
 		title: "Desarrollo Web (HTML, CSS, SASS, Bootstrap)",
 		institution: "Coder House",
 		logo: "/education/logo_coderhouse.png",
-		url: ""
+		url: "/certificates/certificado_desarrolloweb.png"
 	},
 	{
 		title: "Excel Avanzado - Certificación",
 		institution: "Manpower",
 		logo: "/education/logo_manpower.png",
-		url: ""
+		url: "/certificates/Diploma Alumno David Simón Ñanculeo Bastías_excel_basico_intermedio_avanzado.pdf"
 	},
 	{
 		title: "Gestión de Proyectos Agile - Metodologías (Cascada, Lean, Scrum, Kanban)",
 		institution: "Conecta Empleo",
 		logo: "/education/logo_conectaempleo.png",
-		url: ""
+		url: "/certificates/FT Movistar y SENCE - Certificado_gestion_proyectos_metodologias_agiles_enfoquelean.pdf"
 	},
 	{
-		title: "Gestión del Desempeño",
-		institution: "Sence",
+		title: "Ciberseguridad en Entornos de Aprendizaje",
+		institution: "SENCE",
 		logo: "/education/logo_sence.png",
-		url: ""
+		url: "/certificates/FT Movistar y SENCE - Certificado_ciberseguridad_entornos_aprendizaje.pdf"
+	},
+	{
+		title: "Diplomado Diseño Programación Web",
+		institution: "AIEP",
+		logo: "/education/logo_aiep.png",
+		url: "/certificates/Diplomado - Certificado_diseño_programacionweb.pdf"
+	},
+	{
+		title: "Certificado WordPress - Diplomado",
+		institution: "AIEP",
+		logo: "/education/logo_aiep.png",
+		url: "/certificates/Diplomado - certificado_wordpress.pdf"
 	}
 ];
 function Education() {
