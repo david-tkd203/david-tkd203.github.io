@@ -32,57 +32,6 @@ const ArrowIcon = () => (
 const experiences = [
   {
     id: 1,
-    title: 'Desarrollador RPA e Ingeniero de Datos',
-    company: 'Automatiza Tech',
-    project: 'Clínica de Fracturas de Colombia',
-    logo: '/jobs/logo_automatizatech.png',
-    period: 'Julio 2025 - Dic 2025',
-    location: 'Santiago, Región Metropolitana',
-    tasks: [
-      'Diseñé y desarrollé flujos automatizados con Rocketbot para navegación e interacción con portales de salud (EPS, ARL y SOAT)',
-      'Implementé técnicas avanzadas de Web Scraping con selectores XPath dinámicos para extracción de facturación y expedientes clínicos',
-      'Desarrollé scripts Python con pdfplumber y Expresiones Regulares para extracción de 3,200+ procedimientos quirúrgicos',
-      'Diseñé algoritmos de clasificación con pandas para evaluación de miles de insumos y dispositivos médicos',
-      'Automaticé validación de normativas de facturación generando rangos numéricos para cruces relacionales (Primary/Foreign Key)',
-      'Implementé conexiones a ERP hospitalario (SQL Server) mediante pyodbc con consultas complejas y JSON nativo',
-      'Estandaricé catálogos médicos mediante mapeo de 40+ especialidades y rutinas de sanitización de datos'
-    ],
-    tech: [
-      { name: 'Python', logo: '/images/logo_python.png' },
-      { name: 'Rocketbot', logo: '/images/logo_rocketbot.png' },
-      { name: 'Pandas', logo: '/images/logo_pandas.png' },
-      { name: 'SQL Server', logo: '/images/logo_sqlserver.png' },
-      { name: 'Selenium', logo: '/images/logo_selenium.svg' }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Ingeniero de Software',
-    company: 'Instituto de Seguridad del Trabajo (IST)',
-    project: 'Plataforma de Investigación de Accidentes',
-    logo: '/jobs/logo_ist.png',
-    period: 'Julio 2025 - Dic 2025',
-    location: 'Santiago, Región Metropolitana',
-    tasks: [
-      'Ejecuté desarrollo y mantenimiento con Django utilizando Class-Based Views (CBV), Django ORM y transacciones atómicas',
-      'Implementé versionado lógico mediante Signals para garantizar consistencia de datos críticos',
-      'Diseñé interfaces dinámicas con Django Templates y HTMX para actualizaciones parciales sin recargas de página',
-      'Integré Graphviz (DOT/SVG) para generación y edición dinámica de diagramas causales sincronizados en BD',
-      'Gestioné ciclo de despliegue en Docker y Docker Compose con Nginx como reverse proxy',
-      'Desarrollé algoritmos de migración en Python para normalización entre bases de datos SQL y modelos Django',
-      'Investigué arquitectura Multi-tenant para transición MySQL a PostgreSQL con aislamiento por esquemas',
-      'Elaboré informes técnicos para ISO 27001 y Ley 21.719 de privacidad',
-      'Implementé Google Apps Script para flujo automatizado procesando 60+ usuarios en tiempo real en Test Kholman'
-    ],
-    tech: [
-      { name: 'Django', logo: '/images/logo_django.png' },
-      { name: 'Docker', logo: '/images/logo_docker.png' },
-      { name: 'PostgreSQL', logo: '/images/logo_postgres.png' },
-      { name: 'Python', logo: '/images/logo_python.png' }
-    ]
-  },
-  {
-    id: 3,
     title: 'Desarrollador RPA',
     company: 'Kabeli',
     project: 'Automatización Hotelera Integral',
@@ -108,7 +57,7 @@ const experiences = [
     ]
   },
   {
-    id: 4,
+    id: 2,
     title: 'Desarrollador RPA Semi Senior (Reemplazo)',
     company: 'Seidor (Subcontrato CCU)',
     project: 'Automatización Bancaria y Financiera',
@@ -131,6 +80,57 @@ const experiences = [
       { name: 'Docker', logo: '/images/logo_docker.png' },
       { name: 'Jenkins', logo: '/images/logo_jenkins.png' },
       { name: 'Jinja2', logo: '/images/logo_jinja2.png' }
+    ]
+  },
+  {
+    id: 3,
+    title: 'Ingeniero de Software',
+    company: 'Instituto de Seguridad del Trabajo (IST)',
+    project: 'Plataforma de Investigación de Accidentes',
+    logo: '/jobs/logo_ist.png',
+    period: 'Julio 2025 - Dic 2025',
+    location: 'Santiago, Región Metropolitana',
+    tasks: [
+      'Ejecuté desarrollo y mantenimiento con Django utilizando Class-Based Views (CBV), Django ORM y transacciones atómicas',
+      'Implementé versionado lógico mediante Signals para garantizar consistencia de datos críticos',
+      'Diseñé interfaces dinámicas con Django Templates y HTMX para actualizaciones parciales sin recargas de página',
+      'Integré Graphviz (DOT/SVG) para generación y edición dinámica de diagramas causales sincronizados en BD',
+      'Gestioné ciclo de despliegue en Docker y Docker Compose con Nginx como reverse proxy',
+      'Desarrollé algoritmos de migración en Python para normalización entre bases de datos SQL y modelos Django',
+      'Investigué arquitectura Multi-tenant para transición MySQL a PostgreSQL con aislamiento por esquemas',
+      'Elaboré informes técnicos para ISO 27001 y Ley 21.719 de privacidad',
+      'Implementé Google Apps Script para flujo automatizado procesando 60+ usuarios en tiempo real en Test Kholman'
+    ],
+    tech: [
+      { name: 'Django', logo: '/images/logo_django.png' },
+      { name: 'Docker', logo: '/images/logo_docker.png' },
+      { name: 'PostgreSQL', logo: '/images/logo_postgres.png' },
+      { name: 'Python', logo: '/images/logo_python.png' }
+    ]
+  },
+  {
+    id: 4,
+    title: 'Desarrollador RPA e Ingeniero de Datos',
+    company: 'Automatiza Tech',
+    project: 'Clínica de Fracturas de Colombia',
+    logo: '/jobs/logo_automatizatech.png',
+    period: 'Julio 2025 - Dic 2025',
+    location: 'Santiago, Región Metropolitana',
+    tasks: [
+      'Diseñé y desarrollé flujos automatizados con Rocketbot para navegación e interacción con portales de salud (EPS, ARL y SOAT)',
+      'Implementé técnicas avanzadas de Web Scraping con selectores XPath dinámicos para extracción de facturación y expedientes clínicos',
+      'Desarrollé scripts Python con pdfplumber y Expresiones Regulares para extracción de 3,200+ procedimientos quirúrgicos',
+      'Diseñé algoritmos de clasificación con pandas para evaluación de miles de insumos y dispositivos médicos',
+      'Automaticé validación de normativas de facturación generando rangos numéricos para cruces relacionales (Primary/Foreign Key)',
+      'Implementé conexiones a ERP hospitalario (SQL Server) mediante pyodbc con consultas complejas y JSON nativo',
+      'Estandaricé catálogos médicos mediante mapeo de 40+ especialidades y rutinas de sanitización de datos'
+    ],
+    tech: [
+      { name: 'Python', logo: '/images/logo_python.png' },
+      { name: 'Rocketbot', logo: '/images/logo_rocketbot.png' },
+      { name: 'Pandas', logo: '/images/logo_pandas.png' },
+      { name: 'SQL Server', logo: '/images/logo_sqlserver.png' },
+      { name: 'Selenium', logo: '/images/logo_selenium.svg' }
     ]
   }
 ];
