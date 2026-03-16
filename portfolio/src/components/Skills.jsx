@@ -3,6 +3,7 @@ import { Cpu, Code, PaletteFill, Database, Gear, BarChartFill, Link } from 'reac
 
 const TechLogo = ({ name, color, logoSrc }) => {
   const [hover, setHover] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const logoStyle = {
     display: 'flex',
@@ -10,13 +11,13 @@ const TechLogo = ({ name, color, logoSrc }) => {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '0.8rem',
-    padding: '2rem',
+    padding: isMobile ? '1.2rem' : '2rem',
     backgroundColor: 'linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%)',
     borderRadius: '16px',
     border: `2px solid ${color}`,
     cursor: 'pointer',
     transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-    transform: hover ? 'translateY(-12px) scale(1.08)' : 'translateY(0)',
+    transform: hover ? (isMobile ? 'scale(1.05)' : 'translateY(-12px) scale(1.08)') : 'translateY(0)',
     boxShadow: hover 
       ? `0 20px 50px ${color}50, inset 0 0 20px ${color}15, 0 0 30px ${color}30` 
       : `0 4px 6px rgba(184, 0, 255, 0.1), inset 0 0 10px rgba(184, 0, 255, 0.05)`,
@@ -49,8 +50,8 @@ const TechLogo = ({ name, color, logoSrc }) => {
   };
 
   const imgStyle = {
-    width: '48px',
-    height: '48px',
+    width: isMobile ? '40px' : '48px',
+    height: isMobile ? '40px' : '48px',
     objectFit: 'contain',
     filter: hover ? `drop-shadow(0 0 8px ${color})` : 'none',
     transition: 'filter 0.4s'
@@ -58,7 +59,7 @@ const TechLogo = ({ name, color, logoSrc }) => {
 
   const nameStyle = {
     color: '#ffffff',
-    fontSize: '0.95rem',
+    fontSize: isMobile ? '0.85rem' : '0.95rem',
     fontWeight: '600',
     textAlign: 'center',
     position: 'relative',
@@ -85,9 +86,11 @@ const TechLogo = ({ name, color, logoSrc }) => {
 };
 
 export default function Skills() {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   const sectionStyle = {
     backgroundColor: '#0a0a0a',
-    padding: '6rem 2rem',
+    padding: isMobile ? '3rem 1.5rem' : '6rem 2rem',
     background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)'
   };
 
@@ -100,7 +103,7 @@ export default function Skills() {
     textAlign: 'center',
     color: '#b800ff',
     marginBottom: '1rem',
-    fontSize: '3rem',
+    fontSize: isMobile ? '2rem' : '3rem',
     fontWeight: '800',
     textShadow: '0 0 20px rgba(184, 0, 255, 0.5)',
     letterSpacing: '2px'
@@ -110,7 +113,7 @@ export default function Skills() {
     textAlign: 'center',
     color: '#aaaaaa',
     marginBottom: '4rem',
-    fontSize: '1.1rem'
+    fontSize: isMobile ? '0.95rem' : '1.1rem'
   };
 
   const categoryStyle = {

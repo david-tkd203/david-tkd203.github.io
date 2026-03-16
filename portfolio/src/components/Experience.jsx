@@ -137,10 +137,11 @@ const experiences = [
 
 export default function Experience() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const sectionStyle = {
     backgroundColor: '#0f0f0f',
-    padding: '6rem 2rem',
+    padding: isMobile ? '3rem 1.5rem' : '6rem 2rem',
     background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)'
   };
 
@@ -148,7 +149,7 @@ export default function Experience() {
     textAlign: 'center',
     color: '#b800ff',
     marginBottom: '1rem',
-    fontSize: '3rem',
+    fontSize: isMobile ? '2rem' : '3rem',
     fontWeight: '800',
     textShadow: '0 0 20px rgba(184, 0, 255, 0.5)',
     letterSpacing: '2px'
@@ -170,9 +171,12 @@ export default function Experience() {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    gap: '1rem',
+    gap: isMobile ? '0.5rem' : '1rem',
     marginBottom: '3rem',
-    position: 'relative'
+    position: 'relative',
+    overflowX: isMobile ? 'auto' : 'visible',
+    paddingBottom: isMobile ? '0.5rem' : '0',
+    flexWrap: isMobile ? 'nowrap' : 'wrap'
   };
 
   const timelineItemStyle = (index) => ({
@@ -226,18 +230,19 @@ export default function Experience() {
     marginTop: '1.5rem',
     textAlign: 'center',
     color: index === currentSlide ? '#b800ff' : '#aaaaaa',
-    fontSize: index === currentSlide ? '0.95rem' : '0.85rem',
+    fontSize: index === currentSlide ? (isMobile ? '0.75rem' : '0.95rem') : (isMobile ? '0.65rem' : '0.85rem'),
     fontWeight: index === currentSlide ? '700' : '600',
     transition: 'all 0.3s',
     maxWidth: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    minWidth: isMobile ? '60px' : '100%'
   });
 
   const slideContainerStyle = {
     position: 'relative',
-    minHeight: '800px',
+    minHeight: isMobile ? '600px' : '800px',
     overflow: 'hidden',
     borderRadius: '20px',
     border: '2px solid #b800ff',

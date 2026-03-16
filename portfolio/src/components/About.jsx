@@ -19,7 +19,10 @@ export default function About() {
     backgroundColor: '#0f0f0f',
     padding: '4rem 2rem',
     color: '#ffffff',
-    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)'
+    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)',
+    '@media (max-width: 768px)': {
+      padding: '2rem 1.5rem'
+    }
   };
 
   const h2Style = {
@@ -28,14 +31,20 @@ export default function About() {
     marginBottom: '3rem',
     fontSize: '2.5rem',
     fontWeight: '800',
-    textShadow: '0 0 20px rgba(184, 0, 255, 0.3)'
+    textShadow: '0 0 20px rgba(184, 0, 255, 0.3)',
+    '@media (max-width: 768px)': {
+      fontSize: '2rem',
+      marginBottom: '2rem'
+    }
   };
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const contentStyle = {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
     alignItems: 'start',
-    gap: '4rem',
+    gap: isMobile ? '2rem' : '4rem',
     maxWidth: '1200px',
     margin: '0 auto'
   };
@@ -47,7 +56,7 @@ export default function About() {
   const pStyle = {
     color: '#cccccc',
     marginBottom: '1.5rem',
-    fontSize: '1.1rem',
+    fontSize: isMobile ? '0.95rem' : '1.1rem',
     lineHeight: '1.8'
   };
 
@@ -72,14 +81,14 @@ export default function About() {
     justifyContent: 'center',
     backgroundColor: 'rgba(184, 0, 255, 0.15)',
     borderRadius: '16px',
-    padding: '1.2rem',
+    padding: isMobile ? '0.8rem' : '1.2rem',
     fontWeight: '600',
     border: '1.5px solid rgba(184, 0, 255, 0.4)',
-    fontSize: '0.8rem',
+    fontSize: isMobile ? '0.7rem' : '0.8rem',
     transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
     cursor: 'default',
-    width: '110px',
-    height: '110px',
+    width: isMobile ? '80px' : '110px',
+    height: isMobile ? '80px' : '110px',
     background: 'linear-gradient(135deg, rgba(184, 0, 255, 0.15) 0%, rgba(26, 26, 46, 0.8) 100%)',
     boxShadow: '0 8px 20px rgba(184, 0, 255, 0.1), inset 0 0 15px rgba(184, 0, 255, 0.05)',
     position: 'relative',
@@ -87,10 +96,10 @@ export default function About() {
   };
 
   const skillImgStyle = {
-    width: '50px',
-    height: '50px',
+    width: isMobile ? '35px' : '50px',
+    height: isMobile ? '35px' : '50px',
     objectFit: 'contain',
-    marginBottom: '0.6rem',
+    marginBottom: isMobile ? '0.3rem' : '0.6rem',
     position: 'relative',
     zIndex: 1
   };

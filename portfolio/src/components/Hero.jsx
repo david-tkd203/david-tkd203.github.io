@@ -5,12 +5,14 @@ export default function Hero() {
   const [primaryHover, setPrimaryHover] = useState(false);
   const [secondaryHover, setSecondaryHover] = useState(false);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   const heroStyle = {
     background: 'linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #b800ff 100%)',
     color: 'white',
-    padding: '8rem 2rem',
+    padding: isMobile ? '4rem 1.5rem' : '8rem 2rem',
     textAlign: 'center',
-    minHeight: '600px',
+    minHeight: isMobile ? '450px' : '600px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -25,7 +27,7 @@ export default function Hero() {
   };
 
   const h1Style = {
-    fontSize: '3.5rem',
+    fontSize: isMobile ? '2rem' : '3.5rem',
     marginBottom: '1rem',
     fontWeight: '800',
     letterSpacing: '-1px'
@@ -34,7 +36,7 @@ export default function Hero() {
   const pStyle = {
     opacity: 0.9,
     marginBottom: '2rem',
-    fontSize: '1.3rem',
+    fontSize: isMobile ? '1rem' : '1.3rem',
     lineHeight: '1.6'
   };
 
@@ -42,7 +44,7 @@ export default function Hero() {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: '1rem',
+    gap: isMobile ? '0.8rem' : '1rem',
     marginBottom: '2rem'
   };
 
@@ -50,28 +52,30 @@ export default function Hero() {
     cursor: 'pointer',
     border: 'none',
     borderRadius: '8px',
-    padding: '0.8rem 2rem',
-    fontSize: '1rem',
+    padding: isMobile ? '0.7rem 1.5rem' : '0.8rem 2rem',
+    fontSize: isMobile ? '0.9rem' : '1rem',
     fontWeight: '700',
     transition: 'all 0.3s',
     backgroundColor: primaryHover ? '#ff00ff' : '#b800ff',
     color: '#ffffff',
     boxShadow: primaryHover ? '0 10px 20px rgba(184, 0, 255, 0.6)' : '0 0 30px rgba(184, 0, 255, 0.4)',
-    transform: primaryHover ? 'translateY(-2px)' : 'translateY(0)'
+    transform: primaryHover ? 'translateY(-2px)' : 'translateY(0)',
+    whiteSpace: 'nowrap'
   };
 
   const btnSecondaryStyle = {
     cursor: 'pointer',
     border: '2px solid #ffffff',
     borderRadius: '8px',
-    padding: '0.8rem 2rem',
-    fontSize: '1rem',
+    padding: isMobile ? '0.7rem 1.5rem' : '0.8rem 2rem',
+    fontSize: isMobile ? '0.9rem' : '1rem',
     fontWeight: '700',
     transition: 'all 0.3s',
     backgroundColor: secondaryHover ? '#b800ff' : 'transparent',
     color: secondaryHover ? '#000000' : '#ffffff',
     borderColor: secondaryHover ? '#b800ff' : '#ffffff',
-    transform: secondaryHover ? 'translateY(-2px)' : 'translateY(0)'
+    transform: secondaryHover ? 'translateY(-2px)' : 'translateY(0)',
+    whiteSpace: 'nowrap'
   };
 
   const socialLinksStyle = {
