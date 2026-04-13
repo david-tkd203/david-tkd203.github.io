@@ -12620,8 +12620,8 @@ var certifications = [
 	},
 	{
 		title: "Ciberseguridad en Entornos de Aprendizaje",
-		institution: "SENCE",
-		logo: "/education/logo_sence.png",
+		institution: "Conecta Empleo",
+		logo: "/education/logo_conectaempleo.png",
 		url: "/certificates/FT Movistar y SENCE - Certificado_ciberseguridad_entornos_aprendizaje.pdf"
 	},
 	{
@@ -12629,6 +12629,18 @@ var certifications = [
 		institution: "AIEP",
 		logo: "/education/logo_aiep.png",
 		url: "/certificates/Diplomado - Certificado_diseño_programacionweb.pdf"
+	},
+	{
+		title: "Diplomado Módulo Diseño Web (HTML, CSS)",
+		institution: "AIEP",
+		logo: "/education/logo_aiep.png",
+		url: "/certificates/Diplomado - Diploma módulo_ diseño_web_html_css.pdf"
+	},
+	{
+		title: "Diplomado Módulo Programación JavaScript",
+		institution: "AIEP",
+		logo: "/education/logo_aiep.png",
+		url: "/certificates/Diplomado - Diploma módulo_programacion_javascript.pdf"
 	},
 	{
 		title: "Certificado WordPress - Diplomado",
