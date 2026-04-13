@@ -10072,28 +10072,6 @@ function FaRocket(props) {
 		}]
 	})(props);
 }
-function FaPhone(props) {
-	return GenIcon({
-		"tag": "svg",
-		"attr": { "viewBox": "0 0 512 512" },
-		"child": [{
-			"tag": "path",
-			"attr": { "d": "M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z" },
-			"child": []
-		}]
-	})(props);
-}
-function FaMapMarkerAlt(props) {
-	return GenIcon({
-		"tag": "svg",
-		"attr": { "viewBox": "0 0 384 512" },
-		"child": [{
-			"tag": "path",
-			"attr": { "d": "M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z" },
-			"child": []
-		}]
-	})(props);
-}
 function FaLock(props) {
 	return GenIcon({
 		"tag": "svg",
@@ -10134,17 +10112,6 @@ function FaBars(props) {
 		"child": [{
 			"tag": "path",
 			"attr": { "d": "M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" },
-			"child": []
-		}]
-	})(props);
-}
-function FaArrowUp(props) {
-	return GenIcon({
-		"tag": "svg",
-		"attr": { "viewBox": "0 0 448 512" },
-		"child": [{
-			"tag": "path",
-			"attr": { "d": "M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z" },
 			"child": []
 		}]
 	})(props);
@@ -10201,68 +10168,128 @@ var import_jsx_runtime = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 })))();
 function Header() {
 	const [isMenuOpen, setIsMenuOpen] = (0, import_react.useState)(false);
-	const navItems = [
-		{
-			label: "Inicio",
-			href: "#home"
-		},
-		{
-			label: "Acerca de",
-			href: "#about"
-		},
-		{
-			label: "Experiencia",
-			href: "#experience"
-		},
-		{
-			label: "Proyectos",
-			href: "#projects"
-		},
-		{
-			label: "Educación",
-			href: "#education"
-		},
-		{
-			label: "Contacto",
-			href: "#contact"
-		}
-	];
-	const toggleMenu = () => {
-		setIsMenuOpen(!isMenuOpen);
+	const headerStyle = {
+		backgroundColor: "#0a0a0a",
+		borderBottom: "2px solid #b800ff",
+		boxShadow: "0 2px 20px rgba(184, 0, 255, 0.3)",
+		padding: "1rem 0",
+		position: "sticky",
+		top: 0,
+		zIndex: 100,
+		backdropFilter: "blur(20px)"
 	};
-	const closeMenu = () => {
-		setIsMenuOpen(false);
+	const navbarStyle = {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		maxWidth: "1200px",
+		margin: "0 auto",
+		padding: "0 2rem"
+	};
+	const logoStyle = {
+		color: "#b800ff",
+		fontSize: "1.5rem",
+		fontWeight: "800",
+		letterSpacing: "1px",
+		transition: "all 0.3s"
+	};
+	const navLinksStyle = {
+		display: isMenuOpen ? "flex" : "none",
+		flexDirection: isMenuOpen ? "column" : "row",
+		gap: isMenuOpen ? "1.5rem" : "2rem",
+		margin: 0,
+		padding: isMenuOpen ? "2rem 0" : 0,
+		listStyle: "none",
+		position: isMenuOpen ? "absolute" : "static",
+		top: isMenuOpen ? "100%" : "auto",
+		left: isMenuOpen ? "0" : "auto",
+		right: isMenuOpen ? "0" : "auto",
+		backgroundColor: isMenuOpen ? "#0a0a0a" : "transparent",
+		borderTop: isMenuOpen ? "1px solid #b800ff" : "none",
+		alignItems: isMenuOpen ? "center" : "flex-start"
+	};
+	const linkStyle = {
+		color: "#ffffff",
+		textDecoration: "none",
+		transition: "all 0.3s",
+		cursor: "pointer",
+		fontWeight: "500",
+		fontSize: "0.95rem"
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", {
-		className: "header",
+		style: headerStyle,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("nav", {
-			className: "navbar",
+			style: navbarStyle,
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "logo",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "logo-symbol",
-						children: "▲"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "David" })]
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					style: logoStyle,
+					onMouseEnter: (e) => e.target.style.color = "#ff00ff",
+					onMouseLeave: (e) => e.target.style.color = "#b800ff",
+					children: "▲ David"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-					className: "hamburger",
-					onClick: toggleMenu,
-					"aria-label": isMenuOpen ? "Cerrar menú" : "Abrir menú",
-					"aria-expanded": isMenuOpen,
+					style: {
+						display: "none",
+						backgroundColor: "transparent",
+						border: "none",
+						color: "#b800ff",
+						fontSize: "1.5rem",
+						cursor: "pointer",
+						"@media (maxWidth: 768px)": { display: "block" },
+						display: window.innerWidth <= 768 ? "block" : "none"
+					},
+					onClick: () => setIsMenuOpen(!isMenuOpen),
 					children: isMenuOpen ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaTimes, {}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaBars, {})
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
-					className: `nav-menu ${isMenuOpen ? "active" : ""}`,
-					children: navItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", {
-						className: "nav-item",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: item.href,
-							className: "nav-link",
-							onClick: closeMenu,
-							children: item.label
-						})
-					}, item.label))
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
+					style: {
+						...navLinksStyle,
+						display: window.innerWidth <= 768 ? isMenuOpen ? "flex" : "none" : "flex"
+					},
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "#home",
+							style: linkStyle,
+							onMouseEnter: (e) => e.target.style.color = "#b800ff",
+							onMouseLeave: (e) => e.target.style.color = "#ffffff",
+							children: "Inicio"
+						}) }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "#about",
+							style: linkStyle,
+							onMouseEnter: (e) => e.target.style.color = "#b800ff",
+							onMouseLeave: (e) => e.target.style.color = "#ffffff",
+							children: "Acerca de"
+						}) }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "#experience",
+							style: linkStyle,
+							onMouseEnter: (e) => e.target.style.color = "#b800ff",
+							onMouseLeave: (e) => e.target.style.color = "#ffffff",
+							children: "Experiencia"
+						}) }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "#projects",
+							style: linkStyle,
+							onMouseEnter: (e) => e.target.style.color = "#b800ff",
+							onMouseLeave: (e) => e.target.style.color = "#ffffff",
+							children: "Proyectos"
+						}) }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "#education",
+							style: linkStyle,
+							onMouseEnter: (e) => e.target.style.color = "#b800ff",
+							onMouseLeave: (e) => e.target.style.color = "#ffffff",
+							children: "Educación"
+						}) }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "#contact",
+							style: linkStyle,
+							onMouseEnter: (e) => e.target.style.color = "#b800ff",
+							onMouseLeave: (e) => e.target.style.color = "#ffffff",
+							children: "Contacto"
+						}) })
+					]
 				})
 			]
 		})
@@ -10271,290 +10298,475 @@ function Header() {
 //#endregion
 //#region src/components/Hero.jsx
 function Hero() {
-	const scrollToProjects = () => {
-		document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+	const [primaryHover, setPrimaryHover] = (0, import_react.useState)(false);
+	const [secondaryHover, setSecondaryHover] = (0, import_react.useState)(false);
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+	const heroStyle = {
+		background: "linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #b800ff 100%)",
+		color: "white",
+		padding: isMobile ? "4rem 1.5rem" : "8rem 2rem",
+		textAlign: "center",
+		minHeight: isMobile ? "450px" : "600px",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		position: "relative",
+		overflow: "hidden"
+	};
+	const contentStyle = {
+		maxWidth: "600px",
+		position: "relative",
+		zIndex: 10
+	};
+	const h1Style = {
+		fontSize: isMobile ? "2rem" : "3.5rem",
+		marginBottom: "1rem",
+		fontWeight: "800",
+		letterSpacing: "-1px"
+	};
+	const pStyle = {
+		opacity: .9,
+		marginBottom: "2rem",
+		fontSize: isMobile ? "1rem" : "1.3rem",
+		lineHeight: "1.6"
+	};
+	const buttonsStyle = {
+		display: "flex",
+		flexWrap: "wrap",
+		justifyContent: "center",
+		gap: isMobile ? "0.8rem" : "1rem",
+		marginBottom: "2rem"
+	};
+	const btnPrimaryStyle = {
+		cursor: "pointer",
+		border: "none",
+		borderRadius: "8px",
+		padding: isMobile ? "0.7rem 1.5rem" : "0.8rem 2rem",
+		fontSize: isMobile ? "0.9rem" : "1rem",
+		fontWeight: "700",
+		transition: "all 0.3s",
+		backgroundColor: primaryHover ? "#ff00ff" : "#b800ff",
+		color: "#ffffff",
+		boxShadow: primaryHover ? "0 10px 20px rgba(184, 0, 255, 0.6)" : "0 0 30px rgba(184, 0, 255, 0.4)",
+		transform: primaryHover ? "translateY(-2px)" : "translateY(0)",
+		whiteSpace: "nowrap"
+	};
+	const btnSecondaryStyle = {
+		cursor: "pointer",
+		border: "2px solid #ffffff",
+		borderRadius: "8px",
+		padding: isMobile ? "0.7rem 1.5rem" : "0.8rem 2rem",
+		fontSize: isMobile ? "0.9rem" : "1rem",
+		fontWeight: "700",
+		transition: "all 0.3s",
+		backgroundColor: secondaryHover ? "#b800ff" : "transparent",
+		color: secondaryHover ? "#000000" : "#ffffff",
+		borderColor: secondaryHover ? "#b800ff" : "#ffffff",
+		transform: secondaryHover ? "translateY(-2px)" : "translateY(0)",
+		whiteSpace: "nowrap"
+	};
+	const socialLinksStyle = {
+		display: "flex",
+		justifyContent: "center",
+		gap: "2rem",
+		marginTop: "3rem"
+	};
+	const iconLinkStyle = {
+		color: "#b800ff",
+		fontSize: "2rem",
+		transition: "all 0.3s",
+		cursor: "pointer",
+		textDecoration: "none"
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "home",
-		className: "hero",
+		style: heroStyle,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "hero-container",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "hero-content",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
-						className: "hero-title",
-						children: [
-							"Hola, soy ",
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-							" David Nanculeo"
-						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "hero-subtitle",
-						children: "Ingeniero en Informática | Desarrollador Full Stack"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-						className: "hero-description",
-						children: [
-							"Especializado en arquitecturas escalables, automatización de procesos (RPA), y el desarrollo de ",
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "hero-focus",
-								children: "soluciones tecnológicas innovadoras"
-							}),
-							". Transformo ideas complejas en aplicaciones robustas y eficientes."
-						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "hero-buttons",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-							className: "btn-primary",
-							onClick: scrollToProjects,
-							children: "Ver mis proyectos"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "/document/cv/David_Nanculeo_cv_4_completo.pdf",
-							download: true,
-							className: "btn-secondary",
-							children: "Descargar CV"
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "hero-social",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-								href: "https://github.com/david-tkd203",
-								target: "_blank",
-								rel: "noopener noreferrer",
-								className: "social-icon",
-								title: "GitHub",
-								"aria-label": "Visitar perfil de GitHub",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {})
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-								href: "https://www.linkedin.com/in/david-nanculeo",
-								target: "_blank",
-								rel: "noopener noreferrer",
-								className: "social-icon",
-								title: "LinkedIn",
-								"aria-label": "Visitar perfil de LinkedIn",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLinkedin, {})
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-								href: "mailto:david.203.52@gmail.com",
-								className: "social-icon",
-								title: "Email",
-								"aria-label": "Enviar email",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaEnvelope, {})
-							})
-						]
-					})
-				]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "hero-visual",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "hero-visual-element",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			style: contentStyle,
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+					style: h1Style,
+					children: "Hola, soy David Nanculeo"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					style: pStyle,
+					children: "Ingeniero en Informática | Desarrollador Full Stack | Especialista en Tecnologías Web"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					style: buttonsStyle,
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+						style: btnPrimaryStyle,
+						onMouseEnter: () => setPrimaryHover(true),
+						onMouseLeave: () => setPrimaryHover(false),
+						onClick: () => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }),
+						children: "Ver mis proyectos"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+						href: "/document/cv/David_Nanculeo_cv_4_completo.pdf",
+						download: true,
 						style: {
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							gap: "1rem"
+							...btnSecondaryStyle,
+							display: "inline-block",
+							textDecoration: "none",
+							textAlign: "center"
 						},
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							style: { fontSize: "4rem" },
-							children: "💻"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							style: {
-								fontSize: "2rem",
-								display: "flex",
-								gap: "1rem"
-							},
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "⚙️" }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "🚀" }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "🔒" })
-							]
-						})]
-					})
+						onMouseEnter: () => setSecondaryHover(true),
+						onMouseLeave: () => setSecondaryHover(false),
+						children: "Descargar CV"
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					style: socialLinksStyle,
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "https://github.com/david-tkd203",
+							target: "_blank",
+							rel: "noopener noreferrer",
+							style: iconLinkStyle,
+							onMouseEnter: (e) => e.target.style.transform = "scale(1.2) translateY(-3px)",
+							onMouseLeave: (e) => e.target.style.transform = "scale(1)",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "https://www.linkedin.com/in/david-nanculeo",
+							target: "_blank",
+							rel: "noopener noreferrer",
+							style: iconLinkStyle,
+							onMouseEnter: (e) => e.target.style.transform = "scale(1.2) translateY(-3px)",
+							onMouseLeave: (e) => e.target.style.transform = "scale(1)",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLinkedin, {})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "mailto:david.203.52@gmail.com",
+							style: iconLinkStyle,
+							onMouseEnter: (e) => e.target.style.transform = "scale(1.2) translateY(-3px)",
+							onMouseLeave: (e) => e.target.style.transform = "scale(1)",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaEnvelope, {})
+						})
+					]
 				})
-			})]
+			]
 		})
 	});
 }
 //#endregion
 //#region src/components/About.jsx
-var primarySkills = [
-	{
-		name: "Python",
-		logo: "/images/logo_python.png"
-	},
-	{
-		name: "Django",
-		logo: "/images/logo_django.png"
-	},
-	{
-		name: "React",
-		logo: "/images/logo_react.png"
-	},
-	{
-		name: "Vite",
-		logo: "/images/logo_vite.png"
-	},
-	{
-		name: "Rocketbot",
-		logo: "/images/logo_rocketbot.png"
-	},
-	{
-		name: "Pandas",
-		logo: "/images/logo_pandas.png"
-	},
-	{
-		name: "Power Automate",
-		logo: "/images/logo_power_automate.png"
-	},
-	{
-		name: "Docker",
-		logo: "/images/logo_docker.png"
-	},
-	{
-		name: "MySQL",
-		logo: "/images/logo_mysql.png"
-	},
-	{
-		name: "APIs REST",
-		logo: "/images/logo_postman.png"
-	},
-	{
-		name: "Git",
-		logo: "/images/logo_git.png"
-	}
-];
 function About() {
+	const primarySkills = [
+		{
+			name: "Python",
+			logo: "/images/logo_python.png"
+		},
+		{
+			name: "Django",
+			logo: "/images/logo_django.png"
+		},
+		{
+			name: "React",
+			logo: "/images/logo_react.png"
+		},
+		{
+			name: "Vite",
+			logo: "/images/logo_vite.png"
+		},
+		{
+			name: "Rocketbot",
+			logo: "/images/logo_rocketbot.png"
+		},
+		{
+			name: "Pandas",
+			logo: "/images/logo_pandas.png"
+		},
+		{
+			name: "Power Automate",
+			logo: "/images/logo_power_automate.png"
+		},
+		{
+			name: "Docker",
+			logo: "/images/logo_docker.png"
+		},
+		{
+			name: "MySQL",
+			logo: "/images/logo_mysql.png"
+		},
+		{
+			name: "APIs REST",
+			logo: "/images/logo_postman.png"
+		},
+		{
+			name: "Git",
+			logo: "/images/logo_git.png"
+		}
+	];
+	const sectionStyle = {
+		backgroundColor: "#0f0f0f",
+		padding: "4rem 2rem",
+		color: "#ffffff",
+		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)",
+		"@media (max-width: 768px)": { padding: "2rem 1.5rem" }
+	};
+	const h2Style = {
+		textAlign: "center",
+		color: "#b800ff",
+		marginBottom: "3rem",
+		fontSize: "2.5rem",
+		fontWeight: "800",
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.3)",
+		"@media (max-width: 768px)": {
+			fontSize: "2rem",
+			marginBottom: "2rem"
+		}
+	};
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+	const contentStyle = {
+		display: "grid",
+		gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+		alignItems: "start",
+		gap: isMobile ? "2rem" : "4rem",
+		maxWidth: "1200px",
+		margin: "0 auto"
+	};
+	const textStyle = { lineHeight: "1.8" };
+	const pStyle = {
+		color: "#cccccc",
+		marginBottom: "1.5rem",
+		fontSize: isMobile ? "0.95rem" : "1.1rem",
+		lineHeight: "1.8"
+	};
+	const h3Style = {
+		color: "#b800ff",
+		marginTop: "1.5rem",
+		marginBottom: "1rem",
+		fontSize: "1.3rem",
+		fontWeight: "700"
+	};
+	const skillsStyle = {
+		display: "flex",
+		flexWrap: "wrap",
+		gap: "1.2rem"
+	};
+	const skillStyle = {
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: "rgba(184, 0, 255, 0.15)",
+		borderRadius: "16px",
+		padding: isMobile ? "0.8rem" : "1.2rem",
+		fontWeight: "600",
+		border: "1.5px solid rgba(184, 0, 255, 0.4)",
+		fontSize: isMobile ? "0.7rem" : "0.8rem",
+		transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		cursor: "default",
+		width: isMobile ? "80px" : "110px",
+		height: isMobile ? "80px" : "110px",
+		background: "linear-gradient(135deg, rgba(184, 0, 255, 0.15) 0%, rgba(26, 26, 46, 0.8) 100%)",
+		boxShadow: "0 8px 20px rgba(184, 0, 255, 0.1), inset 0 0 15px rgba(184, 0, 255, 0.05)",
+		position: "relative",
+		overflow: "hidden"
+	};
+	const skillImgStyle = {
+		width: isMobile ? "35px" : "50px",
+		height: isMobile ? "35px" : "50px",
+		objectFit: "contain",
+		marginBottom: isMobile ? "0.3rem" : "0.6rem",
+		position: "relative",
+		zIndex: 1
+	};
+	const statsGridStyle = {
+		display: "grid",
+		gridTemplateColumns: "1fr",
+		gap: "1.5rem"
+	};
+	const statCardStyle = {
+		backgroundColor: "#1a1a2e",
+		borderRadius: "12px",
+		padding: "2rem",
+		border: "2px solid #b800ff",
+		transition: "all 0.3s",
+		cursor: "default",
+		position: "relative",
+		overflow: "hidden"
+	};
+	const statCardHoverStyle = {
+		transform: "translateY(-5px)",
+		boxShadow: "0 10px 30px rgba(184, 0, 255, 0.3)"
+	};
+	const statH3Style = {
+		color: "#b800ff",
+		margin: 0,
+		fontSize: "2rem",
+		fontWeight: "800"
+	};
+	const statPStyle = {
+		color: "#aaaaaa",
+		margin: "0.5rem 0 0 0",
+		fontSize: "0.95rem"
+	};
+	const statIconStyle = {
+		fontSize: "2rem",
+		marginBottom: "0.5rem",
+		opacity: .3
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "about",
-		className: "about-section",
+		style: sectionStyle,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "about-container",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "about-header",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "about-title",
-					children: "Sobre mí"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "about-subtitle",
-					children: "Desarrollador apasionado por la automación y las tecnologías modernas"
-				})]
+			style: {
+				maxWidth: "1200px",
+				margin: "0 auto"
+			},
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+				style: h2Style,
+				children: "Acerca de mí"
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "about-content",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "about-image-container",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-						src: "/og-image-builder.html",
-						alt: "David Simón Ñanculeo",
-						className: "about-image"
-					})
+				style: contentStyle,
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					style: textStyle,
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+							style: pStyle,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+								width: "20",
+								height: "20",
+								viewBox: "0 0 24 24",
+								fill: "#b800ff",
+								style: {
+									display: "inline",
+									marginRight: "0.5rem",
+									verticalAlign: "middle"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 2.75l7 3.45v6.5a7 7 0 01-7 7 7 7 0 01-7-7v-6.5l7-3.45z" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M10 15h4v2h-4zm0-4h4v2h-4z" })]
+							}), "Soy Ingeniero Civil Informático especializado en desarrollo Backend con Python, Django y APIs REST. Con experiencia en diseño, desarrollo e implementación de soluciones críticas utilizando Docker, Git y arquitecturas escalables."]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+							style: pStyle,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+								width: "20",
+								height: "20",
+								viewBox: "0 0 24 24",
+								fill: "#b800ff",
+								style: {
+									display: "inline",
+									marginRight: "0.5rem",
+									verticalAlign: "middle"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2c-1.1 0-2 .9-2 2v8H8l4 6 4-6h-2V4c0-1.1-.9-2-2-2z" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M4 20h16v2H4z" })]
+							}), "Especialista en automatización de procesos (RPA) utilizando Rocketbot, con sólida experiencia en ingeniería de datos, web scraping y optimización de flujos operativos. Conocimiento básico en Power Automate. Especializado en desarrollar soluciones que automatizan tareas repetitivas y generan eficiencia operativa."]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+							style: h3Style,
+							children: "Habilidades Principales"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							style: skillsStyle,
+							children: primarySkills.map((skill, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: skillStyle,
+								onMouseEnter: (e) => {
+									e.currentTarget.style.transform = "translateY(-8px) scale(1.05)";
+									e.currentTarget.style.boxShadow = "0 15px 35px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.1)";
+									e.currentTarget.style.borderColor = "#b800ff";
+								},
+								onMouseLeave: (e) => {
+									e.currentTarget.style.transform = "translateY(0) scale(1)";
+									e.currentTarget.style.boxShadow = "0 8px 20px rgba(184, 0, 255, 0.1), inset 0 0 15px rgba(184, 0, 255, 0.05)";
+									e.currentTarget.style.borderColor = "rgba(184, 0, 255, 0.4)";
+								},
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+										position: "absolute",
+										top: "-30%",
+										right: "-30%",
+										width: "150px",
+										height: "150px",
+										borderRadius: "50%",
+										backgroundColor: "rgba(184, 0, 255, 0.05)",
+										pointerEvents: "none"
+									} }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+										src: skill.logo,
+										alt: skill.name,
+										style: skillImgStyle
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										style: {
+											color: "#b800ff",
+											position: "relative",
+											zIndex: 1
+										},
+										children: skill.name
+									})
+								]
+							}, idx))
+						})
+					]
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "about-text",
+					style: statsGridStyle,
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "about-intro",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-								className: "about-intro-title",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCode, {}), " Mi Enfoque"]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-								className: "about-intro-text",
-								children: [
-									"Ingeniero en Informática con 2+ años de experiencia en ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "automatización RPA" }),
-									", ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "desarrollo web" }),
-									" y ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "data engineering" }),
-									". Especializado en crear soluciones escalables y eficientes que optimizan procesos empresariales. Apasionado por aprender nuevas tecnologías y resolver problemas complejos."
-								]
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "about-highlights",
+							style: statCardStyle,
+							onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
+							onMouseLeave: (e) => {
+								e.currentTarget.style.transform = "translateY(0)";
+								e.currentTarget.style.boxShadow = "none";
+							},
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "highlight-item",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-											className: "highlight-icon",
-											children: "💡"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "highlight-label",
-											children: "Innovación"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "highlight-value",
-											children: "Soluciones creativas"
-										})
-									]
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statIconStyle,
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCode, {})
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "highlight-item",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-											className: "highlight-icon",
-											children: "⚡"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "highlight-label",
-											children: "Eficiencia"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "highlight-value",
-											children: "Código optimizado"
-										})
-									]
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statH3Style,
+									children: "2+"
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "highlight-item",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-											className: "highlight-icon",
-											children: "🎯"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "highlight-label",
-											children: "Enfoque"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "highlight-value",
-											children: "Resultados medibles"
-										})
-									]
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statPStyle,
+									children: "Años de Experiencia Laboral"
 								})
 							]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "skills-summary",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-								className: "skills-summary-title",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaRocket, {}), " Tecnologías Principales"]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "skills-tags",
-								children: primarySkills.map((skill, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "skill-tag",
-									children: skill.name
-								}, idx))
-							})]
+							style: statCardStyle,
+							onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
+							onMouseLeave: (e) => {
+								e.currentTarget.style.transform = "translateY(0)";
+								e.currentTarget.style.boxShadow = "none";
+							},
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statIconStyle,
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaRocket, {})
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statH3Style,
+									children: "15+"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statPStyle,
+									children: "Proyectos RPA & Backend"
+								})
+							]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "about-cta",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-								href: "#contact",
-								className: "about-btn",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCode, {}), " Iniciar Proyecto"]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-								href: "/cv/CV_David_Simon.pdf",
-								download: true,
-								className: "about-btn about-btn-secondary",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLock, {}), " Descargar CV"]
-							})]
+							style: statCardStyle,
+							onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
+							onMouseLeave: (e) => {
+								e.currentTarget.style.transform = "translateY(0)";
+								e.currentTarget.style.boxShadow = "none";
+							},
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statIconStyle,
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLock, {})
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statH3Style,
+									children: "7+"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: statPStyle,
+									children: "Certificaciones Profesionales"
+								})
+							]
 						})
 					]
 				})]
@@ -11470,134 +11682,480 @@ var experiences = [
 ];
 function Experience() {
 	const [currentSlide, setCurrentSlide] = (0, import_react.useState)(0);
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+	const sectionStyle = {
+		backgroundColor: "#0f0f0f",
+		padding: isMobile ? "3rem 1.5rem" : "6rem 2rem",
+		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)"
+	};
+	const h2Style = {
+		textAlign: "center",
+		color: "#b800ff",
+		marginBottom: "1rem",
+		fontSize: isMobile ? "2rem" : "3rem",
+		fontWeight: "800",
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
+		letterSpacing: "2px"
+	};
+	const subtitleStyle = {
+		textAlign: "center",
+		color: "#aaaaaa",
+		marginBottom: "4rem",
+		fontSize: "1.1rem"
+	};
+	const containerStyle = {
+		maxWidth: "1000px",
+		margin: "0 auto"
+	};
+	const timelineIndicatorStyle = {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "flex-start",
+		gap: isMobile ? "0.5rem" : "1rem",
+		marginBottom: "3rem",
+		position: "relative",
+		overflowX: isMobile ? "auto" : "visible",
+		paddingBottom: isMobile ? "0.5rem" : "0",
+		flexWrap: isMobile ? "nowrap" : "wrap"
+	};
+	const timelineItemStyle = (index) => ({
+		flex: 1,
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		cursor: "pointer",
+		position: "relative",
+		transition: "all 0.3s"
+	});
+	const progressBarContainerStyle = {
+		position: "absolute",
+		top: "20px",
+		left: "0",
+		right: "0",
+		height: "4px",
+		backgroundColor: "rgba(184, 0, 255, 0.1)",
+		borderRadius: "2px",
+		zIndex: 0,
+		overflow: "hidden"
+	};
+	const progressBarFillStyle = {
+		height: "100%",
+		backgroundColor: "#b800ff",
+		borderRadius: "2px",
+		transition: "width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		width: `${(currentSlide + 1) / experiences.length * 100}%`,
+		boxShadow: "0 0 15px rgba(184, 0, 255, 0.8)"
+	};
+	const timelineNodeStyle = (index) => ({
+		width: index === currentSlide ? "20px" : "14px",
+		height: index === currentSlide ? "20px" : "14px",
+		borderRadius: "50%",
+		backgroundColor: index <= currentSlide ? "#b800ff" : "rgba(184, 0, 255, 0.3)",
+		border: index === currentSlide ? "3px solid #ffffff" : "none",
+		boxShadow: index === currentSlide ? "0 0 20px rgba(184, 0, 255, 0.8)" : "none",
+		transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		position: "relative",
+		zIndex: 2,
+		cursor: "pointer",
+		":hover": { transform: "scale(1.2)" }
+	});
+	const timelineLabelStyle = (index) => ({
+		marginTop: "1.5rem",
+		textAlign: "center",
+		color: index === currentSlide ? "#b800ff" : "#aaaaaa",
+		fontSize: index === currentSlide ? isMobile ? "0.75rem" : "0.95rem" : isMobile ? "0.65rem" : "0.85rem",
+		fontWeight: index === currentSlide ? "700" : "600",
+		transition: "all 0.3s",
+		maxWidth: "100%",
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		whiteSpace: "nowrap",
+		minWidth: isMobile ? "60px" : "100%"
+	});
+	const slideContainerStyle = {
+		position: "relative",
+		minHeight: isMobile ? "600px" : "800px",
+		overflow: "hidden",
+		borderRadius: "20px",
+		border: "2px solid #b800ff",
+		background: "rgba(26, 26, 46, 0.6)",
+		boxShadow: "0 20px 60px rgba(184, 0, 255, 0.2), inset 0 0 20px rgba(184, 0, 255, 0.05)"
+	};
+	const slideStyle = {
+		position: "absolute",
+		width: "100%",
+		height: "100%",
+		padding: "1.5rem",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "flex-start",
+		opacity: currentSlide === experiences.indexOf(experiences[currentSlide]) ? 1 : 0,
+		transform: `translateX(${(currentSlide - experiences.indexOf(experiences[currentSlide])) * 100}%)`,
+		transition: "all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		pointerEvents: currentSlide === experiences.indexOf(experiences[currentSlide]) ? "auto" : "none",
+		overflow: "hidden"
+	};
+	const headerStyle = {
+		display: "flex",
+		alignItems: "flex-start",
+		gap: "1.5rem",
+		marginBottom: "0.8rem",
+		paddingBottom: "0.8rem",
+		borderBottom: "2px solid rgba(184, 0, 255, 0.2)"
+	};
+	const companyLogoStyle = {
+		width: "120px",
+		height: "120px",
+		borderRadius: "20px",
+		backgroundColor: "rgba(255, 255, 255, 0.08)",
+		padding: "12px",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		flexShrink: 0,
+		border: "2.5px solid rgba(184, 0, 255, 0.3)",
+		background: "linear-gradient(135deg, rgba(184, 0, 255, 0.1) 0%, rgba(255, 0, 255, 0.05) 100%)",
+		boxShadow: "0 10px 30px rgba(184, 0, 255, 0.15), inset 0 0 20px rgba(184, 0, 255, 0.05)",
+		transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		position: "relative"
+	};
+	const headerTextStyle = { flex: 1 };
+	const titleStyle = {
+		color: "#b800ff",
+		fontSize: "1.8rem",
+		fontWeight: "800",
+		margin: "0 0 0.2rem 0",
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.3)"
+	};
+	const companyStyle = {
+		color: "#ffffff",
+		fontSize: "1.1rem",
+		fontWeight: "600",
+		margin: "0 0 0.3rem 0"
+	};
+	const periodStyle = {
+		display: "flex",
+		gap: "1.5rem",
+		flexWrap: "wrap",
+		marginBottom: "0",
+		marginTop: "0.3rem"
+	};
+	const periodItemStyle = {
+		display: "flex",
+		alignItems: "center",
+		gap: "0.6rem",
+		color: "#00d4ff",
+		fontSize: "0.9rem",
+		fontWeight: "600"
+	};
+	const taskListStyle = {
+		display: "grid",
+		gridTemplateColumns: "1fr",
+		gap: "0.6rem",
+		marginBottom: "0.5rem",
+		paddingRight: "0"
+	};
+	const taskItemStyle = {
+		color: "#cccccc",
+		fontSize: "0.85rem",
+		lineHeight: "1.6",
+		display: "flex",
+		alignItems: "flex-start",
+		gap: "0.8rem",
+		padding: "0",
+		backgroundColor: "transparent",
+		borderRadius: "0",
+		border: "none",
+		transition: "all 0.3s",
+		marginBottom: "0.3rem"
+	};
+	const navButtonStyle = (direction) => ({
+		position: "absolute",
+		top: "50%",
+		[direction]: "-60px",
+		transform: "translateY(-50%)",
+		backgroundColor: "#b800ff",
+		color: "#ffffff",
+		border: "none",
+		borderRadius: "50%",
+		width: "50px",
+		height: "50px",
+		cursor: "pointer",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		transition: "all 0.3s",
+		fontSize: "1.5rem",
+		boxShadow: "0 4px 15px rgba(184, 0, 255, 0.3)",
+		":hover": {
+			backgroundColor: "#ff00ff",
+			boxShadow: "0 8px 25px rgba(255, 0, 255, 0.5)"
+		}
+	});
 	const handlePrev = () => {
 		setCurrentSlide((prev) => (prev - 1 + experiences.length) % experiences.length);
 	};
 	const handleNext = () => {
 		setCurrentSlide((prev) => (prev + 1) % experiences.length);
 	};
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
 		id: "experience",
-		className: "experience-section",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "experience-container",
+		style: sectionStyle,
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `` }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			style: containerStyle,
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
-					className: "experience-title",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Briefcase, { size: 32 }), "Experiencia Profesional"]
+					style: h2Style,
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Briefcase, {
+						size: 32,
+						style: {
+							marginRight: "0.5rem",
+							verticalAlign: "middle"
+						}
+					}), "Experiencia Profesional"]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "experience-subtitle",
+					style: subtitleStyle,
 					children: "Cronología de mi trayectoria laboral"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "experience-timeline",
+					style: timelineIndicatorStyle,
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "timeline-progress-bar",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "timeline-progress-fill",
-							style: { width: `${(currentSlide + 1) / experiences.length * 100}%` }
-						})
+						style: progressBarContainerStyle,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: progressBarFillStyle })
 					}), experiences.map((exp, index) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "timeline-item",
+						style: timelineItemStyle(index),
 						onClick: () => setCurrentSlide(index),
+						onMouseEnter: (e) => {
+							e.currentTarget.querySelector("[data-node]").style.transform = "scale(1.3)";
+						},
+						onMouseLeave: (e) => {
+							e.currentTarget.querySelector("[data-node]").style.transform = "scale(1)";
+						},
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: `timeline-node ${index <= currentSlide ? "completed" : ""} ${index === currentSlide ? "active" : ""}`,
+								"data-node": true,
+								style: timelineNodeStyle(index),
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "timeline-node-number",
+									style: {
+										position: "absolute",
+										top: "50%",
+										left: "50%",
+										transform: "translate(-50%, -50%)",
+										fontSize: "0.7rem",
+										color: "#ffffff",
+										fontWeight: "800"
+									},
 									children: index + 1
 								})
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: `timeline-label ${index === currentSlide ? "active" : ""}`,
+								style: timelineLabelStyle(index),
 								children: exp.company
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "timeline-date",
+								style: {
+									fontSize: "0.75rem",
+									color: "#666666",
+									marginTop: "0.3rem"
+								},
 								children: exp.period.split(" - ")[0]
 							})
 						]
 					}, index))]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "experience-slides",
+					style: slideContainerStyle,
 					children: [
 						experiences.map((exp, index) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: `experience-slide ${currentSlide === index ? "active" : ""}`,
 							style: {
+								...slideStyle,
 								opacity: currentSlide === index ? 1 : 0,
 								transform: `translateX(${(index - currentSlide) * 100}%)`
 							},
 							children: [
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "experience-header",
+									style: headerStyle,
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "company-logo",
+										style: companyLogoStyle,
+										onMouseEnter: (e) => {
+											e.currentTarget.style.transform = "scale(1.08)";
+											e.currentTarget.style.borderColor = "#b800ff";
+											e.currentTarget.style.boxShadow = "0 15px 40px rgba(184, 0, 255, 0.3), inset 0 0 30px rgba(184, 0, 255, 0.1)";
+										},
+										onMouseLeave: (e) => {
+											e.currentTarget.style.transform = "scale(1)";
+											e.currentTarget.style.borderColor = "rgba(184, 0, 255, 0.3)";
+											e.currentTarget.style.boxShadow = "0 10px 30px rgba(184, 0, 255, 0.15), inset 0 0 20px rgba(184, 0, 255, 0.05)";
+										},
 										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 											src: exp.logo,
-											alt: exp.company
+											alt: exp.company,
+											style: {
+												width: "100%",
+												height: "100%",
+												objectFit: "contain"
+											}
 										})
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "experience-header-text",
+										style: headerTextStyle,
 										children: [
 											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-												className: "experience-job-title",
+												style: titleStyle,
 												children: exp.title
 											}),
 											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-												className: "experience-company",
+												style: companyStyle,
 												children: exp.company
 											}),
 											exp.project && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-												className: "experience-project",
+												style: {
+													color: "#00d4ff",
+													fontSize: "0.95rem",
+													fontWeight: "600",
+													margin: "0.2rem 0 0.3rem 0",
+													fontStyle: "italic",
+													letterSpacing: "0.5px"
+												},
 												children: ["Proyecto: ", exp.project]
 											}),
 											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-												className: "experience-period-info",
+												style: periodStyle,
 												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-													className: "period-item",
+													style: periodItemStyle,
 													children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CalendarIcon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: exp.period })]
 												}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-													className: "period-item",
+													style: periodItemStyle,
 													children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LocationPinIcon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: exp.location })]
 												})]
 											})
 										]
 									})]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "experience-tasks",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: taskListStyle,
 									children: exp.tasks.map((task, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "task-item",
+										style: taskItemStyle,
 										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-											className: "task-bullet",
+											style: {
+												color: "#b800ff",
+												marginTop: "2px"
+											},
 											children: "▸"
 										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: task })]
 									}, idx))
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "experience-technologies",
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									style: { marginTop: "0.3rem" },
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-										className: "tech-title",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cpu, { size: 16 }), "Tecnologías"]
+										style: {
+											color: "#b800ff",
+											fontSize: "0.85rem",
+											fontWeight: "700",
+											marginBottom: "0.6rem",
+											marginTop: "0",
+											textTransform: "uppercase",
+											letterSpacing: "1px",
+											display: "flex",
+											alignItems: "center",
+											gap: "0.5rem"
+										},
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cpu, {
+											size: 16,
+											style: { color: "#b800ff" }
+										}), "Tecnologías"]
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "tech-grid",
+										style: {
+											display: "grid",
+											gridTemplateColumns: "repeat(auto-fit, minmax(135px, 1fr))",
+											gap: "0.9rem"
+										},
 										children: exp.tech.map((tech, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-											className: "tech-card",
-											children: [tech.logo && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+											style: {
+												display: "flex",
+												flexDirection: "column",
+												alignItems: "center",
+												justifyContent: "center",
+												padding: "1.4rem",
+												backgroundColor: "rgba(184, 0, 255, 0.08)",
+												borderRadius: "12px",
+												border: "2px solid rgba(184, 0, 255, 0.25)",
+												transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+												cursor: "default",
+												minHeight: "135px",
+												background: "linear-gradient(135deg, rgba(184, 0, 255, 0.1) 0%, rgba(26, 26, 46, 0.8) 100%)",
+												boxShadow: "0 6px 15px rgba(184, 0, 255, 0.1)",
+												position: "relative",
+												overflow: "hidden"
+											},
+											onMouseEnter: (e) => {
+												e.currentTarget.style.backgroundColor = "rgba(184, 0, 255, 0.15)";
+												e.currentTarget.style.borderColor = "#b800ff";
+												e.currentTarget.style.transform = "translateY(-5px) scale(1.03)";
+												e.currentTarget.style.boxShadow = "0 10px 25px rgba(184, 0, 255, 0.2)";
+											},
+											onMouseLeave: (e) => {
+												e.currentTarget.style.backgroundColor = "rgba(184, 0, 255, 0.08)";
+												e.currentTarget.style.borderColor = "rgba(184, 0, 255, 0.25)";
+												e.currentTarget.style.transform = "translateY(0) scale(1)";
+												e.currentTarget.style.boxShadow = "0 6px 15px rgba(184, 0, 255, 0.1)";
+											},
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+												position: "absolute",
+												top: "-40%",
+												right: "-40%",
+												width: "150px",
+												height: "150px",
+												borderRadius: "50%",
+												backgroundColor: "rgba(184, 0, 255, 0.03)",
+												pointerEvents: "none"
+											} }), tech.logo ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 												src: tech.logo,
 												alt: tech.name,
-												className: "tech-icon"
+												style: {
+													width: "55px",
+													height: "55px",
+													objectFit: "contain",
+													marginBottom: "0.8rem",
+													position: "relative",
+													zIndex: 1
+												}
 											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-												className: "tech-name",
+												style: {
+													color: "#b800ff",
+													fontSize: "0.75rem",
+													fontWeight: "700",
+													textAlign: "center",
+													position: "relative",
+													zIndex: 1
+												},
+												children: tech.name
+											})] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												style: {
+													color: "#aaaaaa",
+													fontSize: "0.8rem",
+													fontWeight: "600",
+													textAlign: "center",
+													position: "relative",
+													zIndex: 1
+												},
 												children: tech.name
 											})]
 										}, idx))
 									})]
-								}),
+								})] }),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "slide-counter",
+									style: {
+										position: "absolute",
+										bottom: "1.5rem",
+										right: "1.5rem",
+										color: "#b800ff",
+										fontSize: "0.9rem",
+										fontWeight: "600",
+										backgroundColor: "rgba(184, 0, 255, 0.1)",
+										padding: "0.5rem 1rem",
+										borderRadius: "10px",
+										border: "1px solid rgba(184, 0, 255, 0.3)"
+									},
 									children: [
 										currentSlide + 1,
 										" / ",
@@ -11608,18 +12166,38 @@ function Experience() {
 						}, exp.id)),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 							onClick: handlePrev,
-							className: "slide-nav-btn slide-nav-prev",
+							style: navButtonStyle("left"),
+							onMouseEnter: (e) => {
+								e.currentTarget.style.backgroundColor = "#ff00ff";
+								e.currentTarget.style.boxShadow = "0 8px 25px rgba(255, 0, 255, 0.5)";
+								e.currentTarget.style.transform = "translateY(-50%) scale(1.1)";
+							},
+							onMouseLeave: (e) => {
+								e.currentTarget.style.backgroundColor = "#b800ff";
+								e.currentTarget.style.boxShadow = "0 4px 15px rgba(184, 0, 255, 0.3)";
+								e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+							},
 							children: "←"
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 							onClick: handleNext,
-							className: "slide-nav-btn slide-nav-next",
+							style: navButtonStyle("right"),
+							onMouseEnter: (e) => {
+								e.currentTarget.style.backgroundColor = "#ff00ff";
+								e.currentTarget.style.boxShadow = "0 8px 25px rgba(255, 0, 255, 0.5)";
+								e.currentTarget.style.transform = "translateY(-50%) scale(1.1)";
+							},
+							onMouseLeave: (e) => {
+								e.currentTarget.style.backgroundColor = "#b800ff";
+								e.currentTarget.style.boxShadow = "0 4px 15px rgba(184, 0, 255, 0.3)";
+								e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+							},
 							children: "→"
 						})
 					]
 				})
 			]
-		})
+		})]
 	});
 }
 //#endregion
@@ -11716,81 +12294,239 @@ var projects = [
 	}
 ];
 function Projects() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+	const [hoveredId, setHoveredId] = (0, import_react.useState)(null);
+	const sectionStyle = {
+		backgroundColor: "#0a0a0a",
+		padding: "6rem 2rem",
+		background: "linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)"
+	};
+	const h2Style = {
+		textAlign: "center",
+		color: "#b800ff",
+		marginBottom: "1rem",
+		fontSize: "3rem",
+		fontWeight: "800",
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
+		letterSpacing: "2px"
+	};
+	const subtitleStyle = {
+		textAlign: "center",
+		color: "#aaaaaa",
+		marginBottom: "4rem",
+		fontSize: "1.1rem"
+	};
+	const gridStyle = {
+		display: "grid",
+		gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+		gap: "2rem",
+		maxWidth: "1200px",
+		margin: "0 auto"
+	};
+	const cardStyle = (isHovered, isFeatured) => ({
+		backgroundColor: "#1a1a1a",
+		borderRadius: "12px",
+		padding: "2rem",
+		transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		border: isFeatured ? `2px solid #b800ff` : `2px solid #333333`,
+		boxShadow: isHovered ? `0 20px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)` : `0 4px 6px rgba(184, 0, 255, 0.1)`,
+		transform: isHovered ? "translateY(-10px) scale(1.02)" : "translateY(0)",
+		position: "relative",
+		overflow: "hidden",
+		cursor: "pointer"
+	});
+	const badgeStyle = {
+		position: "absolute",
+		top: "1rem",
+		right: "1rem",
+		backgroundColor: "#b800ff",
+		color: "#ffffff",
+		padding: "0.4rem 0.8rem",
+		borderRadius: "20px",
+		fontSize: "0.7rem",
+		fontWeight: "700",
+		textTransform: "uppercase",
+		letterSpacing: "1px"
+	};
+	const cardH3Style = {
+		color: "#b800ff",
+		marginBottom: "0.8rem",
+		fontSize: "1.3rem",
+		fontWeight: "700",
+		marginTop: "0.5rem"
+	};
+	const cardPStyle = {
+		color: "#cccccc",
+		marginBottom: "1.5rem",
+		lineHeight: "1.6",
+		fontSize: "0.95rem"
+	};
+	const tagsStyle = {
+		display: "flex",
+		flexWrap: "wrap",
+		gap: "0.6rem",
+		marginBottom: "1.5rem"
+	};
+	const tagStyle = {
+		color: "#b800ff",
+		backgroundColor: "rgba(184, 0, 255, 0.1)",
+		borderRadius: "20px",
+		padding: "0.4rem 0.9rem",
+		fontSize: "0.8rem",
+		fontWeight: "600",
+		border: "1px solid rgba(184, 0, 255, 0.3)",
+		transition: "all 0.3s"
+	};
+	const linkContainerStyle = {
+		display: "flex",
+		gap: "1rem",
+		alignItems: "center"
+	};
+	const linkStyle = {
+		color: "#b800ff",
+		fontWeight: "700",
+		textDecoration: "none",
+		transition: "all 0.3s",
+		cursor: "pointer",
+		display: "flex",
+		alignItems: "center",
+		gap: "0.5rem"
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "projects",
-		className: "projects-section",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "projects-header",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
-				className: "projects-title",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Folder, {
-					size: 32,
-					style: {
-						marginRight: "0.5rem",
-						verticalAlign: "middle"
-					}
-				}), "Mis Proyectos"]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "projects-subtitle",
-				children: "Trabajos destacados que demuestran mis habilidades técnicas"
-			})]
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "projects-grid",
-			children: projects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: `project-card ${project.featured ? "project-featured" : ""}`,
-				children: [
-					project.featured && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "project-meta",
-						style: { marginBottom: "1rem" },
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							style: {
-								background: "linear-gradient(135deg, var(--primary-color), var(--secondary-color))",
-								color: "white",
-								padding: "0.4rem 0.8rem",
-								borderRadius: "var(--radius-full)",
-								fontSize: "var(--text-xs)",
-								fontWeight: "var(--font-bold)",
-								textTransform: "uppercase",
-								letterSpacing: "1px"
-							},
-							children: "Destacado"
-						})
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "project-header",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-							className: "project-title",
-							children: project.title
-						}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "project-icon",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Folder, {})
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "project-description",
-						children: project.description
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "project-tags",
-						children: project.tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "project-tag",
-							children: tag
-						}, tag))
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-						href: project.link,
-						target: "_blank",
-						rel: "noopener noreferrer",
-						className: "project-link",
-						children: ["Ver más ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowRight, {})]
-					})
-				]
-			}, project.id))
-		})]
+		style: sectionStyle,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			style: {
+				maxWidth: "1200px",
+				margin: "0 auto"
+			},
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
+					style: h2Style,
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Folder, {
+						size: 32,
+						style: {
+							marginRight: "0.5rem",
+							verticalAlign: "middle"
+						}
+					}), "Mis Proyectos"]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					style: subtitleStyle,
+					children: "Trabajos destacados que demuestran mis habilidades técnicas"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					style: gridStyle,
+					children: projects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: cardStyle(hoveredId === project.id, project.featured),
+						onMouseEnter: () => setHoveredId(project.id),
+						onMouseLeave: () => setHoveredId(null),
+						children: [
+							project.featured && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: badgeStyle,
+								children: "Destacado"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+								style: cardH3Style,
+								children: project.title
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								style: cardPStyle,
+								children: project.description
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: tagsStyle,
+								children: project.tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									style: tagStyle,
+									children: tag
+								}, tag))
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: linkContainerStyle,
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+									href: project.link,
+									style: linkStyle,
+									onMouseEnter: (e) => {
+										e.target.style.color = "#ff00ff";
+										e.target.style.transform = "translateX(5px)";
+									},
+									onMouseLeave: (e) => {
+										e.target.style.color = "#b800ff";
+										e.target.style.transform = "translateX(0)";
+									},
+									children: ["Ver más ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowRight, {})]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+									href: project.link,
+									style: {
+										...linkStyle,
+										color: "transparent"
+									},
+									title: "GitHub",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, { style: { color: "#b800ff" } })
+								})]
+							})
+						]
+					}, project.id))
+				})
+			]
+		})
 	});
 }
 //#endregion
 //#region src/components/Education.jsx
+var EgressIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+	width: "20",
+	height: "20",
+	viewBox: "0 0 20 20",
+	fill: "none",
+	xmlns: "http://www.w3.org/2000/svg",
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+		d: "M16 5L9 12L4 7",
+		stroke: "currentColor",
+		strokeWidth: "1.5",
+		strokeLinecap: "round",
+		strokeLinejoin: "round"
+	})
+});
+var CompleteIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+	width: "20",
+	height: "20",
+	viewBox: "0 0 20 20",
+	fill: "none",
+	xmlns: "http://www.w3.org/2000/svg",
+	children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+		cx: "10",
+		cy: "10",
+		r: "8",
+		stroke: "currentColor",
+		strokeWidth: "1.5"
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+		d: "M7 10L9 12L13 8",
+		stroke: "currentColor",
+		strokeWidth: "1.5",
+		strokeLinecap: "round",
+		strokeLinejoin: "round"
+	})]
+});
+var InProgressIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+	width: "20",
+	height: "20",
+	viewBox: "0 0 20 20",
+	fill: "none",
+	xmlns: "http://www.w3.org/2000/svg",
+	children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+		cx: "10",
+		cy: "10",
+		r: "8",
+		stroke: "currentColor",
+		strokeWidth: "1.5"
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+		cx: "10",
+		cy: "10",
+		r: "4",
+		fill: "currentColor",
+		opacity: "0.5"
+	})]
+});
 var education = [
 	{
 		id: 1,
@@ -11884,8 +12620,8 @@ var certifications = [
 	},
 	{
 		title: "Ciberseguridad en Entornos de Aprendizaje",
-		institution: "Conecta Empleo",
-		logo: "/education/logo_conectaempleo.png",
+		institution: "SENCE",
+		logo: "/education/logo_sence.png",
 		url: "/certificates/FT Movistar y SENCE - Certificado_ciberseguridad_entornos_aprendizaje.pdf"
 	},
 	{
@@ -11895,18 +12631,6 @@ var certifications = [
 		url: "/certificates/Diplomado - Certificado_diseño_programacionweb.pdf"
 	},
 	{
-		title: "Diplomado Módulo Diseño Web (HTML, CSS)",
-		institution: "AIEP",
-		logo: "/education/logo_aiep.png",
-		url: "/certificates/Diplomado - Diploma módulo_ diseño_web_html_css.pdf"
-	},
-	{
-		title: "Diplomado Módulo Programación JavaScript",
-		institution: "AIEP",
-		logo: "/education/logo_aiep.png",
-		url: "/certificates/Diplomado - Diploma módulo_programacion_javascript.pdf"
-	},
-	{
 		title: "Certificado WordPress - Diplomado",
 		institution: "AIEP",
 		logo: "/education/logo_aiep.png",
@@ -11914,132 +12638,374 @@ var certifications = [
 	}
 ];
 function Education() {
+	const sectionStyle = {
+		backgroundColor: "#0f0f0f",
+		padding: "6rem 2rem",
+		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)"
+	};
+	const h2Style = {
+		textAlign: "center",
+		color: "#b800ff",
+		marginBottom: "1rem",
+		fontSize: "3rem",
+		fontWeight: "800",
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
+		letterSpacing: "2px"
+	};
+	const subtitleStyle = {
+		textAlign: "center",
+		color: "#aaaaaa",
+		marginBottom: "4rem",
+		fontSize: "1.1rem"
+	};
+	const containerStyle = {
+		maxWidth: "1000px",
+		margin: "0 auto"
+	};
+	const gridStyle = {
+		display: "grid",
+		gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+		gap: "2.5rem",
+		marginBottom: "4rem"
+	};
+	const cardStyle = {
+		backgroundColor: "#1a1a2e",
+		borderRadius: "20px",
+		padding: "2.8rem",
+		border: "2.5px solid #b800ff",
+		transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		boxShadow: "0 12px 40px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.08)",
+		position: "relative",
+		overflow: "hidden",
+		background: "linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(184, 0, 255, 0.08) 100%)"
+	};
+	const degreeStyle = {
+		color: "#ff00ff",
+		fontSize: "1.35rem",
+		fontWeight: "900",
+		margin: "0 0 0.8rem 0",
+		textShadow: "0 0 20px rgba(255, 0, 255, 0.4)",
+		letterSpacing: "0.5px"
+	};
+	const institutionStyle = {
+		color: "#00d4ff",
+		fontSize: "1.1rem",
+		fontWeight: "750",
+		margin: "0",
+		letterSpacing: "0.5px",
+		textShadow: "0 0 10px rgba(0, 212, 255, 0.3)"
+	};
+	const yearStyle = {
+		color: "#ffffff",
+		fontSize: "0.95rem",
+		margin: "1.2rem 0 0 0",
+		fontWeight: "700",
+		display: "inline-block",
+		backgroundColor: "linear-gradient(135deg, rgba(184, 0, 255, 0.2), rgba(0, 212, 255, 0.15))",
+		padding: "0.6rem 1.2rem",
+		borderRadius: "15px",
+		border: "1.5px solid rgba(0, 212, 255, 0.6)",
+		boxShadow: "0 4px 15px rgba(0, 212, 255, 0.2)",
+		background: "linear-gradient(135deg, rgba(184, 0, 255, 0.2), rgba(0, 212, 255, 0.15))"
+	};
+	const descriptionStyle = {
+		color: "#dddddd",
+		fontSize: "0.95rem",
+		lineHeight: "1.7",
+		margin: "1rem 0 0 0",
+		fontWeight: "500"
+	};
+	const statusStyle = (status) => {
+		let bgColor, textColor, borderColor, iconColor, shadowColor;
+		let Icon;
+		if (status === "Egresado") {
+			bgColor = "rgba(0, 255, 136, 0.2)";
+			textColor = "#00ff88";
+			borderColor = "#00ff88";
+			iconColor = "#00ff88";
+			shadowColor = "#00ff8850";
+			Icon = EgressIcon;
+		} else if (status === "Completado") {
+			bgColor = "rgba(0, 212, 255, 0.2)";
+			textColor = "#00d4ff";
+			borderColor = "#00d4ff";
+			iconColor = "#00d4ff";
+			shadowColor = "#00d4ff50";
+			Icon = CompleteIcon;
+		} else {
+			bgColor = "rgba(0, 255, 200, 0.2)";
+			textColor = "#00ffc8";
+			borderColor = "#00ffc8";
+			iconColor = "#00ffc8";
+			shadowColor = "#00ffc850";
+			Icon = InProgressIcon;
+		}
+		return {
+			display: "inline-flex",
+			alignItems: "center",
+			gap: "0.9rem",
+			backgroundColor: bgColor,
+			color: textColor,
+			padding: "0.85rem 1.5rem",
+			borderRadius: "30px",
+			fontSize: "0.9rem",
+			marginTop: "1.5rem",
+			border: `2.5px solid ${borderColor}`,
+			fontWeight: "800",
+			transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+			boxShadow: `0 6px 20px ${shadowColor}, inset 0 0 10px ${borderColor}20`,
+			Icon,
+			iconColor,
+			textShadow: `0 0 10px ${borderColor}60`
+		};
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "education",
-		className: "education-section",
+		style: sectionStyle,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "education-container",
+			style: containerStyle,
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "education-header",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
-						className: "education-title",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(BookHalf, { size: 32 }), "Educación y Certificaciones"]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "education-subtitle",
-						children: "Formación académica y certificaciones profesionales"
-					})]
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
+					style: h2Style,
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(BookHalf, {
+						size: 32,
+						style: {
+							marginRight: "0.5rem",
+							verticalAlign: "middle"
+						}
+					}), "Educación y Certificaciones"]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					style: subtitleStyle,
+					children: "Formación académica y certificaciones profesionales"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "certificates-grid",
+					style: gridStyle,
 					children: education.map((edu) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "certificate-card",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "certificate-logo",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-								src: edu.logo,
-								alt: edu.institution
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "certificate-info",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-									className: "certificate-name",
-									children: edu.degree
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-									className: "certificate-issuer",
-									children: edu.institution
-								}),
-								edu.year && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-									className: "certificate-date",
-									children: edu.year
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "certificate-status",
-									children: edu.status
-								})
-							]
-						})]
+						style: cardStyle,
+						onMouseEnter: (e) => {
+							e.currentTarget.style.transform = "translateY(-14px) scale(1.06)";
+							e.currentTarget.style.boxShadow = "0 25px 60px rgba(255, 0, 255, 0.4), inset 0 0 30px rgba(255, 0, 255, 0.15)";
+							e.currentTarget.style.borderColor = "#00ffff";
+							e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%)";
+						},
+						onMouseLeave: (e) => {
+							e.currentTarget.style.transform = "translateY(0) scale(1)";
+							e.currentTarget.style.boxShadow = "0 12px 40px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.08)";
+							e.currentTarget.style.borderColor = "#b800ff";
+							e.currentTarget.style.background = "linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(184, 0, 255, 0.08) 100%)";
+						},
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: {
+									display: "flex",
+									flexDirection: "column",
+									alignItems: "center",
+									gap: "1.5rem",
+									marginBottom: "2rem",
+									paddingBottom: "2rem",
+									borderBottom: "2.5px solid rgba(184, 0, 255, 0.3)",
+									position: "relative"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: {
+										width: "130px",
+										height: "130px",
+										borderRadius: "22px",
+										backgroundColor: "rgba(255, 255, 255, 0.08)",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										border: "3px solid",
+										borderColor: "#b800ff",
+										background: "linear-gradient(135deg, rgba(184, 0, 255, 0.15) 0%, rgba(26, 26, 46, 0.85) 100%)",
+										boxShadow: "0 15px 45px rgba(184, 0, 255, 0.25), inset 0 0 25px rgba(184, 0, 255, 0.1)",
+										transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+										position: "relative",
+										overflow: "hidden"
+									},
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+										src: edu.logo,
+										alt: edu.institution,
+										style: {
+											width: "100px",
+											height: "100px",
+											objectFit: "contain",
+											position: "relative",
+											zIndex: 1
+										}
+									})
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									style: { textAlign: "center" },
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+										style: degreeStyle,
+										children: edu.degree
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										style: institutionStyle,
+										children: edu.institution
+									})]
+								})]
+							}),
+							edu.year && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								style: yearStyle,
+								children: edu.year
+							}),
+							(() => {
+								const statusConfig = statusStyle(edu.status);
+								const Icon = statusConfig.Icon;
+								return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									style: {
+										display: "inline-flex",
+										alignItems: "center",
+										gap: statusConfig.gap,
+										backgroundColor: statusConfig.backgroundColor,
+										color: statusConfig.color,
+										padding: statusConfig.padding,
+										borderRadius: statusConfig.borderRadius,
+										fontSize: statusConfig.fontSize,
+										marginTop: statusConfig.marginTop,
+										border: statusConfig.border,
+										fontWeight: statusConfig.fontWeight,
+										transition: statusConfig.transition
+									},
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {}), edu.status]
+								});
+							})()
+						]
 					}, edu.id))
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "certifications-section",
+					style: {
+						marginTop: "5rem",
+						paddingTop: "4rem",
+						borderTop: "3px solid #b800ff"
+					},
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-						className: "certifications-title",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AwardFill, { size: 32 }), "Certificaciones Profesionales"]
+						style: {
+							...h2Style,
+							marginBottom: "3rem",
+							textAlign: "left",
+							fontSize: "2.2rem",
+							color: "#00d4ff",
+							display: "flex",
+							alignItems: "center",
+							gap: "0.8rem"
+						},
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AwardFill, {
+							size: 32,
+							style: { color: "#00d4ff" }
+						}), "Certificaciones Profesionales"]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "certificates-grid",
+						style: {
+							display: "grid",
+							gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+							gap: "2rem"
+						},
 						children: certifications.map((cert, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "certificate-card certificate-card-cert",
+							style: {
+								...cardStyle,
+								borderColor: "#00d4ff",
+								borderWidth: "2.5px",
+								background: "linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(26, 26, 46, 0.95) 100%)",
+								padding: "2rem",
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								gap: "1.2rem",
+								transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+								cursor: cert.url ? "pointer" : "default",
+								position: "relative"
+							},
 							onClick: () => cert.url && window.open(cert.url, "_blank"),
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "certificate-logo",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-										src: cert.logo,
-										alt: cert.institution
-									})
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "certificate-info",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-											className: "certificate-name",
-											children: ["✓ ", cert.title]
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "certificate-issuer",
-											children: cert.institution
-										}),
-										cert.url && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-											className: "certificate-link-hint",
-											children: "Haz clic para ver"
-										})
-									]
-								}),
-								cert.url && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "certificate-external-badge",
+							onMouseEnter: (e) => {
+								e.currentTarget.style.transform = "translateY(-12px) scale(1.06)";
+								e.currentTarget.style.boxShadow = "0 20px 50px rgba(0, 212, 255, 0.35), inset 0 0 30px rgba(0, 212, 255, 0.1)";
+								e.currentTarget.style.borderColor = "#00ffff";
+								e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%)";
+							},
+							onMouseLeave: (e) => {
+								e.currentTarget.style.transform = "translateY(0) scale(1)";
+								e.currentTarget.style.boxShadow = "0 12px 40px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.08)";
+								e.currentTarget.style.borderColor = "#00d4ff";
+								e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(26, 26, 46, 0.95) 100%)";
+							},
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: {
+									width: "100px",
+									height: "100px",
+									borderRadius: "16px",
+									backgroundColor: "rgba(255, 255, 255, 0.08)",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									border: "2px solid rgba(0, 212, 255, 0.5)",
+									background: "linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(26, 26, 46, 0.85) 100%)",
+									boxShadow: "0 8px 25px rgba(0, 212, 255, 0.15)",
+									transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+									position: "relative"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+									src: cert.logo,
+									alt: cert.institution,
+									style: {
+										width: "80px",
+										height: "80px",
+										objectFit: "contain"
+									}
+								}), cert.url && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: {
+										position: "absolute",
+										top: "5px",
+										right: "5px",
+										width: "24px",
+										height: "24px",
+										backgroundColor: "#00d4ff",
+										borderRadius: "50%",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										fontSize: "16px",
+										color: "#0a0a0a",
+										fontWeight: "800"
+									},
 									children: "↗"
-								})
-							]
+								})]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: { textAlign: "center" },
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+										style: {
+											...descriptionStyle,
+											margin: 0,
+											color: "#00d4ff",
+											fontWeight: "700",
+											fontSize: "0.95rem",
+											marginBottom: "0.5rem"
+										},
+										children: ["✓ ", cert.title]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										style: {
+											color: "#aaaaaa",
+											fontSize: "0.85rem",
+											margin: 0,
+											fontWeight: "600"
+										},
+										children: cert.institution
+									}),
+									cert.url && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										style: {
+											color: "#b800ff",
+											fontSize: "0.8rem",
+											margin: "0.5rem 0 0 0",
+											fontWeight: "600"
+										},
+										children: "Haz clic para ver certificado"
+									})
+								]
+							})]
 						}, idx))
 					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "certificates-stats",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "stat-item",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "stat-number",
-								children: education.length
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "stat-label",
-								children: "Títulos"
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "stat-item",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "stat-number",
-								children: certifications.length
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "stat-label",
-								children: "Certificaciones"
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "stat-item",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "stat-number",
-								children: education.length + certifications.length
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "stat-label",
-								children: "Logros Totales"
-							})]
-						})
-					]
 				})
 			]
 		})
@@ -12047,175 +13013,131 @@ function Education() {
 }
 //#endregion
 //#region src/components/Skills.jsx
-var skillCategories = [
-	{
-		title: "Backend & RPA",
-		icon: Code,
-		color: "#b800ff",
-		skills: [
-			{
-				name: "Python",
-				logo: "/images/logo_python.png"
-			},
-			{
-				name: "Django",
-				logo: "/images/logo_django.png"
-			},
-			{
-				name: "Rocketbot",
-				logo: "/images/logo_rocketbot.png"
-			},
-			{
-				name: "Power Automate",
-				logo: "/images/logo_power_automate.png"
-			},
-			{
-				name: "Selenium",
-				logo: "/images/logo_selenium.svg"
-			}
-		]
-	},
-	{
-		title: "Frontend",
-		color: "#00d4ff",
-		icon: PaletteFill,
-		skills: [
-			{
-				name: "React 18",
-				logo: "/images/logo_react.png"
-			},
-			{
-				name: "Vite",
-				logo: "/images/logo_vite.png"
-			},
-			{
-				name: "JavaScript",
-				logo: "/images/logo_js.png"
-			},
-			{
-				name: "HTML5",
-				logo: "/images/logo_html.png"
-			},
-			{
-				name: "CSS3/SASS",
-				logo: "/images/logo_css.png"
-			}
-		]
-	},
-	{
-		title: "Bases de Datos",
-		color: "#ff6b6b",
-		icon: Database,
-		skills: [
-			{
-				name: "MySQL",
-				logo: "/images/logo_mysql.png"
-			},
-			{
-				name: "PostgreSQL",
-				logo: "/images/logo_postgres.png"
-			},
-			{
-				name: "SQL Server",
-				logo: "/images/logo_oracle.png"
-			},
-			{
-				name: "Firebase",
-				logo: "/images/logo_firebase.png"
-			},
-			{
-				name: "PhpMyAdmin",
-				logo: "/images/logo_phpmyadmin.png"
-			}
-		]
-	},
-	{
-		title: "DevOps & Herramientas",
-		color: "#ffd700",
-		icon: Gear,
-		skills: [
-			{
-				name: "Docker",
-				logo: "/images/logo_docker.png"
-			},
-			{
-				name: "Git",
-				logo: "/images/logo_git.png"
-			},
-			{
-				name: "Nginx",
-				logo: "/images/logo_nginx.png"
-			},
-			{
-				name: "Jira",
-				logo: "/images/logo_jira.png"
-			},
-			{
-				name: "CPanel",
-				logo: "/images/logo_cpanel.png"
-			},
-			{
-				name: "Postman",
-				logo: "/images/logo_postman.png"
-			}
-		]
-	},
-	{
-		title: "Data & Análisis",
-		color: "#a78bfa",
-		icon: BarChartFill,
-		skills: [
-			{
-				name: "Pandas",
-				logo: "/images/logo_pandas.png"
-			},
-			{
-				name: "Excel Avanzado",
-				logo: "/images/logo_excel.png"
-			},
-			{
-				name: "Excel VBA",
-				logo: "/images/logo_excel.png"
-			}
-		]
-	},
-	{
-		title: "APIs & Integraciones",
-		color: "#00BB9E",
-		icon: Link,
-		skills: [{
-			name: "APIs REST",
-			logo: "/images/logo_postman.png"
-		}]
-	}
-];
-var SkillItem = ({ name, logo, color }) => {
+var TechLogo = ({ name, color, logoSrc }) => {
+	const [hover, setHover] = (0, import_react.useState)(false);
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+	const logoStyle = {
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: "0.8rem",
+		padding: isMobile ? "1.2rem" : "2rem",
+		backgroundColor: "linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%)",
+		borderRadius: "16px",
+		border: `2px solid ${color}`,
+		cursor: "pointer",
+		transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+		transform: hover ? isMobile ? "scale(1.05)" : "translateY(-12px) scale(1.08)" : "translateY(0)",
+		boxShadow: hover ? `0 20px 50px ${color}50, inset 0 0 20px ${color}15, 0 0 30px ${color}30` : `0 4px 6px rgba(184, 0, 255, 0.1), inset 0 0 10px rgba(184, 0, 255, 0.05)`,
+		position: "relative",
+		overflow: "hidden",
+		backdropFilter: "backdrop-filter(blur(10px))"
+	};
+	const glowStyle = {
+		position: "absolute",
+		top: "-50%",
+		left: "-50%",
+		right: "-50%",
+		bottom: "-50%",
+		background: `radial-gradient(circle, ${color}30 0%, transparent 70%)`,
+		opacity: hover ? 1 : 0,
+		transition: "opacity 0.4s",
+		pointerEvents: "none"
+	};
+	const iconContainerStyle = {
+		textAlign: "center",
+		minHeight: "60px",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		position: "relative",
+		zIndex: 1,
+		width: "100%"
+	};
+	const imgStyle = {
+		width: isMobile ? "40px" : "48px",
+		height: isMobile ? "40px" : "48px",
+		objectFit: "contain",
+		filter: hover ? `drop-shadow(0 0 8px ${color})` : "none",
+		transition: "filter 0.4s"
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "skill-item",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-			src: logo,
-			alt: name,
-			className: "skill-icon",
-			style: {
-				maxWidth: "48px",
-				maxHeight: "48px",
-				objectFit: "contain"
-			}
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "skill-name",
-			children: name
-		})]
+		style: logoStyle,
+		onMouseEnter: () => setHover(true),
+		onMouseLeave: () => setHover(false),
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: glowStyle }),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				style: iconContainerStyle,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+					src: logoSrc,
+					alt: name,
+					style: imgStyle
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				style: {
+					color: "#ffffff",
+					fontSize: isMobile ? "0.85rem" : "0.95rem",
+					fontWeight: "600",
+					textAlign: "center",
+					position: "relative",
+					zIndex: 1
+				},
+				children: name
+			})
+		]
 	});
 };
 function Skills() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+	const sectionStyle = {
+		backgroundColor: "#0a0a0a",
+		padding: isMobile ? "3rem 1.5rem" : "6rem 2rem",
+		background: "linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)"
+	};
+	const containerStyle = {
+		maxWidth: "1200px",
+		margin: "0 auto"
+	};
+	const h2Style = {
+		textAlign: "center",
+		color: "#b800ff",
+		marginBottom: "1rem",
+		fontSize: isMobile ? "2rem" : "3rem",
+		fontWeight: "800",
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
+		letterSpacing: "2px"
+	};
+	const subtitleStyle = {
+		textAlign: "center",
+		color: "#aaaaaa",
+		marginBottom: "4rem",
+		fontSize: isMobile ? "0.95rem" : "1.1rem"
+	};
+	const categoryStyle = { marginBottom: "4rem" };
+	const categoryTitleStyle = {
+		color: "#ff00ff",
+		fontSize: "1.8rem",
+		marginBottom: "2rem",
+		paddingLeft: "1rem",
+		borderLeft: "4px solid #ff00ff",
+		fontWeight: "700"
+	};
+	const gridStyle = {
+		display: "grid",
+		gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+		gap: "2rem"
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "skills",
-		className: "skills-section",
-		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "skills-header",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
-					className: "skills-title",
+		style: sectionStyle,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			style: containerStyle,
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
+					style: h2Style,
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cpu, {
 						size: 32,
 						style: {
@@ -12223,256 +13145,445 @@ function Skills() {
 							verticalAlign: "middle"
 						}
 					}), "Tecnologías & Herramientas"]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "skills-subtitle",
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					style: subtitleStyle,
 					children: "Stack completo de technologies para desarrollar soluciones modernas"
-				})]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "skills-container",
-				children: skillCategories.map((category, idx) => {
+				}),
+				[
+					{
+						title: "Backend & RPA",
+						color: "#b800ff",
+						icon: Code,
+						skills: [
+							{
+								name: "Python",
+								logo: "/images/logo_python.png"
+							},
+							{
+								name: "Django",
+								logo: "/images/logo_django.png"
+							},
+							{
+								name: "Rocketbot",
+								logo: "/images/logo_rocketbot.png"
+							},
+							{
+								name: "Power Automate",
+								logo: "/images/logo_power_automate.png"
+							},
+							{
+								name: "Selenium",
+								logo: "/images/logo_selenium.svg"
+							}
+						]
+					},
+					{
+						title: "Frontend",
+						color: "#00d4ff",
+						icon: PaletteFill,
+						skills: [
+							{
+								name: "React 18",
+								logo: "/images/logo_react.png"
+							},
+							{
+								name: "Vite",
+								logo: "/images/logo_vite.png"
+							},
+							{
+								name: "JavaScript",
+								logo: "/images/logo_js.png"
+							},
+							{
+								name: "HTML5",
+								logo: "/images/logo_html.png"
+							},
+							{
+								name: "CSS3/SASS",
+								logo: "/images/logo_css.png"
+							}
+						]
+					},
+					{
+						title: "Bases de Datos",
+						color: "#ff6b6b",
+						icon: Database,
+						skills: [
+							{
+								name: "MySQL",
+								logo: "/images/logo_mysql.png"
+							},
+							{
+								name: "PostgreSQL",
+								logo: "/images/logo_postgres.png"
+							},
+							{
+								name: "SQL Server",
+								logo: "/images/logo_oracle.png"
+							},
+							{
+								name: "Firebase",
+								logo: "/images/logo_firebase.png"
+							},
+							{
+								name: "PhpMyAdmin",
+								logo: "/images/logo_phpmyadmin.png"
+							}
+						]
+					},
+					{
+						title: "DevOps & Herramientas",
+						color: "#ffd700",
+						icon: Gear,
+						skills: [
+							{
+								name: "Docker",
+								logo: "/images/logo_docker.png"
+							},
+							{
+								name: "Git",
+								logo: "/images/logo_git.png"
+							},
+							{
+								name: "Nginx",
+								logo: "/images/logo_nginx.png"
+							},
+							{
+								name: "Jira",
+								logo: "/images/logo_jira.png"
+							},
+							{
+								name: "CPanel",
+								logo: "/images/logo_cpanel.png"
+							},
+							{
+								name: "Postman",
+								logo: "/images/logo_postman.png"
+							}
+						]
+					},
+					{
+						title: "Data & Análisis",
+						color: "#a78bfa",
+						icon: BarChartFill,
+						skills: [
+							{
+								name: "Pandas",
+								logo: "/images/logo_pandas.png"
+							},
+							{
+								name: "Excel Avanzado",
+								logo: "/images/logo_excel.png"
+							},
+							{
+								name: "Excel VBA",
+								logo: "/images/logo_excel.png"
+							}
+						]
+					},
+					{
+						title: "APIs & Integraciones",
+						color: "#00BB9E",
+						icon: Link,
+						skills: [{
+							name: "APIs REST",
+							logo: "/images/logo_postman.png"
+						}]
+					}
+				].map((category, idx) => {
 					const IconComponent = category.icon;
 					return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "skill-category",
+						style: categoryStyle,
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-							className: "skill-category-title",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "skill-category-icon",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(IconComponent, { size: 24 })
+							style: categoryTitleStyle,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(IconComponent, {
+								size: 24,
+								style: {
+									marginRight: "0.6rem",
+									verticalAlign: "middle"
+								}
 							}), category.title]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "skill-items-grid",
-							children: category.skills.map((skill, sidx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SkillItem, {
+							style: gridStyle,
+							children: category.skills.map((skill, sidx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TechLogo, {
 								name: skill.name,
-								logo: skill.logo,
+								logoSrc: skill.logo,
 								color: category.color
 							}, sidx))
 						})]
 					}, idx);
-				})
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				style: {
-					marginTop: "var(--spacing-3xl)",
-					padding: "var(--spacing-2xl)",
-					background: "linear-gradient(135deg, rgba(184, 0, 255, 0.15) 0%, rgba(255, 0, 255, 0.05) 100%)",
-					border: "1px solid var(--primary-color)",
-					borderRadius: "var(--radius-lg)",
-					textAlign: "center"
-				},
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					style: {
-						color: "var(--primary-light)",
-						fontWeight: "var(--font-bold)",
-						fontSize: "var(--text-lg)",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						gap: "var(--spacing-md)",
-						margin: 0
+						marginTop: "6rem",
+						padding: "3rem",
+						backgroundColor: "rgba(184, 0, 255, 0.1)",
+						borderRadius: "12px",
+						border: "2px solid #b800ff",
+						textAlign: "center"
 					},
-					children: "✓ Especialista en integraciones Backend & RPA con +4 años de experiencia"
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						style: {
+							color: "#b800ff",
+							fontWeight: "700",
+							fontSize: "1.1rem"
+						},
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+							width: "20",
+							height: "20",
+							viewBox: "0 0 24 24",
+							fill: "#b800ff",
+							style: {
+								display: "inline",
+								marginRight: "0.5rem",
+								verticalAlign: "middle"
+							},
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" })
+						}), "Especialista en integraciones Backend & RPA con +4 años de experiencia"]
+					})
 				})
-			})
-		]
+			]
+		})
 	});
 }
 //#endregion
 //#region src/components/Contact.jsx
+var EmailIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+	width: "48",
+	height: "48",
+	viewBox: "0 0 48 48",
+	fill: "none",
+	xmlns: "http://www.w3.org/2000/svg",
+	children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+		x: "4",
+		y: "8",
+		width: "40",
+		height: "32",
+		rx: "2",
+		stroke: "#b800ff",
+		strokeWidth: "2"
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+		d: "M4 10L24 22L44 10",
+		stroke: "#b800ff",
+		strokeWidth: "2",
+		strokeLinecap: "round",
+		strokeLinejoin: "round"
+	})]
+});
+var PhoneIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+	width: "48",
+	height: "48",
+	viewBox: "0 0 48 48",
+	fill: "none",
+	xmlns: "http://www.w3.org/2000/svg",
+	children: [
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+			d: "M12 8H10C8.89543 8 8 8.89543 8 10V38C8 39.1046 8.89543 40 10 40H38C39.1046 40 40 39.1046 40 38V10C40 8.89543 39.1046 8 38 8H36",
+			stroke: "#b800ff",
+			strokeWidth: "2",
+			strokeLinecap: "round"
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+			cx: "24",
+			cy: "32",
+			r: "2",
+			fill: "#b800ff"
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+			d: "M24 28V20",
+			stroke: "#b800ff",
+			strokeWidth: "2",
+			strokeLinecap: "round"
+		})
+	]
+});
+var LocationIcon = () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+	width: "48",
+	height: "48",
+	viewBox: "0 0 48 48",
+	fill: "none",
+	xmlns: "http://www.w3.org/2000/svg",
+	children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+		d: "M24 8C16.268 8 10 14.268 10 22C10 32 24 42 24 42C24 42 38 32 38 22C38 14.268 31.732 8 24 8Z",
+		stroke: "#b800ff",
+		strokeWidth: "2",
+		strokeLinecap: "round",
+		strokeLinejoin: "round"
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+		cx: "24",
+		cy: "22",
+		r: "4",
+		fill: "#b800ff"
+	})]
+});
 function Contact() {
-	const formRef = (0, import_react.useRef)(null);
-	const [formData, setFormData] = (0, import_react.useState)({
-		name: "",
-		email: "",
-		subject: "",
-		message: ""
-	});
-	const [status, setStatus] = (0, import_react.useState)("");
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]: value
-		}));
-	};
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			if ((await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-				method: "POST",
-				body: JSON.stringify(formData),
-				headers: { "Content-Type": "application/json" }
-			})).ok) {
-				setStatus("success");
-				setFormData({
-					name: "",
-					email: "",
-					subject: "",
-					message: ""
-				});
-				setTimeout(() => setStatus(""), 5e3);
-			} else setStatus("error");
-		} catch (error) {
-			setStatus("error");
-		}
-	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "contact",
-		className: "contact-section",
+		style: {
+			backgroundColor: "#0f0f0f",
+			padding: "4rem 2rem"
+		},
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "contact-container",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "contact-header",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
-					className: "contact-title",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaEnvelope, { size: 32 }), "Contacto"]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "contact-subtitle",
-					children: "¿Tienes una pregunta o un proyecto para mí? ¡Hablemos!"
-				})]
+			style: {
+				maxWidth: "1200px",
+				margin: "0 auto"
+			},
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+				style: {
+					textAlign: "center",
+					color: "#b800ff",
+					marginBottom: "2rem",
+					fontSize: "2.5rem"
+				},
+				children: "Contacto"
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "contact-form-wrapper",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "contact-info",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "contact-info-item",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-								className: "contact-info-label",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaEnvelope, {}), "Email"]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "contact-info-value",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "mailto:david.simon@email.com",
-									children: "david.simon@email.com"
-								})
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "contact-info-item",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-								className: "contact-info-label",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaPhone, {}), "Teléfono"]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "contact-info-value",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "tel:+56987654321",
-									children: "+56 9 8765 4321"
-								})
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "contact-info-item",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-								className: "contact-info-label",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaMapMarkerAlt, {}), "Ubicación"]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "contact-info-value",
-								children: "Santiago, Chile"
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "contact-socials",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-								href: "https://github.com/david-tkd203",
-								target: "_blank",
-								rel: "noopener noreferrer",
-								className: "social-link-btn",
-								title: "GitHub",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {})
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-								href: "https://linkedin.com/in/david-simon-nanculeo",
-								target: "_blank",
-								rel: "noopener noreferrer",
-								className: "social-link-btn",
-								title: "LinkedIn",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLinkedin, {})
-							})]
-						})
-					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
-					ref: formRef,
-					onSubmit: handleSubmit,
-					className: "contact-form",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "form-group",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
-								htmlFor: "name",
-								className: "form-label",
-								children: "Nombre"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
-								type: "text",
-								id: "name",
-								name: "name",
-								value: formData.name,
-								onChange: handleChange,
-								className: "form-input",
-								placeholder: "Tu nombre completo",
-								required: true
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "form-group form-row-2",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
-								htmlFor: "email",
-								className: "form-label",
+				style: {
+					display: "grid",
+					gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+					gap: "2rem",
+					maxWidth: "900px",
+					margin: "0 auto"
+				},
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: {
+							backgroundColor: "#1a1a1a",
+							padding: "2.5rem 1.5rem",
+							borderRadius: "12px",
+							border: "2px solid #b800ff",
+							textAlign: "center",
+							transition: "all 0.3s"
+						},
+						onMouseEnter: (e) => {
+							e.currentTarget.style.transform = "translateY(-8px)";
+							e.currentTarget.style.boxShadow = "0 15px 40px rgba(184, 0, 255, 0.4)";
+						},
+						onMouseLeave: (e) => {
+							e.currentTarget.style.transform = "translateY(0)";
+							e.currentTarget.style.boxShadow = "none";
+						},
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									marginBottom: "1rem",
+									display: "flex",
+									justifyContent: "center"
+								},
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmailIcon, {})
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									color: "#b800ff",
+									fontWeight: "600",
+									marginBottom: "0.8rem"
+								},
 								children: "Email"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
-								type: "email",
-								id: "email",
-								name: "email",
-								value: formData.email,
-								onChange: handleChange,
-								className: "form-input",
-								placeholder: "tu@email.com",
-								required: true
-							})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
-								htmlFor: "subject",
-								className: "form-label",
-								children: "Asunto"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
-								type: "text",
-								id: "subject",
-								name: "subject",
-								value: formData.subject,
-								onChange: handleChange,
-								className: "form-input",
-								placeholder: "Asunto del mensaje",
-								required: true
-							})] })]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "form-group",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
-								htmlFor: "message",
-								className: "form-label",
-								children: "Mensaje"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", {
-								id: "message",
-								name: "message",
-								value: formData.message,
-								onChange: handleChange,
-								className: "form-textarea",
-								placeholder: "Cuéntame sobre tu proyecto o pregunta...",
-								required: true
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-							type: "submit",
-							className: "form-submit-btn",
-							children: "Enviar Mensaje"
-						}),
-						status === "success" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "form-status success",
-							children: "✓ Mensaje enviado correctamente. Te contactaré pronto."
-						}),
-						status === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "form-status error",
-							children: "✗ Hubo un error. Intenta de nuevo más tarde."
-						})
-					]
-				})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "mailto:david.203.52@gmail.com",
+								style: {
+									color: "#cccccc",
+									textDecoration: "none",
+									fontWeight: "500"
+								},
+								onMouseEnter: (e) => e.target.style.color = "#b800ff",
+								onMouseLeave: (e) => e.target.style.color = "#cccccc",
+								children: "david.203.52@gmail.com"
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: {
+							backgroundColor: "#1a1a1a",
+							padding: "2.5rem 1.5rem",
+							borderRadius: "12px",
+							border: "2px solid #b800ff",
+							textAlign: "center",
+							transition: "all 0.3s"
+						},
+						onMouseEnter: (e) => {
+							e.currentTarget.style.transform = "translateY(-8px)";
+							e.currentTarget.style.boxShadow = "0 15px 40px rgba(184, 0, 255, 0.4)";
+						},
+						onMouseLeave: (e) => {
+							e.currentTarget.style.transform = "translateY(0)";
+							e.currentTarget.style.boxShadow = "none";
+						},
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									marginBottom: "1rem",
+									display: "flex",
+									justifyContent: "center"
+								},
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PhoneIcon, {})
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									color: "#b800ff",
+									fontWeight: "600",
+									marginBottom: "0.8rem"
+								},
+								children: "Teléfono"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "tel:+56995052746",
+								style: {
+									color: "#cccccc",
+									textDecoration: "none",
+									fontWeight: "500"
+								},
+								onMouseEnter: (e) => e.target.style.color = "#b800ff",
+								onMouseLeave: (e) => e.target.style.color = "#cccccc",
+								children: "+569 9505 2746"
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: {
+							backgroundColor: "#1a1a1a",
+							padding: "2.5rem 1.5rem",
+							borderRadius: "12px",
+							border: "2px solid #b800ff",
+							textAlign: "center",
+							transition: "all 0.3s"
+						},
+						onMouseEnter: (e) => {
+							e.currentTarget.style.transform = "translateY(-8px)";
+							e.currentTarget.style.boxShadow = "0 15px 40px rgba(184, 0, 255, 0.4)";
+						},
+						onMouseLeave: (e) => {
+							e.currentTarget.style.transform = "translateY(0)";
+							e.currentTarget.style.boxShadow = "none";
+						},
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									marginBottom: "1rem",
+									display: "flex",
+									justifyContent: "center"
+								},
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LocationIcon, {})
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									color: "#b800ff",
+									fontWeight: "600",
+									marginBottom: "0.8rem"
+								},
+								children: "Ubicación"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									color: "#cccccc",
+									fontWeight: "500"
+								},
+								children: "Santiago de Chile"
+							})
+						]
+					})
+				]
 			})]
 		})
 	});
@@ -12481,135 +13592,113 @@ function Contact() {
 //#region src/components/Footer.jsx
 function Footer() {
 	const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
-	const scrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth"
-		});
+	const footerStyle = {
+		color: "#ffffff",
+		textAlign: "center",
+		background: "linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #0a0a0a 100%)",
+		padding: "3rem 2rem 2rem 2rem",
+		borderTop: "2px solid #b800ff",
+		boxShadow: "0 -2px 20px rgba(184, 0, 255, 0.2)"
+	};
+	const contentStyle = {
+		maxWidth: "1200px",
+		margin: "0 auto"
+	};
+	const linksStyle = {
+		display: "flex",
+		justifyContent: "center",
+		gap: "2rem",
+		marginBottom: "2rem",
+		flexWrap: "wrap"
+	};
+	const linkStyle = {
+		color: "#b800ff",
+		fontWeight: "600",
+		textDecoration: "none",
+		transition: "all 0.3s",
+		cursor: "pointer",
+		display: "flex",
+		alignItems: "center",
+		gap: "0.5rem",
+		fontSize: "0.95rem"
+	};
+	const pStyle = {
+		opacity: .9,
+		margin: 0,
+		fontSize: "0.95rem",
+		lineHeight: "1.6"
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("footer", {
-		className: "footer",
+		style: footerStyle,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "footer-container",
+			style: contentStyle,
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "footer-content",
+					style: linksStyle,
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "footer-section",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "Contacto" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-								href: "mailto:david.203.52@gmail.com",
-								className: "footer-link",
-								title: "Enviar email",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaEnvelope, {}), " david.203.52@gmail.com"]
-							}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								style: {
-									fontSize: "var(--text-sm)",
-									color: "var(--text-muted)"
-								},
-								children: "📍 Santiago, Chile"
-							}) })] })]
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+							href: "https://github.com/david-tkd203",
+							target: "_blank",
+							rel: "noopener noreferrer",
+							title: "GitHub",
+							style: linkStyle,
+							onMouseEnter: (e) => {
+								e.currentTarget.style.color = "#ff00ff";
+								e.currentTarget.style.transform = "translateY(-3px)";
+							},
+							onMouseLeave: (e) => {
+								e.currentTarget.style.color = "#b800ff";
+								e.currentTarget.style.transform = "translateY(0)";
+							},
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {}), " GitHub"]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "footer-section",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "Enlaces Rápidos" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", { children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "#home",
-									className: "footer-link",
-									children: "Inicio"
-								}) }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "#about",
-									className: "footer-link",
-									children: "Acerca de"
-								}) }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "#projects",
-									className: "footer-link",
-									children: "Proyectos"
-								}) }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "#education",
-									className: "footer-link",
-									children: "Educación"
-								}) })
-							] })]
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+							href: "https://www.linkedin.com/in/david-nanculeo",
+							target: "_blank",
+							rel: "noopener noreferrer",
+							title: "LinkedIn",
+							style: linkStyle,
+							onMouseEnter: (e) => {
+								e.currentTarget.style.color = "#ff00ff";
+								e.currentTarget.style.transform = "translateY(-3px)";
+							},
+							onMouseLeave: (e) => {
+								e.currentTarget.style.color = "#b800ff";
+								e.currentTarget.style.transform = "translateY(0)";
+							},
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLinkedin, {}), " LinkedIn"]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "footer-section",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "Sígueme" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "footer-social",
-								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-										href: "https://github.com/david-tkd203",
-										target: "_blank",
-										rel: "noopener noreferrer",
-										className: "footer-social-link",
-										title: "GitHub",
-										"aria-label": "Visitar GitHub",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {})
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-										href: "https://www.linkedin.com/in/david-nanculeo",
-										target: "_blank",
-										rel: "noopener noreferrer",
-										className: "footer-social-link",
-										title: "LinkedIn",
-										"aria-label": "Visitar LinkedIn",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLinkedin, {})
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-										href: "mailto:david.203.52@gmail.com",
-										className: "footer-social-link",
-										title: "Email",
-										"aria-label": "Enviar email",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaEnvelope, {})
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-										onClick: scrollToTop,
-										className: "footer-social-link",
-										style: {
-											cursor: "pointer",
-											background: "rgba(184, 0, 255, 0.1)",
-											border: "1px solid var(--border-subtle)"
-										},
-										title: "Volver arriba",
-										"aria-label": "Volver al inicio",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowUp, {})
-									})
-								]
-							})]
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+							href: "mailto:david.203.52@gmail.com",
+							title: "Email",
+							style: linkStyle,
+							onMouseEnter: (e) => {
+								e.currentTarget.style.color = "#ff00ff";
+								e.currentTarget.style.transform = "translateY(-3px)";
+							},
+							onMouseLeave: (e) => {
+								e.currentTarget.style.color = "#b800ff";
+								e.currentTarget.style.transform = "translateY(0)";
+							},
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaEnvelope, {}), " Email"]
 						})
 					]
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "footer-divider" }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "footer-bottom",
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+					style: pStyle,
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "footer-title",
-							children: "David Nanculeo"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Ingeniero en Informática | Desarrollador Full Stack | Especialista en RPA" }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "footer-credit",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: [
-								"© ",
-								currentYear,
-								" David Nanculeo. Todos los derechos reservados."
-							] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-								style: { marginTop: "0.5rem" },
-								children: [
-									"Diseñado y desarrollado con ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										style: { color: "var(--primary-color)" },
-										children: "💜"
-									}),
-									" usando React + Vite"
-								]
-							})]
-						})
+						"© ",
+						currentYear,
+						" David Nanculeo."
 					]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					style: {
+						...pStyle,
+						marginTop: "0.5rem",
+						fontSize: "0.85rem"
+					},
+					children: "Ingeniero en Informática | Full Stack Developer | RPA Specialist"
 				})
 			]
 		})
