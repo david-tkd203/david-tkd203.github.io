@@ -21,10 +21,7 @@ export default function About() {
     backgroundColor: '#0f0f0f',
     padding: '4rem 2rem',
     color: '#ffffff',
-    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)',
-    '@media (max-width: 768px)': {
-      padding: '2rem 1.5rem'
-    }
+    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)'
   };
 
   const h2Style = {
@@ -33,11 +30,7 @@ export default function About() {
     marginBottom: '3rem',
     fontSize: '2.5rem',
     fontWeight: '800',
-    textShadow: '0 0 20px rgba(184, 0, 255, 0.3)',
-    '@media (max-width: 768px)': {
-      fontSize: '2rem',
-      marginBottom: '2rem'
-    }
+    textShadow: '0 0 20px rgba(184, 0, 255, 0.3)'
   };
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -148,9 +141,9 @@ export default function About() {
   };
 
   return (
-    <section id="about" style={sectionStyle}>
+    <section id="about" style={sectionStyle} className="about-section">
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={h2Style}>Acerca de mí</h2>
+        <h2 style={h2Style} className="about-title">Acerca de mí</h2>
         <div style={contentStyle}>
           {/* Perfil Glitch */}
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

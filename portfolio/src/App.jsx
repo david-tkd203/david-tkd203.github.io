@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { CommandCenterProvider } from './context/CommandCenterContext'
 import BootScreen from './components/BootScreen'
 import TerminalBoot from './components/TerminalBoot'
-import CustomCursor from './components/CustomCursor'
 import SectionDeployer from './components/SectionDeployer'
 import SectionGuard from './components/SectionGuard'
 import MainTerminal from './components/MainTerminal'
@@ -23,7 +22,6 @@ function App() {
 
   return (
     <CommandCenterProvider>
-      <CustomCursor />
       {!bootComplete && <BootScreen onComplete={() => setBootComplete(true)} />}
       {bootComplete && isBooting ? (
         <TerminalBoot onComplete={() => setIsBooting(false)} />

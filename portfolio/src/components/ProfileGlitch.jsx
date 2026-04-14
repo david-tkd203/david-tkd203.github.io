@@ -16,7 +16,8 @@ const ProfileGlitch = ({ imageUrl = hackerLogo }) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    // CORRECCIÓN: Agregado willReadFrequently: true
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const img = new Image();
     img.crossOrigin = 'anonymous';
 
@@ -55,7 +56,8 @@ const ProfileGlitch = ({ imageUrl = hackerLogo }) => {
     const canvas = canvasRef.current;
     if (!canvas || !originalImageDataRef.current) return;
 
-    const ctx = canvas.getContext('2d');
+    // CORRECCIÓN: Agregado willReadFrequently: true
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const width = canvas.width;
     const height = canvas.height;
 
@@ -124,7 +126,8 @@ const ProfileGlitch = ({ imageUrl = hackerLogo }) => {
     const canvas = canvasRef.current;
     if (!canvas || !originalImageDataRef.current) return;
 
-    const ctx = canvas.getContext('2d');
+    // CORRECCIÓN: Agregado willReadFrequently: true
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     // Restaurar con copia del original guardado
     ctx.putImageData(originalImageDataRef.current, 0, 0);
   };
@@ -136,7 +139,11 @@ const ProfileGlitch = ({ imageUrl = hackerLogo }) => {
     if (!originalImageDataRef.current) return;
 
     applyGlitch();
-    audioManager.playClick();
+    try {
+      audioManager.playClick();
+    } catch(e) {
+      // Previene error si el usuario no ha interactuado con la página aún
+    }
   };
 
   /**

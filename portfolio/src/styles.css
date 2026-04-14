@@ -2827,3 +2827,96 @@ body.system-glitch::before {
     font-size: 12px;
   }
 }
+
+/* =========================================
+   MÓDULO: RED NEURONAL (NEURAL SKILLS)
+   ========================================= */
+
+/* 1. El Contenedor y la Cuadrícula Holográfica */
+.neural-skills-container {
+  background: radial-gradient(circle at center, rgba(0, 255, 255, 0.03) 0%, rgba(5, 5, 8, 0.8) 80%);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+
+/* Rejilla de fondo estilo radar */
+.neural-skills-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px; /* Tamaño de los cuadros */
+  z-index: 0;
+  pointer-events: none; /* Para que no bloquee el ratón */
+}
+
+/* 2. Las Líneas de Conexión (Sinapsis) */
+.neural-line {
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+  filter: drop-shadow(0 0 2px rgba(0, 255, 255, 0.4));
+}
+
+/* 3. Los Nodos (Cerebros) */
+.neural-node-group {
+  /* Transición de rebote suave */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Efecto al pasar el ratón por un nodo */
+.neural-node-group:hover {
+  transform: scale(1.15);
+}
+
+.neural-node-core {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.3));
+}
+
+.neural-node-group:hover .neural-node-core {
+  fill: rgba(184, 0, 255, 0.15); /* Fondo púrpura translúcido */
+  stroke: var(--neon-magenta);
+  stroke-width: 3px;
+  filter: drop-shadow(0 0 12px var(--neon-magenta)); /* Resplandor Magenta */
+}
+
+/* 4. Anillo Exterior Pulsante */
+.neural-node-ring {
+  animation: pulse-ring 3s infinite alternate ease-in-out;
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+.neural-node-group:hover .neural-node-ring {
+  stroke: var(--neon-magenta);
+  stroke-width: 2px;
+  stroke-dasharray: 4 6; /* Convierte la línea en punteada */
+  animation: spin-ring 4s linear infinite; /* Empieza a girar */
+}
+
+/* 5. El Texto (Labels) */
+.neural-label {
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  user-select: none; /* Evita que el texto se subraye al arrastrar */
+}
+
+.neural-node-group:hover .neural-label {
+  fill: #ffffff;
+  text-shadow: 0 0 8px var(--neon-magenta);
+  font-size: 11px; /* Crece un poquito */
+}
+
+/* --- ANIMACIONES KEYFRAMES --- */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); stroke-opacity: 0.1; }
+  100% { transform: scale(1.1); stroke-opacity: 0.5; }
+}
+
+@keyframes spin-ring {
+  0% { transform: rotate(0deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1.1); }
+}
