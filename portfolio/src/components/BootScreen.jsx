@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import hackerLogo from '../assets/images/logo_hacker.png';
 
 /**
  * BootScreen Component
@@ -17,7 +18,7 @@ const BootScreen = ({ onComplete }) => {
 
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const img = new Image();
-    img.src = '/images/logo_hacker.png';
+    img.src = hackerLogo;
 
     img.onload = () => {
       // Escalar canvas para que sea square y contenga la imagen
