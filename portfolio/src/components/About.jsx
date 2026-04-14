@@ -1,5 +1,6 @@
 import { FaCode, FaRocket, FaLock } from 'react-icons/fa';
 import ProfileGlitch from './ProfileGlitch';
+import hackerLogo from '../assets/images/logo_hacker.png';
 
 export default function About() {
   const primarySkills = [
@@ -153,7 +154,7 @@ export default function About() {
         <div style={contentStyle}>
           {/* Perfil Glitch */}
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <ProfileGlitch imageUrl="/images/logo_hacker.png" />
+            <ProfileGlitch imageUrl={hackerLogo} />
           </div>
           
           {/* Contenido texto */}

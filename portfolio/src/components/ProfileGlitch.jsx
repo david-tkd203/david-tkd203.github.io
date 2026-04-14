@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { audioManager } from '../utils/AudioManager';
+import hackerLogo from '../assets/images/logo_hacker.png';
 
 /**
  * ProfileGlitch Component
  * Canvas-based profile image with chromatic aberration glitch effect
  * Hover to trigger red/blue color separation with audio feedback
  */
-const ProfileGlitch = ({ imageUrl }) => {
+const ProfileGlitch = ({ imageUrl = hackerLogo }) => {
   const canvasRef = useRef(null);
   const originalImageDataRef = useRef(null);
   const imageRef = useRef(null);
