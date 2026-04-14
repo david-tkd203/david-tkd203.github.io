@@ -9913,6 +9913,221 @@ var import_client = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 })))();
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 //#endregion
+//#region src/utils/AudioManager.js
+/**
+* CyberAudio - Web Audio API Manager
+* Singleton para gestionar todos los sonidos de la Bionic Workstation
+* Cyberware sound effects sin librerías externas
+*/
+var CyberAudio = class {
+	constructor() {
+		this.audioCtx = null;
+		this.masterGain = null;
+		this.isInitialized = false;
+		this.volume = .15;
+	}
+	/**
+	* Inicializa AudioContext en primera interacción (autoplay policy)
+	*/
+	init() {
+		if (this.isInitialized) return;
+		try {
+			this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+			this.masterGain = this.audioCtx.createGain();
+			this.masterGain.connect(this.audioCtx.destination);
+			this.masterGain.gain.value = this.volume;
+			this.isInitialized = true;
+		} catch (error) {
+			console.warn("AudioContext not available:", error);
+		}
+	}
+	/**
+	* playClick() - Sonido de click (UI feedback)
+	* Square wave: 150Hz → 40Hz sobre 50ms
+	*/
+	playClick() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .05;
+		const osc = this.audioCtx.createOscillator();
+		const gainNode = this.audioCtx.createGain();
+		osc.type = "square";
+		osc.frequency.setValueAtTime(150, now);
+		osc.frequency.exponentialRampToValueAtTime(40, now + duration);
+		gainNode.gain.setValueAtTime(.1, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		osc.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		osc.start(now);
+		osc.stop(now + duration);
+	}
+	/**
+	* playScan() - Sonido de escaneo AR
+	* Sawtooth wave: 800Hz → 1200Hz sobre 200ms
+	*/
+	playScan() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .2;
+		const osc = this.audioCtx.createOscillator();
+		const gainNode = this.audioCtx.createGain();
+		const filter = this.audioCtx.createBiquadFilter();
+		osc.type = "sawtooth";
+		osc.frequency.setValueAtTime(800, now);
+		osc.frequency.linearRampToValueAtTime(1200, now + duration);
+		filter.type = "lowpass";
+		filter.frequency.value = 3e3;
+		gainNode.gain.setValueAtTime(.08, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		osc.connect(filter);
+		filter.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		osc.start(now);
+		osc.stop(now + duration);
+	}
+	/**
+	* playGlitch() - Sonido de glitch/aberración
+	* White noise con highpass filter por 150ms
+	*/
+	playGlitch() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .15;
+		const bufferSize = this.audioCtx.sampleRate * duration;
+		const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
+		const noiseData = noiseBuffer.getChannelData(0);
+		for (let i = 0; i < bufferSize; i++) noiseData[i] = Math.random() * 2 - 1;
+		const source = this.audioCtx.createBufferSource();
+		const gainNode = this.audioCtx.createGain();
+		const filter = this.audioCtx.createBiquadFilter();
+		source.buffer = noiseBuffer;
+		filter.type = "highpass";
+		filter.frequency.value = 2e3;
+		gainNode.gain.setValueAtTime(.08, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		source.connect(filter);
+		filter.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		source.start(now);
+		source.stop(now + duration);
+	}
+	/**
+	* playBeep() - Sonido de beep puro
+	* Sine wave a 1000Hz por 80ms
+	*/
+	playBeep() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .08;
+		const osc = this.audioCtx.createOscillator();
+		const gainNode = this.audioCtx.createGain();
+		osc.type = "sine";
+		osc.frequency.value = 1e3;
+		gainNode.gain.setValueAtTime(.1, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		osc.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		osc.start(now);
+		osc.stop(now + duration);
+	}
+	/**
+	* playDataPulse() - Secuencia de beeps para eventos de datos
+	* Toca múltiples beeps con delay entre ellos
+	* @param {number} count - Cantidad de beeps (default: 3)
+	* @param {number} delay - Delay entre beeps en ms (default: 100)
+	*/
+	playDataPulse(count = 3, delay = 100) {
+		if (!this.isInitialized) return;
+		const delaySeconds = delay / 1e3;
+		const now = this.audioCtx.currentTime;
+		for (let i = 0; i < count; i++) {
+			const startTime = now + i * delaySeconds;
+			const duration = .06;
+			const osc = this.audioCtx.createOscillator();
+			const gainNode = this.audioCtx.createGain();
+			osc.type = "sine";
+			osc.frequency.value = 1200;
+			osc.frequency.setValueAtTime(1200, startTime);
+			osc.frequency.exponentialRampToValueAtTime(800, startTime + duration);
+			gainNode.gain.setValueAtTime(.08, startTime);
+			gainNode.gain.exponentialRampToValueAtTime(.01, startTime + duration);
+			osc.connect(gainNode);
+			gainNode.connect(this.masterGain);
+			osc.start(startTime);
+			osc.stop(startTime + duration);
+		}
+	}
+	/**
+	* playStaticHum() - Sonido de zumbido estático
+	* Ruido blanco modulado para hover prolongado
+	* Duración: 500ms
+	*/
+	playStaticHum() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .5;
+		const bufferSize = this.audioCtx.sampleRate * duration;
+		const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
+		const noiseData = noiseBuffer.getChannelData(0);
+		for (let i = 0; i < bufferSize; i++) noiseData[i] = Math.random() * 2 - 1;
+		const source = this.audioCtx.createBufferSource();
+		const gainNode = this.audioCtx.createGain();
+		const filter = this.audioCtx.createBiquadFilter();
+		const lfo = this.audioCtx.createOscillator();
+		const lfoGain = this.audioCtx.createGain();
+		source.buffer = noiseBuffer;
+		filter.type = "lowpass";
+		filter.frequency.value = 2500;
+		lfo.type = "sine";
+		lfo.frequency.value = 3;
+		lfoGain.gain.value = 500;
+		gainNode.gain.setValueAtTime(.06, now);
+		gainNode.gain.exponentialRampToValueAtTime(.02, now + duration);
+		lfo.connect(lfoGain);
+		lfoGain.connect(filter.frequency);
+		source.connect(filter);
+		filter.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		source.start(now);
+		source.stop(now + duration);
+		lfo.start(now);
+		lfo.stop(now + duration);
+	}
+	/**
+	* Controla el volumen general
+	* @param {number} value - Volumen 0 a 1
+	*/
+	setVolume(value) {
+		if (value < 0) value = 0;
+		if (value > 1) value = 1;
+		this.volume = value;
+		if (this.masterGain) this.masterGain.gain.value = value;
+	}
+	/**
+	* Silencia el audio
+	*/
+	mute() {
+		if (this.masterGain) this.masterGain.gain.value = 0;
+	}
+	/**
+	* Restaura el volumen anterior
+	*/
+	unmute() {
+		if (this.masterGain) this.masterGain.gain.value = this.volume;
+	}
+	/**
+	* Obtiene el estado del AudioContext
+	*/
+	getState() {
+		return {
+			initialized: this.isInitialized,
+			state: this.audioCtx ? this.audioCtx.state : "not-initialized",
+			volume: this.volume
+		};
+	}
+};
+var audioManager = new CyberAudio();
+//#endregion
 //#region node_modules/react/cjs/react-jsx-runtime.production.js
 /**
 * @license React
@@ -9947,10 +10162,129 @@ var require_react_jsx_runtime_production = /* @__PURE__ */ __commonJSMin(((expor
 	exports.jsxs = jsxProd;
 }));
 //#endregion
-//#region src/components/BootScreen.jsx
+//#region src/context/CommandCenterContext.jsx
 var import_jsx_runtime = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_production();
 })))();
+/**
+* CommandCenterContext
+* Manage section access control and terminal commands
+* Architecture: State-based access control with regex command parsing
+*/
+var CommandCenterContext = (0, import_react.createContext)();
+var CommandCenterProvider = ({ children }) => {
+	const [deployedSections, setDeployedSections] = (0, import_react.useState)({
+		ABOUT: false,
+		PROJECTS: false,
+		SKILLS: false
+	});
+	const [commandHistory, setCommandHistory] = (0, import_react.useState)(["> SYSTEM INITIALIZED - AWAITING COMMANDS...", "> Type \"help\" for available commands"]);
+	/**
+	* Execute command with regex pattern matching
+	* Supports:
+	* - run deploy --section [SECTION_NAME]
+	* - run deploy --global
+	* - help
+	* - clear
+	*/
+	const executeCommand = (0, import_react.useCallback)((cmd) => {
+		const trimmedCmd = cmd.trim();
+		let response = "";
+		const sectionPattern = /^run deploy --section ([A-Z_]+)$/i;
+		const globalPattern = /^run deploy --global$/i;
+		const helpPattern = /^help$/i;
+		const clearPattern = /^clear$/i;
+		if (sectionPattern.test(trimmedCmd)) {
+			const sectionName = trimmedCmd.match(sectionPattern)[1].toUpperCase();
+			if (sectionName in deployedSections) {
+				setDeployedSections((prev) => ({
+					...prev,
+					[sectionName]: true
+				}));
+				response = `[OK] DECRYPTING SECTION: ${sectionName}...`;
+				audioManager.playScan();
+			} else {
+				response = `[ERROR] SECTION "${sectionName}" NOT FOUND`;
+				audioManager.playGlitch();
+			}
+		} else if (globalPattern.test(trimmedCmd)) {
+			setDeployedSections((prev) => ({
+				ABOUT: true,
+				PROJECTS: true,
+				SKILLS: true
+			}));
+			response = "[WARNING] GLOBAL OVERRIDE INITIATED... All sections unlocked.";
+			audioManager.playScan();
+			audioManager.playBeep();
+		} else if (helpPattern.test(trimmedCmd)) {
+			response = `┌─────────────────────────────────────────┐
+│      COMANDOS DISPONIBLES - v1.0        │
+└─────────────────────────────────────────┘
+
+[1] run deploy --section ABOUT
+    → Desbloquea la sección ABOUT
+
+[2] run deploy --section PROJECTS
+    → Desbloquea la sección PROJECTS
+
+[3] run deploy --section SKILLS
+    → Desbloquea la sección SKILLS
+
+[4] run deploy --global
+    → Desbloquea TODAS las secciones
+
+[5] clear
+    → Limpia el historial de terminal
+
+[6] help
+    → Muestra este mensaje
+
+┌─────────────────────────────────────────┐
+│   💡 Tip: Usa InfoHub (botón flotante)  │
+│      para desbloquear sin comandos      │
+└─────────────────────────────────────────┘`;
+			audioManager.playClick();
+		} else if (clearPattern.test(trimmedCmd)) {
+			setCommandHistory(["> TERMINAL CLEARED"]);
+			audioManager.playClick();
+			return null;
+		} else {
+			response = `[ERROR] COMANDO NO RECONOCIDO: "${trimmedCmd}"\nEscribe "help" para ver comandos disponibles.`;
+			audioManager.playGlitch();
+		}
+		return response;
+	}, [deployedSections]);
+	const addCommandToHistory = (0, import_react.useCallback)((command, response) => {
+		setCommandHistory((prev) => [
+			...prev,
+			`> ${command}`,
+			...response ? [response] : []
+		]);
+	}, []);
+	const clearHistory = (0, import_react.useCallback)(() => {
+		setCommandHistory(["> TERMINAL CLEARED"]);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CommandCenterContext.Provider, {
+		value: {
+			deployedSections,
+			commandHistory,
+			executeCommand,
+			addCommandToHistory,
+			clearHistory
+		},
+		children
+	});
+};
+/**
+* Hook to consume CommandCenterContext
+*/
+var useCommandCenter = () => {
+	const context = (0, import_react.useContext)(CommandCenterContext);
+	if (!context) throw new Error("useCommandCenter must be used within CommandCenterProvider");
+	return context;
+};
+//#endregion
+//#region src/components/BootScreen.jsx
 /**
 * BootScreen Component
 * Displays a glitched boot sequence on page load
@@ -10144,506 +10478,770 @@ function CustomCursor() {
 	})] });
 }
 //#endregion
-//#region src/hooks/useTerminal.js
-function useTerminal() {
-	const [history, setHistory] = (0, import_react.useState)([{
-		command: null,
-		output: "Bienvenido a David Ñanculeo Terminal v1.0 | Escribe \"help\" para ver comandos disponibles",
-		isASCII: false
-	}]);
-	const [commandHistory, setCommandHistory] = (0, import_react.useState)([]);
-	const [historyIndex, setHistoryIndex] = (0, import_react.useState)(-1);
-	const [input, setInput] = (0, import_react.useState)("");
-	const [glitchActive, setGlitchActive] = (0, import_react.useState)(false);
-	const glitchTimeoutRef = (0, import_react.useRef)(null);
-	const commands = {
-		help: `
-    ╔═══════════════════════════════════════╗
-    ║      COMANDOS DISPONIBLES (AYUDA)     ║
-    ╚═══════════════════════════════════════╝
-    
-    📋 INFORMACIÓN PERSONAL:
-       whoami                    Identificar usuario del sistema
-       about                     Ver información completa del perfil
-    
-    💼 CARRERA PROFESIONAL:
-       experiencia               Ver experiencia laboral detallada
-       proyectos                 Listar proyectos destacados
-    
-    🛠️  HABILIDADES TÉCNICAS:
-       habilidades               Mostrar stack técnico completo
-    
-    📞 CONTACTO:
-       contacto                  Información de contacto
-    
-    ⚙️  UTILIDADES:
-       limpiar                   Limpiar pantalla de terminal
-       help                      Mostrar este menú de ayuda
-    
-    🔐 SECRETOS:
-       hack                      Easter egg especial
-    
-    ╚═══════════════════════════════════════╝
-    Escribe un comando y presiona ENTER para ejecutar`,
-		whoami: {
-			isASCII: true,
-			output: `
-    ██████╗  █████╗ ██╗   ██╗██╗██████╗ 
-    ██╔══██╗██╔══██╗██║   ██║██║██╔══██╗
-    ██║  ██║███████║██║   ██║██║██║  ██║
-    ██║  ██║██╔══██║╚██╗ ██╔╝██║██║  ██║
-    ██████╔╝██║  ██║ ╚████╔╝ ██║██████╔╝
-    ╚═════╝ ╚═╝  ╚═╝  ╚═══╝  ╚═╝╚═════╝ 
-    
-         USUARIO: david_nanculeo
-         ROL: Ingeniero Full Stack & Arquitecto RPA
-         ESPECIALIDAD: Automatización Backend | Python | Rocketbot
-         NIVEL: Senior Developer`
-		},
-		about: {
-			isASCII: true,
-			output: `
-    ╔═══════════════════════════════════════╗
-    ║   ARCHIVO CLASIFICADO - PERFIL SISTEM ║
-    ╚═══════════════════════════════════════╝
-    
-    👤 INFORMACIÓN PERSONAL:
-       Nombre:          David Ñanculeo
-       Título:          Ingeniero en Informática
-       Especialidad:    Full Stack Developer & Arquitecto RPA
-    
-    💪 EXPERIENCIA:
-       Años activo:     14+ años en desarrollo de software
-       Nivel:           Senior Engineer
-       Ubicación:       Santiago, Chile (UTC-3)
-    
-    🚀 COMPETENCIAS PRINCIPALES:
-       Backend:         Python, Django, FastAPI, Node.js
-       Frontend:        React, JavaScript, CSS3 Vanilla
-       Automatización:  Rocketbot, Power Automate, Selenium
-       Base de datos:   PostgreSQL, MySQL, MongoDB, SQL Server
-       DevOps:          Docker, Kubernetes, Jenkins, GitHub Actions
-       Especialización: Integración SCADA, IoT Industrial
-    
-    ✅ ESTADO ACTUAL:
-       Disponibilidad:  ACTIVO Y DISPONIBLE
-       Modalidades:     Tiempo completo, Contrato, Consultoría
-       Respuesta:       24-48 horas
-    
-    ╚═══════════════════════════════════════╝`
-		},
-		proyectos: `
-    ╔═══════════════════════════════════════╗
-    ║        PROYECTOS DESTACADOS (3)       ║
-    ╚═══════════════════════════════════════╝
-    
-    📌 [1] HMED - Sistema de Historiales Médicos (2022-2023)
-       
-       Descripción:  Automatización de historiales clínicos electronicos
-       Stack:        Python 3.10 | Django | Selenium | PostgreSQL
-       Clientes:     50+ consultorios médicos
-       
-       Logros Clave:
-       ✓ Automatización de 10,000+ documentos por mes
-       ✓ Reducción del 85% en tiempo de procesamiento manual
-       ✓ Integración con sistema SURA (seguro médico)
-       ✓ Manejo seguro de datos HIPAA
-       ✓ API REST para consultorios partners
-       
-       ROI:          Ahorro de $150,000 USD anuales
-    
-    
-    📌 [2] SecureOT - Automatización Industrial (2021-2024)
-       
-       Descripción:  Automatización de procesos en ambiente industrial
-       Stack:        Rocketbot Studio Pro | Python | Power Automate | SQL Server
-       Empresas:     Automatización en sistema SCADA
-       
-       Logros Clave:
-       ✓ 45+ bots deployed en ambiente de producción
-       ✓ Integración con sistemas SCADA industriales
-       ✓ Reducción de 60% en costos operacionales
-       ✓ Zero downtime en switches críticos
-       ✓ Monitoreo real-time con alertas automáticas
-       
-       ROI:          Ahorro de $300,000 USD anuales
-    
-    
-    📌 [3] Portal Taekwondo - Aplicación Full Stack (2023-2024)
-       
-       Descripción:  Plataforma de gestión para academia de Taekwondo
-       Stack:        React 19 | Django REST | PostgreSQL | Docker
-       Estado:       Open-source en GitHub
-       
-       Características:
-       ✓ Gestión de miembros y horarios
-       ✓ Sistema de pagos integrado (Stripe)
-       ✓ Dashboard de estadísticas en tiempo real
-       ✓ Notificaciones automáticas SMS/Email
-       ✓ Responsive design mobile-first
-       
-       Usuarios:     500+ usuarios activos
-    
-    ╚═══════════════════════════════════════╝`,
-		habilidades: `
-    ╔═══════════════════════════════════════╗
-    ║        STACK TÉCNICO COMPLETO         ║
-    ╚═══════════════════════════════════════╝
-    
-    🔵 BACKEND (PRINCIPAL):
-       Lenguajes:       Python 3.10+ | JavaScript Node.js | SQL
-       Frameworks:      Django | Django REST Framework | FastAPI
-       Async:           Celery | asyncio | bull (Node.js)
-       APIs:            RESTful | GraphQL | gRPC
-    
-    
-    🟡 FRONTEND (ESPECIALIZADO):
-       Frameworks:      React 18/19 | CSS3 Vanilla
-       Herramientas:    Vite | Webpack | npm/yarn
-       UI/UX:           Responsive Design | Accesibilidad WCAG
-    
-    
-    🟣 BASES DE DATOS:
-       Relacionales:    PostgreSQL (expert) | MySQL | SQL Server
-       NoSQL:           MongoDB | Firebase Realtime | Redis (caché)
-       ORMs:            SQLAlchemy | Django ORM | Sequelize
-    
-    
-    🟢 AUTOMATIZACIÓN & RPA:
-       Herramientas:    Rocketbot Studio Pro | Power Automate Cloud
-       Scraping:        Selenium | Scrapy | BeautifulSoup
-       Integración:     REST APIs | Webhooks | Google Cloud Functions
-    
-    
-    🔴 DEVOPS & INFRASTRUCTURE:
-       Containerización: Docker | Docker Compose | Kubernetes basics
-       CI/CD:           Jenkins | GitHub Actions | GitLab CI
-       Cloud Providers: AWS (EC2, S3) | Azure (AppService) | GCP
-       Servidores:      Nginx | Apache | Linux (Ubuntu/CentOS)
-       Certificados:    SSL/TLS | Let's Encrypt
-    
-    
-    ⚫ HERRAMIENTAS DE DESARROLLO:
-       Versionado:      Git | GitHub | GitLab | Bitbucket
-       Gestión:         Jira | Asana | Notion
-       Testing:         Pytest | Jest | Postman | Selenium Grid
-       IDE:             VS Code | PyCharm | Visual Studio
-    
-    
-    ⭐ CERTIFICACIONES & SOFT SKILLS:
-       ✓ Agile Scrum | Kanban | Lean methodologies
-       ✓ Mentoring de desarrolladores junior
-       ✓ Arquitectura de sistemas | Design Patterns
-       ✓ Seguridad de aplicaciones | OWASP Top 10
-    
-    ╚═══════════════════════════════════════╝`,
-		experiencia: `
-    ╔═══════════════════════════════════════╗
-    ║        EXPERIENCIA LABORAL (14+ AÑOS) ║
-    ╚═══════════════════════════════════════╝
-    
-    🏢 [2022-2024] INGENIERO SENIOR @ AUTOMATIZATECH
-       
-       Responsabilidades:
-       • Liderazgo en iniciativas RPA a nivel empresa (45+ bots)
-       • Arquitectura de soluciones de automatización industrial
-       • Integración con sistemas SCADA y IoT
-       • Mentoring de 5 desarrolladores junior
-       
-       Logros Principales:
-       ✓ Reducción 85% en procesamiento manual repetitivo
-       ✓ Implementación de 45 bots en producción sin incidentes
-       ✓ Ahorro de $300,000 USD anuales en costos operacionales
-       ✓ Cero downtime en sistemas críticos (SLA 99.9%)
-       
-       Stack: Rocketbot | Python | Power Automate | SQL Server
-       Equipo: 15 automatizadores + 5 developers
-    
-    
-    🏥 [2020-2022] DESARROLLADOR BACKEND @ CCU (HOSPITAL PRIVADO)
-       
-       Responsabilidades:
-       • Desarrollo de APIs REST Django para 50+ consultorios
-       • Gestión de base de datos PostgreSQL (2M+ registros)
-       • Manejo de datos sensibles HIPAA (compliance crítico)
-       • Sincronización tiempo real con sistemas heredados
-       
-       Logros Principales:
-       ✓ APIs con 99.5% uptime en producción
-       ✓ Optimización de queries (mejora 300% en rendimiento)
-       ✓ Documentación completa con OpenAPI/Swagger
-       ✓ Implementación de autenticación JWT token-based
-       
-       Stack: Django 3.2 | DRF | PostgreSQL | Celery | Redis
-       Interfaz: Integración con sistemas HL7/FHIR
-    
-    
-    🖥️  [2018-2020] DESARROLLADOR FULL STACK @ IST
-       
-       Responsabilidades:
-       • Desarrollo de aplicaciones web con React + Django
-       • Implementación de CI/CD pipelines con Jenkins
-       • Containerización Docker de aplicaciones
-       • Formación de junior developers (bootcamp training)
-       
-       Logros Principales:
-       ✓ 4+ aplicaciones en producción
-       ✓ Reducción tiempo deployment de 2h a 15min
-       ✓ Documentación técnica detallada para el equipo
-       ✓ Implementación de automated testing (coverage 80%+)
-       
-       Stack: React | Django | Docker | Nginx | PostgreSQL
-    
-    
-    📚 [2010-2018] DIVERSOS ROLES (JUNIOR → MID LEVEL)
-       
-       Roles previos:
-       • Desarrollador Web (PHP/MySQL) - Agencias digitales
-       • Técnico de Soporte - Hosting provider
-       • QA Tester / Automation Tester
-       
-       Crecimiento: Junior → Mid → Senior (8 años escalada)
-       Aprendizajes clave: Full stack mindset, DevOps, liderazgo
-    
-    
-    ╔═══════════════════════════════════════╗
-    ║         LÍNEA TEMPORAL VISUAL          ║
-    ╚═══════════════════════════════════════╝
-    
-    2010-2018: Junior/Mid (8 años)       🌱→📈
-    2018-2020: Full Stack Developer      🏢 IST
-    2020-2022: Backend Senior @ Hospital 🏥 CCU
-    2022-2024: Senior RPA Architect      🚀 AutomatizaTech
-    2024-2026: Open & Disponible         💼 Buscando nuevo reto
-    
-    Años totales en industria: 14+ años de experiencia continua
-    
-    ╚═══════════════════════════════════════╝`,
-		contacto: `
-    ╔═══════════════════════════════════════╗
-    ║        INFORMACIÓN DE CONTACTO        ║
-    ╚═══════════════════════════════════════╝
-    
-    📧 EMAIL (RECOMENDADO):
-       david.nanculeo@example.com
-       Respuesta: 24-48 horas
-    
-    🔗 REDES PROFESIONALES:
-       LinkedIn:  linkedin.com/in/david-tkd203
-       GitHub:    github.com/david-tkd203
-       Portfolio: david-tkd203.github.io
-    
-    💬 TELÉFONO / WHATSAPP:
-       +56 9 8765 4321
-       Horario:   Lunes-Viernes, 09:00-18:00 (UTC-3)
-    
-    🌍 UBICACIÓN:
-       Ciudad:     Santiago, Chile
-       País:       Chile
-       Zona:       UTC-3 (Hora de Chile)
-    
-    📋 DISPONIBILIDAD:
-       ✓ Tiempo Completo (Full-time)
-       ✓ Proyectos por Contrato (Contract)
-       ✓ Consultoría Técnica (Consulting)
-       ✓ Freelance (Plataformas: Upwork, Toptal)
-    
-    ⏰ RESPUESTA TÍPICA:
-       Solicitudes:     24-48 horas
-       Entrevistas:     1-2 semanas (flexible)
-       Disponibilidad:  Inmediata (2 semanas aviso)
-    
-    💼 LO QUE BUSCO:
-       • Proyectos con impacto y escalabilidad
-       • Equipos multidisciplinarios y colaborativos
-       • Empresa con cultura de aprendizaje continuo
-       • Posibilidad de mentoring y crecimiento profesional
-    
-    ╚═══════════════════════════════════════╝`,
-		limpiar: null
-	};
-	const executeCommand = (0, import_react.useCallback)((cmd) => {
-		const trimmed = cmd.trim().toLowerCase();
-		const finalCommand = {
-			clear: "limpiar",
-			projects: "proyectos",
-			skills: "habilidades",
-			experience: "experiencia",
-			contact: "contacto"
-		}[trimmed] || trimmed;
-		if (finalCommand === "limpiar") {
-			setHistory([{
-				command: null,
-				output: "Terminal limpiada",
-				isASCII: false
-			}]);
-			return null;
-		}
-		if (trimmed === "hack") {
-			setGlitchActive(true);
-			if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current);
-			glitchTimeoutRef.current = setTimeout(() => {
-				setGlitchActive(false);
-			}, 2e3);
-			return {
-				isASCII: false,
-				output: `
-    ▓▒░ ALERTA DE VIOLACIÓN DE SEGURIDAD ░▒▓
-    Firewall comprometido...
-    Credenciales de acceso: OTORGADAS
-    Niveles de energía AL MÁXIMO
-    ▓▒░ ADVERTENCIA: FALLA INMINENTE ░▒▓
-        `
-			};
-		}
-		if (!commands[finalCommand]) return {
-			isASCII: false,
-			output: `Comando no encontrado: "${cmd}"\nEscribe "help" para ver comandos disponibles`
+//#region src/components/SectionDeployer.jsx
+/**
+* SectionDeployer Component
+* Intercepts scroll to show code compilation animation
+* before revealing the actual section content
+*/
+var SectionDeployer = ({ sectionName = "SECTION", children }) => {
+	const [isVisible, setIsVisible] = (0, import_react.useState)(false);
+	const [deployLines, setDeployLines] = (0, import_react.useState)([]);
+	const [isDeployed, setIsDeployed] = (0, import_react.useState)(false);
+	const containerRef = (0, import_react.useRef)(null);
+	(0, import_react.useEffect)(() => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting && entry.intersectionRatio >= .2) {
+					setIsVisible(true);
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: .2 });
+		if (containerRef.current) observer.observe(containerRef.current);
+		return () => {
+			if (containerRef.current) observer.unobserve(containerRef.current);
 		};
-		return commands[finalCommand];
 	}, []);
-	return {
-		history,
-		input,
-		setInput,
-		handleKeyDown: (0, import_react.useCallback)((e) => {
-			if (e.key === "Enter") {
-				e.preventDefault();
-				if (input.trim()) {
-					const output = executeCommand(input);
-					const newEntry = {
-						command: input,
-						output: output?.output || output,
-						isASCII: output?.isASCII || false
-					};
-					setHistory((prev) => [...prev, newEntry]);
-					setCommandHistory((prev) => [...prev, input]);
-					setHistoryIndex(-1);
-					setInput("");
-				}
-			} else if (e.key === "ArrowUp") {
-				e.preventDefault();
-				if (commandHistory.length > 0) {
-					const newIndex = Math.min(historyIndex + 1, commandHistory.length - 1);
-					setHistoryIndex(newIndex);
-					setInput(commandHistory[commandHistory.length - 1 - newIndex]);
-				}
-			} else if (e.key === "ArrowDown") {
-				e.preventDefault();
-				if (historyIndex > 0) {
-					const newIndex = historyIndex - 1;
-					setHistoryIndex(newIndex);
-					setInput(commandHistory[commandHistory.length - 1 - newIndex]);
-				} else if (historyIndex === 0) {
-					setHistoryIndex(-1);
-					setInput("");
-				}
-			} else if (e.key === "Tab") {
-				e.preventDefault();
-				const availableCommands = Object.keys(commands);
-				const currentInput = input.toLowerCase();
-				const matches = availableCommands.filter((cmd) => cmd.startsWith(currentInput));
-				if (matches.length === 1) setInput(matches[0]);
-				else if (matches.length > 1 && currentInput === "") {
-					const suggestions = matches.join(", ");
-					setHistory((prev) => [...prev, {
-						command: null,
-						output: `Comandos disponibles: ${suggestions}`,
-						isASCII: false
-					}]);
-				}
-			}
-		}, [
-			input,
-			historyIndex,
-			commandHistory,
-			executeCommand
-		]),
-		glitchActive
-	};
-}
+	(0, import_react.useEffect)(() => {
+		if (!isVisible || isDeployed) return;
+		const deploymentLines = [
+			"> [SYS] INITIATING SEC_BOOT...",
+			"> FETCHING DATA_CHUNKS...",
+			"> COMPILING ASSETS...",
+			`> run deploy --section ${sectionName}`
+		];
+		let currentLineIndex = 0;
+		const deployLine = () => {
+			if (currentLineIndex < deploymentLines.length) {
+				audioManager.playClick();
+				setDeployLines((prev) => [...prev, deploymentLines[currentLineIndex]]);
+				currentLineIndex++;
+				setTimeout(deployLine, 150);
+			} else setTimeout(() => {
+				audioManager.playScan();
+				setIsDeployed(true);
+			}, 300);
+		};
+		deployLine();
+	}, [
+		isVisible,
+		isDeployed,
+		sectionName
+	]);
+	if (!isDeployed) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		ref: containerRef,
+		className: "section-deployer-terminal",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "terminal-content",
+			children: [deployLines.map((line, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "terminal-line",
+				children: line
+			}, idx)), !isDeployed && deployLines.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "terminal-cursor",
+				children: "_"
+			})]
+		})
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		ref: containerRef,
+		className: "section-deployer-content",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "content-reveal",
+			children
+		})
+	});
+};
 //#endregion
-//#region src/components/Terminal.jsx
-function Terminal() {
-	const { history, input, setInput, handleKeyDown, glitchActive } = useTerminal();
-	const terminalRef = (0, import_react.useRef)(null);
+//#region src/components/SectionGuard.jsx
+/**
+* SectionGuard Component
+* Access control wrapper for sections
+* Renders locked state if section not yet deployed
+*/
+var SectionGuard = ({ sectionId, children }) => {
+	const { deployedSections } = useCommandCenter();
+	if (!(deployedSections[sectionId] || false)) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "locked-section",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "locked-overlay",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "locked-content",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+						className: "locked-icon",
+						viewBox: "0 0 100 100",
+						xmlns: "http://www.w3.org/2000/svg",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+								x: "30",
+								y: "45",
+								width: "40",
+								height: "45",
+								rx: "4",
+								fill: "none",
+								stroke: "currentColor",
+								strokeWidth: "3"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+								d: "M 35 45 Q 35 20, 50 20 Q 65 20, 65 45",
+								fill: "none",
+								stroke: "currentColor",
+								strokeWidth: "3"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+								cx: "50",
+								cy: "65",
+								r: "4",
+								fill: "currentColor"
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "locked-title",
+						children: "[DATOS ENCRIPTADOS]"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "locked-message",
+						children: "Esta sección requiere desbloqueo manual"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						className: "locked-hint",
+						children: [
+							"Utiliza la ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "highlight",
+								children: "Terminal de Control"
+							}),
+							" para ejecutar:"
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("code", {
+						className: "locked-command",
+						children: ["run deploy --section ", sectionId]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "locked-or",
+						children: "O desbloquea todo con:"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
+						className: "locked-command",
+						children: "run deploy --global"
+					})
+				]
+			})
+		})
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "section-deployed",
+		children
+	});
+};
+//#endregion
+//#region src/components/MainTerminal.jsx
+/**
+* MainTerminal Component
+* Interactive command console with history display
+* Module 2: Terminal Access Control System
+*/
+var MainTerminal = () => {
+	const { executeCommand } = useCommandCenter();
+	const [history, setHistory] = (0, import_react.useState)([{
+		command: "system init...",
+		response: "[OK] BIONIC WORKSTATION INITIALIZED",
+		timestamp: /* @__PURE__ */ new Date()
+	}, {
+		command: "scan sections...",
+		response: "[OK] 3 SECTIONS FOUND: ABOUT | PROJECTS | SKILLS - [LOCKED]",
+		timestamp: /* @__PURE__ */ new Date()
+	}]);
+	const [input, setInput] = (0, import_react.useState)("");
+	const [isProcessing, setIsProcessing] = (0, import_react.useState)(false);
+	const terminalContentRef = (0, import_react.useRef)(null);
 	const inputRef = (0, import_react.useRef)(null);
 	(0, import_react.useEffect)(() => {
-		if (terminalRef.current) terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+		if (terminalContentRef.current) setTimeout(() => {
+			terminalContentRef.current.scrollTop = terminalContentRef.current.scrollHeight;
+		}, 50);
 	}, [history]);
 	(0, import_react.useEffect)(() => {
-		if (glitchActive) document.body.classList.add("system-glitch");
-		else document.body.classList.remove("system-glitch");
-		return () => document.body.classList.remove("system-glitch");
-	}, [glitchActive]);
-	(0, import_react.useEffect)(() => {
-		if (inputRef.current) inputRef.current.focus();
+		inputRef.current?.focus();
 	}, []);
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (!input.trim()) return;
+		setIsProcessing(true);
+		const trimmedInput = input.trim();
+		const response = executeCommand(trimmedInput);
+		if (response === null) {
+			setHistory([]);
+			setInput("");
+			setIsProcessing(false);
+		} else {
+			setHistory((prev) => [...prev, {
+				command: trimmedInput,
+				response,
+				timestamp: /* @__PURE__ */ new Date()
+			}]);
+			setInput("");
+			setIsProcessing(false);
+			audioManager.playDataPulse();
+		}
+	};
+	const handleInputChange = (e) => {
+		setInput(e.target.value);
+		audioManager.playClick();
+	};
+	const handleQuickDeploy = (sectionId) => {
+		const command = `run deploy --section ${sectionId}`;
+		const response = executeCommand(command);
+		setHistory((prev) => [...prev, {
+			command,
+			response,
+			timestamp: /* @__PURE__ */ new Date()
+		}]);
+		audioManager.playDataPulse();
+	};
+	const handleGlobalDeploy = () => {
+		const command = "run deploy --global";
+		const response = executeCommand(command);
+		setHistory((prev) => [...prev, {
+			command,
+			response,
+			timestamp: /* @__PURE__ */ new Date()
+		}]);
+		audioManager.playScan();
+	};
+	const handleClear = () => {
+		setHistory([]);
+		setInput("");
+		audioManager.playBeep();
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "terminal-container cyber-glass",
+		className: "main-terminal",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "terminal-header",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "terminal-title",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
 						className: "terminal-icon",
-						children: "$"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "INTERACTIVE_SHELL_v1.0" })]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "terminal-status",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "status-indicator" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "ONLINE" })]
+						viewBox: "0 0 100 100",
+						xmlns: "http://www.w3.org/2000/svg",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+								x: "10",
+								y: "15",
+								width: "80",
+								height: "55",
+								rx: "3",
+								fill: "none",
+								stroke: "currentColor",
+								strokeWidth: "2"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+								x1: "15",
+								y1: "28",
+								x2: "70",
+								y2: "28",
+								stroke: "currentColor",
+								strokeWidth: "1.5"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+								x1: "15",
+								y1: "37",
+								x2: "60",
+								y2: "37",
+								stroke: "currentColor",
+								strokeWidth: "1.5"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+								x1: "15",
+								y1: "46",
+								x2: "65",
+								y2: "46",
+								stroke: "currentColor",
+								strokeWidth: "1.5"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+								x1: "15",
+								y1: "55",
+								x2: "50",
+								y2: "55",
+								stroke: "currentColor",
+								strokeWidth: "1.5"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+								x: "25",
+								y: "75",
+								width: "50",
+								height: "15",
+								rx: "2",
+								fill: "none",
+								stroke: "currentColor",
+								strokeWidth: "2"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+								x1: "30",
+								y1: "82",
+								x2: "70",
+								y2: "82",
+								stroke: "currentColor",
+								strokeWidth: "1"
+							})
+						]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "CONTROL TERMINAL v1.0" })]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+					className: "terminal-clear-btn",
+					onClick: handleClear,
+					title: "Clear history",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+						viewBox: "0 0 100 100",
+						xmlns: "http://www.w3.org/2000/svg",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+							x1: "25",
+							y1: "25",
+							x2: "75",
+							y2: "75",
+							stroke: "currentColor",
+							strokeWidth: "6",
+							strokeLinecap: "round"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+							x1: "75",
+							y1: "25",
+							x2: "25",
+							y2: "75",
+							stroke: "currentColor",
+							strokeWidth: "6",
+							strokeLinecap: "round"
+						})]
+					})
 				})]
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "terminal-display",
-				ref: terminalRef,
-				children: history.map((entry, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "terminal-content",
+				ref: terminalContentRef,
+				children: [history.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "terminal-empty",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "terminal-empty-text",
+						children: "[ESPERANDO COMANDOS...]"
+					})
+				}) : history.map((entry, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "terminal-entry",
-					children: [entry.command && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "terminal-command",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "terminal-line",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "terminal-prompt",
-							children: "$ "
+							children: "$"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "command-text",
+							className: "terminal-command",
 							children: entry.command
 						})]
-					}), entry.output && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: `terminal-output ${entry.isASCII ? "ascii" : ""}`,
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("pre", {
-							className: "ascii-art",
-							children: entry.output
-						})
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "terminal-response",
+						children: entry.response
 					})]
-				}, idx))
+				}, idx)), isProcessing && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "terminal-entry processing",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "terminal-response",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "terminal-blinking",
+							children: "▮"
+						})
+					})
+				})]
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "terminal-input-wrapper",
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+				onSubmit: handleSubmit,
+				className: "terminal-input-form",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 						className: "terminal-prompt",
-						children: "$ "
+						children: "$"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
 						ref: inputRef,
 						type: "text",
-						value: input,
-						onChange: (e) => setInput(e.target.value),
-						onKeyDown: handleKeyDown,
 						className: "terminal-input",
-						placeholder: "Escribe un comando...",
+						placeholder: "write command here...",
+						value: input,
+						onChange: handleInputChange,
+						disabled: isProcessing,
+						autoComplete: "off",
 						spellCheck: "false"
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "cursor-blink",
-						children: "█"
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+						type: "submit",
+						className: "terminal-submit-btn",
+						disabled: isProcessing || !input.trim(),
+						title: "Execute command",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+							viewBox: "0 0 100 100",
+							xmlns: "http://www.w3.org/2000/svg",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+								d: "M 30 20 L 80 50 L 30 80 Z",
+								fill: "currentColor"
+							})
+						})
 					})
 				]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "terminal-quick-deploy",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "quick-deploy-title",
+					children: "DESBLOQUEO RÁPIDO (sin comandos)"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "quick-deploy-buttons",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							className: "quick-btn",
+							onClick: () => handleQuickDeploy("ABOUT"),
+							title: "Unlock ABOUT section",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+								className: "quick-btn-icon",
+								viewBox: "0 0 100 100",
+								xmlns: "http://www.w3.org/2000/svg",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+									cx: "50",
+									cy: "40",
+									r: "15",
+									fill: "none",
+									stroke: "currentColor",
+									strokeWidth: "2"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+									d: "M 30 70 L 70 70 Q 70 55, 50 55 Q 30 55, 30 70",
+									fill: "none",
+									stroke: "currentColor",
+									strokeWidth: "2"
+								})]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "ABOUT" })]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							className: "quick-btn",
+							onClick: () => handleQuickDeploy("PROJECTS"),
+							title: "Unlock PROJECTS section",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+								className: "quick-btn-icon",
+								viewBox: "0 0 100 100",
+								xmlns: "http://www.w3.org/2000/svg",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+										x: "20",
+										y: "25",
+										width: "30",
+										height: "35",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+										x: "55",
+										y: "25",
+										width: "30",
+										height: "35",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+										x: "20",
+										y: "65",
+										width: "30",
+										height: "20",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									})
+								]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "PROJECTS" })]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							className: "quick-btn",
+							onClick: () => handleQuickDeploy("SKILLS"),
+							title: "Unlock SKILLS section",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+								className: "quick-btn-icon",
+								viewBox: "0 0 100 100",
+								xmlns: "http://www.w3.org/2000/svg",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+										cx: "35",
+										cy: "45",
+										r: "12",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+										cx: "65",
+										cy: "45",
+										r: "12",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
+										x: "20",
+										y: "65",
+										width: "60",
+										height: "15",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									})
+								]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "SKILLS" })]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							className: "quick-btn critical",
+							onClick: handleGlobalDeploy,
+							title: "Unlock all sections",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+								className: "quick-btn-icon",
+								viewBox: "0 0 100 100",
+								xmlns: "http://www.w3.org/2000/svg",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+										cx: "50",
+										cy: "50",
+										r: "35",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+										cx: "50",
+										cy: "50",
+										r: "20",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+										cx: "50",
+										cy: "50",
+										r: "5",
+										fill: "currentColor"
+									})
+								]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "DESBLOQUEAR TODO" })]
+						})
+					]
+				})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "terminal-hints",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "hint-item",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: "help" }), " - Ver comando disponibles"]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "hint-item",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: "clear" }), " - Limpiar historial"]
+				})]
 			})
 		]
 	});
-}
+};
+//#endregion
+//#region src/components/InfoHub.jsx
+/**
+* InfoHub Component
+* Floating help panel with quick access to commands
+* Module 4: Terminal Access Control System
+*/
+var InfoHub = () => {
+	const [isOpen, setIsOpen] = (0, import_react.useState)(false);
+	const { executeCommand } = useCommandCenter();
+	const handleToggle = () => {
+		setIsOpen(!isOpen);
+		audioManager.playClick();
+	};
+	const handleDeployAll = () => {
+		executeCommand("run deploy --global");
+		audioManager.playScan();
+		setTimeout(() => setIsOpen(false), 500);
+	};
+	const handleCommandClick = (command) => {
+		executeCommand(command);
+		audioManager.playBeep();
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: `info-hub ${isOpen ? "open" : ""}`,
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+				className: "info-hub-button",
+				onClick: handleToggle,
+				title: "Toggle Help Panel",
+				"aria-label": "Help panel",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+					viewBox: "0 0 100 100",
+					xmlns: "http://www.w3.org/2000/svg",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+							cx: "50",
+							cy: "30",
+							r: "6",
+							fill: "currentColor"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+							d: "M 35 50 Q 35 40, 45 40 Q 55 40, 55 50 Q 55 58, 50 60 L 50 70",
+							fill: "none",
+							stroke: "currentColor",
+							strokeWidth: "4",
+							strokeLinecap: "round",
+							strokeLinejoin: "round"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+							x1: "50",
+							y1: "78",
+							x2: "50",
+							y2: "84",
+							stroke: "currentColor",
+							strokeWidth: "4",
+							strokeLinecap: "round"
+						})
+					]
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "info-hub-panel",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "panel-header",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+							className: "panel-title",
+							children: "COMMAND REFERENCE"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							className: "panel-close-btn",
+							onClick: handleToggle,
+							title: "Close panel",
+							"aria-label": "Close help panel",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+								viewBox: "0 0 100 100",
+								xmlns: "http://www.w3.org/2000/svg",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+									x1: "25",
+									y1: "25",
+									x2: "75",
+									y2: "75",
+									stroke: "currentColor",
+									strokeWidth: "6",
+									strokeLinecap: "round"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+									x1: "75",
+									y1: "25",
+									x2: "25",
+									y2: "75",
+									stroke: "currentColor",
+									strokeWidth: "6",
+									strokeLinecap: "round"
+								})]
+							})
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "panel-content",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "command-group",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+									className: "group-title",
+									children: "UNLOCK SECTIONS"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "command-list",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+											className: "command-btn",
+											onClick: () => handleCommandClick("run deploy --section ABOUT"),
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: "run deploy --section ABOUT" })
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+											className: "command-btn",
+											onClick: () => handleCommandClick("run deploy --section PROJECTS"),
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: "run deploy --section PROJECTS" })
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+											className: "command-btn",
+											onClick: () => handleCommandClick("run deploy --section SKILLS"),
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: "run deploy --section SKILLS" })
+										})
+									]
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "command-group",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+									className: "group-title",
+									children: "SYSTEM COMMANDS"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "command-list",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+										className: "command-btn",
+										onClick: () => handleCommandClick("help"),
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: "help" })
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+										className: "command-btn",
+										onClick: () => handleCommandClick("clear"),
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: "clear" })
+									})]
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "command-group critical",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+										className: "group-title",
+										children: "EMERGENCY ACCESS"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+										className: "command-btn critical-btn",
+										onClick: handleDeployAll,
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+											className: "critical-icon",
+											viewBox: "0 0 100 100",
+											xmlns: "http://www.w3.org/2000/svg",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+												cx: "50",
+												cy: "50",
+												r: "40",
+												fill: "none",
+												stroke: "currentColor",
+												strokeWidth: "3"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+												cx: "50",
+												cy: "50",
+												r: "8",
+												fill: "currentColor"
+											})]
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "FORZAR DESPLIEGUE" })]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "critical-desc",
+										children: "Desbloquea todas las secciones simultáneamente"
+									})
+								]
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "panel-footer",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "footer-version",
+							children: "v1.0 - CONTROL SYSTEM"
+						})
+					})
+				]
+			}),
+			isOpen && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "info-hub-backdrop",
+				onClick: handleToggle
+			})
+		]
+	});
+};
 //#endregion
 //#region node_modules/react-icons/lib/iconContext.mjs
 var DefaultContext = {
@@ -11132,221 +11730,6 @@ function Hero() {
 		})
 	});
 }
-//#endregion
-//#region src/utils/AudioManager.js
-/**
-* CyberAudio - Web Audio API Manager
-* Singleton para gestionar todos los sonidos de la Bionic Workstation
-* Cyberware sound effects sin librerías externas
-*/
-var CyberAudio = class {
-	constructor() {
-		this.audioCtx = null;
-		this.masterGain = null;
-		this.isInitialized = false;
-		this.volume = .15;
-	}
-	/**
-	* Inicializa AudioContext en primera interacción (autoplay policy)
-	*/
-	init() {
-		if (this.isInitialized) return;
-		try {
-			this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-			this.masterGain = this.audioCtx.createGain();
-			this.masterGain.connect(this.audioCtx.destination);
-			this.masterGain.gain.value = this.volume;
-			this.isInitialized = true;
-		} catch (error) {
-			console.warn("AudioContext not available:", error);
-		}
-	}
-	/**
-	* playClick() - Sonido de click (UI feedback)
-	* Square wave: 150Hz → 40Hz sobre 50ms
-	*/
-	playClick() {
-		if (!this.isInitialized) return;
-		const now = this.audioCtx.currentTime;
-		const duration = .05;
-		const osc = this.audioCtx.createOscillator();
-		const gainNode = this.audioCtx.createGain();
-		osc.type = "square";
-		osc.frequency.setValueAtTime(150, now);
-		osc.frequency.exponentialRampToValueAtTime(40, now + duration);
-		gainNode.gain.setValueAtTime(.1, now);
-		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
-		osc.connect(gainNode);
-		gainNode.connect(this.masterGain);
-		osc.start(now);
-		osc.stop(now + duration);
-	}
-	/**
-	* playScan() - Sonido de escaneo AR
-	* Sawtooth wave: 800Hz → 1200Hz sobre 200ms
-	*/
-	playScan() {
-		if (!this.isInitialized) return;
-		const now = this.audioCtx.currentTime;
-		const duration = .2;
-		const osc = this.audioCtx.createOscillator();
-		const gainNode = this.audioCtx.createGain();
-		const filter = this.audioCtx.createBiquadFilter();
-		osc.type = "sawtooth";
-		osc.frequency.setValueAtTime(800, now);
-		osc.frequency.linearRampToValueAtTime(1200, now + duration);
-		filter.type = "lowpass";
-		filter.frequency.value = 3e3;
-		gainNode.gain.setValueAtTime(.08, now);
-		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
-		osc.connect(filter);
-		filter.connect(gainNode);
-		gainNode.connect(this.masterGain);
-		osc.start(now);
-		osc.stop(now + duration);
-	}
-	/**
-	* playGlitch() - Sonido de glitch/aberración
-	* White noise con highpass filter por 150ms
-	*/
-	playGlitch() {
-		if (!this.isInitialized) return;
-		const now = this.audioCtx.currentTime;
-		const duration = .15;
-		const bufferSize = this.audioCtx.sampleRate * duration;
-		const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
-		const noiseData = noiseBuffer.getChannelData(0);
-		for (let i = 0; i < bufferSize; i++) noiseData[i] = Math.random() * 2 - 1;
-		const source = this.audioCtx.createBufferSource();
-		const gainNode = this.audioCtx.createGain();
-		const filter = this.audioCtx.createBiquadFilter();
-		source.buffer = noiseBuffer;
-		filter.type = "highpass";
-		filter.frequency.value = 2e3;
-		gainNode.gain.setValueAtTime(.08, now);
-		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
-		source.connect(filter);
-		filter.connect(gainNode);
-		gainNode.connect(this.masterGain);
-		source.start(now);
-		source.stop(now + duration);
-	}
-	/**
-	* playBeep() - Sonido de beep puro
-	* Sine wave a 1000Hz por 80ms
-	*/
-	playBeep() {
-		if (!this.isInitialized) return;
-		const now = this.audioCtx.currentTime;
-		const duration = .08;
-		const osc = this.audioCtx.createOscillator();
-		const gainNode = this.audioCtx.createGain();
-		osc.type = "sine";
-		osc.frequency.value = 1e3;
-		gainNode.gain.setValueAtTime(.1, now);
-		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
-		osc.connect(gainNode);
-		gainNode.connect(this.masterGain);
-		osc.start(now);
-		osc.stop(now + duration);
-	}
-	/**
-	* playDataPulse() - Secuencia de beeps para eventos de datos
-	* Toca múltiples beeps con delay entre ellos
-	* @param {number} count - Cantidad de beeps (default: 3)
-	* @param {number} delay - Delay entre beeps en ms (default: 100)
-	*/
-	playDataPulse(count = 3, delay = 100) {
-		if (!this.isInitialized) return;
-		const delaySeconds = delay / 1e3;
-		const now = this.audioCtx.currentTime;
-		for (let i = 0; i < count; i++) {
-			const startTime = now + i * delaySeconds;
-			const duration = .06;
-			const osc = this.audioCtx.createOscillator();
-			const gainNode = this.audioCtx.createGain();
-			osc.type = "sine";
-			osc.frequency.value = 1200;
-			osc.frequency.setValueAtTime(1200, startTime);
-			osc.frequency.exponentialRampToValueAtTime(800, startTime + duration);
-			gainNode.gain.setValueAtTime(.08, startTime);
-			gainNode.gain.exponentialRampToValueAtTime(.01, startTime + duration);
-			osc.connect(gainNode);
-			gainNode.connect(this.masterGain);
-			osc.start(startTime);
-			osc.stop(startTime + duration);
-		}
-	}
-	/**
-	* playStaticHum() - Sonido de zumbido estático
-	* Ruido blanco modulado para hover prolongado
-	* Duración: 500ms
-	*/
-	playStaticHum() {
-		if (!this.isInitialized) return;
-		const now = this.audioCtx.currentTime;
-		const duration = .5;
-		const bufferSize = this.audioCtx.sampleRate * duration;
-		const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
-		const noiseData = noiseBuffer.getChannelData(0);
-		for (let i = 0; i < bufferSize; i++) noiseData[i] = Math.random() * 2 - 1;
-		const source = this.audioCtx.createBufferSource();
-		const gainNode = this.audioCtx.createGain();
-		const filter = this.audioCtx.createBiquadFilter();
-		const lfo = this.audioCtx.createOscillator();
-		const lfoGain = this.audioCtx.createGain();
-		source.buffer = noiseBuffer;
-		filter.type = "lowpass";
-		filter.frequency.value = 2500;
-		lfo.type = "sine";
-		lfo.frequency.value = 3;
-		lfoGain.gain.value = 500;
-		gainNode.gain.setValueAtTime(.06, now);
-		gainNode.gain.exponentialRampToValueAtTime(.02, now + duration);
-		lfo.connect(lfoGain);
-		lfoGain.connect(filter.frequency);
-		source.connect(filter);
-		filter.connect(gainNode);
-		gainNode.connect(this.masterGain);
-		source.start(now);
-		source.stop(now + duration);
-		lfo.start(now);
-		lfo.stop(now + duration);
-	}
-	/**
-	* Controla el volumen general
-	* @param {number} value - Volumen 0 a 1
-	*/
-	setVolume(value) {
-		if (value < 0) value = 0;
-		if (value > 1) value = 1;
-		this.volume = value;
-		if (this.masterGain) this.masterGain.gain.value = value;
-	}
-	/**
-	* Silencia el audio
-	*/
-	mute() {
-		if (this.masterGain) this.masterGain.gain.value = 0;
-	}
-	/**
-	* Restaura el volumen anterior
-	*/
-	unmute() {
-		if (this.masterGain) this.masterGain.gain.value = this.volume;
-	}
-	/**
-	* Obtiene el estado del AudioContext
-	*/
-	getState() {
-		return {
-			initialized: this.isInitialized,
-			state: this.audioCtx ? this.audioCtx.state : "not-initialized",
-			volume: this.volume
-		};
-	}
-};
-var audioManager = new CyberAudio();
 //#endregion
 //#region src/components/ProfileGlitch.jsx
 /**
@@ -13839,32 +14222,11 @@ function Education() {
 									position: "relative"
 								},
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: {
-										width: "130px",
-										height: "130px",
-										borderRadius: "22px",
-										backgroundColor: "rgba(255, 255, 255, 0.08)",
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-										border: "3px solid",
-										borderColor: "#b800ff",
-										background: "linear-gradient(135deg, rgba(184, 0, 255, 0.15) 0%, rgba(26, 26, 46, 0.85) 100%)",
-										boxShadow: "0 15px 45px rgba(184, 0, 255, 0.25), inset 0 0 25px rgba(184, 0, 255, 0.1)",
-										transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-										position: "relative",
-										overflow: "hidden"
-									},
+									className: "cert-image-wrapper",
 									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 										src: edu.logo,
 										alt: edu.institution,
-										style: {
-											width: "100px",
-											height: "100px",
-											objectFit: "contain",
-											position: "relative",
-											zIndex: 1
-										}
+										"data-no-crop": true
 									})
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									style: { textAlign: "center" },
@@ -14989,7 +15351,7 @@ function Footer() {
 function App() {
 	const [bootComplete, setBootComplete] = (0, import_react.useState)(false);
 	const [isBooting, setIsBooting] = (0, import_react.useState)(true);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CommandCenterProvider, { children: [
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CustomCursor, {}),
 		!bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BootScreen, { onComplete: () => setBootComplete(true) }),
 		bootComplete && isBooting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TerminalBoot, { onComplete: () => setIsBooting(false) }) : bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
@@ -14997,14 +15359,33 @@ function App() {
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Terminal, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(MainTerminal, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
+					sectionId: "ABOUT",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
+						sectionName: "IDENTITY",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {})
+					})
+				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Experience, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
+					sectionId: "PROJECTS",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
+						sectionName: "PROJECTS",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {})
+					})
+				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Education, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
+					sectionId: "SKILLS",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
+						sectionName: "SKILLS",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {})
+					})
+				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Contact, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {})
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InfoHub, {})
 			]
 		})
 	] });
