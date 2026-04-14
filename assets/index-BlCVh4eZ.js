@@ -10492,6 +10492,9 @@ var useCommandCenter = () => {
 	return context;
 };
 //#endregion
+//#region src/assets/images/logo_hacker.png
+var logo_hacker_default = "/assets/logo_hacker-BhK8EPCj.png";
+//#endregion
 //#region src/components/BootScreen.jsx
 /**
 * BootScreen Component
@@ -10508,7 +10511,7 @@ var BootScreen = ({ onComplete }) => {
 		if (!canvas) return;
 		const ctx = canvas.getContext("2d", { willReadFrequently: true });
 		const img = new Image();
-		img.src = "/images/logo_hacker.png";
+		img.src = logo_hacker_default;
 		img.onload = () => {
 			const size = Math.min(window.innerWidth * .6, window.innerHeight * .6, 400);
 			canvas.width = size;
@@ -12135,9 +12138,6 @@ function Hero() {
 		})
 	});
 }
-//#endregion
-//#region src/assets/images/logo_hacker.png
-var logo_hacker_default = "/assets/logo_hacker-BhK8EPCj.png";
 //#endregion
 //#region src/components/ProfileGlitch.jsx
 /**
