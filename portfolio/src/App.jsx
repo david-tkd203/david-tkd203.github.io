@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import BootScreen from './components/BootScreen'
 import TerminalBoot from './components/TerminalBoot'
 import CustomCursor from './components/CustomCursor'
 import Terminal from './components/Terminal'
@@ -13,26 +14,30 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 function App() {
+  const [bootComplete, setBootComplete] = useState(false)
   const [isBooting, setIsBooting] = useState(true)
 
   return (
     <>
       <CustomCursor />
-      {isBooting ? (
+      {!bootComplete && <BootScreen onComplete={() => setBootComplete(true)} />}
+      {bootComplete && isBooting ? (
         <TerminalBoot onComplete={() => setIsBooting(false)} />
       ) : (
-        <main className="cyber-portfolio fade-in">
-          <Header />
-          <Hero />
-          <Terminal />
-          <About />
-          <Experience />
-          <Projects />
-          <Education />
-          <Skills />
-          <Contact />
-          <Footer />
-        </main>
+        bootComplete && (
+          <main className="cyber-portfolio fade-in">
+            <Header />
+            <Hero />
+            <Terminal />
+            <About />
+            <Experience />
+            <Projects />
+            <Education />
+            <Skills />
+            <Contact />
+            <Footer />
+          </main>
+        )
       )}
     </>
   )

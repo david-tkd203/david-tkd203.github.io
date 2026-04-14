@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Cpu, Code, PaletteFill, Database, Gear, BarChartFill, Link } from 'react-bootstrap-icons';
+import NeuralSkills from './NeuralSkills';
 
 const TechLogo = ({ name, color, logoSrc }) => {
   const [hover, setHover] = useState(false);
@@ -229,6 +230,16 @@ export default function Skills() {
           </div>
           );
         })}
+
+        {/* Neural Skills Network */}
+        <div style={{ marginTop: '6rem', marginBottom: '4rem' }}>
+          <h3 style={{ ...h2Style, fontSize: '2rem', marginBottom: '2rem' }}>Red de Habilidades</h3>
+          <NeuralSkills skills={[
+            'Python', 'Django', 'React', 'Vite', 'Docker',
+            'MySQL', 'APIs REST', 'Git', 'RPA', 'Data Science',
+            'Rocketbot', 'Power Automate', 'Flask', 'Pandas', 'Selenium'
+          ]} />
+        </div>
 
         <div style={{
           marginTop: '6rem',
