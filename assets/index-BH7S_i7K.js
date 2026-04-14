@@ -9913,6 +9913,107 @@ var import_client = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 })))();
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 //#endregion
+//#region node_modules/react/cjs/react-jsx-runtime.production.js
+/**
+* @license React
+* react-jsx-runtime.production.js
+*
+* Copyright (c) Meta Platforms, Inc. and affiliates.
+*
+* This source code is licensed under the MIT license found in the
+* LICENSE file in the root directory of this source tree.
+*/
+var require_react_jsx_runtime_production = /* @__PURE__ */ __commonJSMin(((exports) => {
+	var REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
+	function jsxProd(type, config, maybeKey) {
+		var key = null;
+		void 0 !== maybeKey && (key = "" + maybeKey);
+		void 0 !== config.key && (key = "" + config.key);
+		if ("key" in config) {
+			maybeKey = {};
+			for (var propName in config) "key" !== propName && (maybeKey[propName] = config[propName]);
+		} else maybeKey = config;
+		config = maybeKey.ref;
+		return {
+			$$typeof: REACT_ELEMENT_TYPE,
+			type,
+			key,
+			ref: void 0 !== config ? config : null,
+			props: maybeKey
+		};
+	}
+	exports.Fragment = REACT_FRAGMENT_TYPE;
+	exports.jsx = jsxProd;
+	exports.jsxs = jsxProd;
+}));
+//#endregion
+//#region src/components/TerminalBoot.jsx
+var import_jsx_runtime = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
+	module.exports = require_react_jsx_runtime_production();
+})))();
+function TerminalBoot({ onComplete }) {
+	const [displayedLogs, setDisplayedLogs] = (0, import_react.useState)([]);
+	const [isComplete, setIsComplete] = (0, import_react.useState)(false);
+	const [showCursor, setShowCursor] = (0, import_react.useState)(true);
+	const bootSequence = [
+		"> Initiating Portfolio System...",
+		"> Loading Core Components...",
+		"> Connecting to Neural Network...",
+		"> Initializing React 19.2.4",
+		"> Mounting Vite dev server on :5174",
+		"> CSS Vanilla Engine Ready",
+		"> [████████████████████] 100%",
+		"> System Boot Complete",
+		"> Launching Portfolio Interface..."
+	];
+	(0, import_react.useEffect)(() => {
+		let timers = [];
+		bootSequence.forEach((log, index) => {
+			const timer = setTimeout(() => {
+				setDisplayedLogs((prev) => [...prev, log]);
+			}, index * 300);
+			timers.push(timer);
+		});
+		const completionTimer = setTimeout(() => {
+			setIsComplete(true);
+			onComplete();
+		}, bootSequence.length * 300 + 1e3);
+		timers.push(completionTimer);
+		return () => timers.forEach((timer) => clearTimeout(timer));
+	}, [onComplete]);
+	(0, import_react.useEffect)(() => {
+		const cursorInterval = setInterval(() => {
+			setShowCursor((prev) => !prev);
+		}, 500);
+		return () => clearInterval(cursorInterval);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "terminal-boot-container",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "terminal-boot-content",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "terminal-header",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					className: "terminal-title",
+					children: "PORTFOLIO_BOOT_SEQUENCE_v1.0"
+				})
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "terminal-body",
+				children: [displayedLogs.map((log, index) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "terminal-log",
+					children: log
+				}, index)), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "terminal-input",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: "terminal-cursor",
+						children: showCursor ? "_" : " "
+					})
+				})]
+			})]
+		})
+	});
+}
+//#endregion
 //#region node_modules/react-icons/lib/iconContext.mjs
 var DefaultContext = {
 	color: void 0,
@@ -10128,44 +10229,7 @@ function FaArrowRight(props) {
 	})(props);
 }
 //#endregion
-//#region node_modules/react/cjs/react-jsx-runtime.production.js
-/**
-* @license React
-* react-jsx-runtime.production.js
-*
-* Copyright (c) Meta Platforms, Inc. and affiliates.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
-var require_react_jsx_runtime_production = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
-	function jsxProd(type, config, maybeKey) {
-		var key = null;
-		void 0 !== maybeKey && (key = "" + maybeKey);
-		void 0 !== config.key && (key = "" + config.key);
-		if ("key" in config) {
-			maybeKey = {};
-			for (var propName in config) "key" !== propName && (maybeKey[propName] = config[propName]);
-		} else maybeKey = config;
-		config = maybeKey.ref;
-		return {
-			$$typeof: REACT_ELEMENT_TYPE,
-			type,
-			key,
-			ref: void 0 !== config ? config : null,
-			props: maybeKey
-		};
-	}
-	exports.Fragment = REACT_FRAGMENT_TYPE;
-	exports.jsx = jsxProd;
-	exports.jsxs = jsxProd;
-}));
-//#endregion
 //#region src/components/Header.jsx
-var import_jsx_runtime = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
-	module.exports = require_react_jsx_runtime_production();
-})))();
 function Header() {
 	const [isMenuOpen, setIsMenuOpen] = (0, import_react.useState)(false);
 	const headerStyle = {
@@ -12620,8 +12684,8 @@ var certifications = [
 	},
 	{
 		title: "Ciberseguridad en Entornos de Aprendizaje",
-		institution: "SENCE",
-		logo: "/education/logo_sence.png",
+		institution: "Conecta Empleo",
+		logo: "/education/logo_conectaempleo.png",
 		url: "/certificates/FT Movistar y SENCE - Certificado_ciberseguridad_entornos_aprendizaje.pdf"
 	},
 	{
@@ -12629,6 +12693,18 @@ var certifications = [
 		institution: "AIEP",
 		logo: "/education/logo_aiep.png",
 		url: "/certificates/Diplomado - Certificado_diseño_programacionweb.pdf"
+	},
+	{
+		title: "Diplomado Módulo Diseño Web (HTML, CSS)",
+		institution: "AIEP",
+		logo: "/education/logo_aiep.png",
+		url: "/certificates/Diplomado - Diploma módulo_ diseño_web_html_css.pdf"
+	},
+	{
+		title: "Diplomado Módulo Programación JavaScript",
+		institution: "AIEP",
+		logo: "/education/logo_aiep.png",
+		url: "/certificates/Diplomado - Diploma módulo_programacion_javascript.pdf"
 	},
 	{
 		title: "Certificado WordPress - Diplomado",
@@ -13707,17 +13783,21 @@ function Footer() {
 //#endregion
 //#region src/App.jsx
 function App() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Experience, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Education, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Contact, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {})
-	] });
+	const [isBooting, setIsBooting] = (0, import_react.useState)(true);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: isBooting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TerminalBoot, { onComplete: () => setIsBooting(false) }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
+		className: "cyber-portfolio fade-in",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Experience, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Education, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Contact, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {})
+		]
+	}) });
 }
 //#endregion
 //#region src/main.jsx

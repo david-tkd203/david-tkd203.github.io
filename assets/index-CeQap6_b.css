@@ -1,0 +1,259 @@
+/* Reset y estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Links y interacciones */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+/* Gradientes reutilizables */
+:root {
+  --primary-color: #b800ff;
+  --secondary-color: #ff00ff;
+  --dark-bg: #0a0a0a;
+  --card-bg: #1a1a1a;
+  --text-light: #ffffff;
+  --text-muted: #aaaaaa;
+  --border-color: #b800ff;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(184, 0, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(184, 0, 255, 0.5);
+  }
+}
+
+/* ============================================
+   TERMINAL BOOT SCREEN STYLES
+   ============================================ */
+
+.terminal-boot-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #050508;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Scanlines de fondo sutil */
+.terminal-boot-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 255, 0.03) 0px,
+    rgba(255, 0, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.terminal-boot-content {
+  position: relative;
+  z-index: 3;
+  width: 90%;
+  max-width: 700px;
+  background-color: rgba(5, 5, 8, 0.95);
+  border: 2px solid #b800ff;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(184, 0, 255, 0.4),
+              inset 0 0 20px rgba(184, 0, 255, 0.1);
+  font-family: 'Courier New', 'Courier', monospace;
+  overflow: hidden;
+}
+
+.terminal-header {
+  background: linear-gradient(90deg, #b800ff 0%, #050508 100%);
+  padding: 12px 16px;
+  border-bottom: 1px solid #b800ff;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.terminal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-body {
+  padding: 24px 20px;
+  min-height: 300px;
+  color: #ff00ff;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+}
+
+.terminal-log {
+  margin-bottom: 8px;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.terminal-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@keyframes blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  color: #ff00ff;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+/* ============================================
+   CYBER-GLASSMORPHISM CARD STYLES
+   ============================================ */
+
+.cyber-card {
+  position: relative;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(184, 0, 255, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 0 0;
+  border-color: transparent transparent transparent transparent;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-card:hover::before {
+  border-width: 16px 0 0 16px;
+  border-color: #b800ff transparent transparent transparent;
+  opacity: 1;
+}
+
+.cyber-card:hover {
+  border-color: #b800ff;
+  box-shadow: 0 0 30px rgba(184, 0, 255, 0.5),
+              0 0 60px rgba(255, 0, 255, 0.3),
+              inset 0 0 20px rgba(184, 0, 255, 0.1);
+  transform: translateY(-8px);
+  background: rgba(10, 10, 10, 0.6);
+}
+
+/* ============================================
+   FADE-IN ANIMATIONS FOR PORTFOLIO
+   ============================================ */
+
+.cyber-portfolio {
+  animation: fadeInPortfolio 0.8s ease-out forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeInPortfolio {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Media queries para responsivo */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}
