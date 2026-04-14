@@ -12136,13 +12136,16 @@ function Hero() {
 	});
 }
 //#endregion
+//#region src/assets/images/logo_hacker.png
+var logo_hacker_default = "/assets/logo_hacker-BhK8EPCj.png";
+//#endregion
 //#region src/components/ProfileGlitch.jsx
 /**
 * ProfileGlitch Component
 * Canvas-based profile image with chromatic aberration glitch effect
 * Hover to trigger red/blue color separation with audio feedback
 */
-var ProfileGlitch = ({ imageUrl }) => {
+var ProfileGlitch = ({ imageUrl = logo_hacker_default }) => {
 	const canvasRef = (0, import_react.useRef)(null);
 	const originalImageDataRef = (0, import_react.useRef)(null);
 	const imageRef = (0, import_react.useRef)(null);
@@ -12424,7 +12427,7 @@ function About() {
 							justifyContent: "center",
 							alignItems: "center"
 						},
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProfileGlitch, { imageUrl: "/images/logo_hacker.png" })
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProfileGlitch, { imageUrl: logo_hacker_default })
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						style: textStyle,
