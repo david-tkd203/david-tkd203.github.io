@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import TerminalBoot from './components/TerminalBoot'
+import CustomCursor from './components/CustomCursor'
+import Terminal from './components/Terminal'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -15,12 +17,14 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       {isBooting ? (
         <TerminalBoot onComplete={() => setIsBooting(false)} />
       ) : (
         <main className="cyber-portfolio fade-in">
           <Header />
           <Hero />
+          <Terminal />
           <About />
           <Experience />
           <Projects />
