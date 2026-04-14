@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaGithub, FaArrowRight } from 'react-icons/fa';
 import { Folder } from 'react-bootstrap-icons';
+import ProjectCard from './ProjectCard';
 
 const projects = [
   {
@@ -181,38 +182,14 @@ export default function Projects() {
         <p style={subtitleStyle}>Trabajos destacados que demuestran mis habilidades técnicas</p>
         <div style={gridStyle}>
           {projects.map(project => (
-            <div 
-              key={project.id} 
-              style={cardStyle(hoveredId === project.id, project.featured)}
-              onMouseEnter={() => setHoveredId(project.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              {project.featured && <div style={badgeStyle}>Destacado</div>}
-              <h3 style={cardH3Style}>{project.title}</h3>
-              <p style={cardPStyle}>{project.description}</p>
-              <div style={tagsStyle}>
-                {project.tags.map(tag => (
-                  <span key={tag} style={tagStyle}>{tag}</span>
-                ))}
-              </div>
-              <div style={linkContainerStyle}>
-                <a href={project.link} style={linkStyle}
-                  onMouseEnter={(e) => {
-                    e.target.style.color = '#ff00ff';
-                    e.target.style.transform = 'translateX(5px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.color = '#b800ff';
-                    e.target.style.transform = 'translateX(0)';
-                  }}
-                >
-                  Ver más <FaArrowRight />
-                </a>
-                <a href={project.link} style={{ ...linkStyle, color: 'transparent' }} title="GitHub">
-                  <FaGithub style={{ color: '#b800ff' }} />
-                </a>
-              </div>
-            </div>
+            <ProjectCard
+              key={project.id}
+              title={project.title}
+              description={project.description}
+              tags={project.tags}
+              image={project.image}
+              version={project.featured ? 'v1.0' : 'v1.0'}
+            />
           ))}
         </div>
       </div>

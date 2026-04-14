@@ -1,4 +1,5 @@
 import { FaCode, FaRocket, FaLock } from 'react-icons/fa';
+import ProfileGlitch from './ProfileGlitch';
 
 export default function About() {
   const primarySkills = [
@@ -42,9 +43,9 @@ export default function About() {
 
   const contentStyle = {
     display: 'grid',
-    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+    gridTemplateColumns: isMobile ? '1fr' : '300px 1fr 1fr',
     alignItems: 'start',
-    gap: isMobile ? '2rem' : '4rem',
+    gap: isMobile ? '2rem' : '3rem',
     maxWidth: '1200px',
     margin: '0 auto'
   };
@@ -150,6 +151,12 @@ export default function About() {
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <h2 style={h2Style}>Acerca de mí</h2>
         <div style={contentStyle}>
+          {/* Perfil Glitch */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ProfileGlitch imageUrl="/images/logo_hacker.png" />
+          </div>
+          
+          {/* Contenido texto */}
           <div style={textStyle}>
             <p style={pStyle}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="#b800ff" style={{display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle'}}><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 2.75l7 3.45v6.5a7 7 0 01-7 7 7 7 0 01-7-7v-6.5l7-3.45z"/><path d="M10 15h4v2h-4zm0-4h4v2h-4z"/></svg>
