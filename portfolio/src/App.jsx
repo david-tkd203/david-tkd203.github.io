@@ -2,6 +2,7 @@ import { useState } from 'react'
 import BootScreen from './components/BootScreen'
 import TerminalBoot from './components/TerminalBoot'
 import CustomCursor from './components/CustomCursor'
+import SectionDeployer from './components/SectionDeployer'
 import Terminal from './components/Terminal'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -29,11 +30,17 @@ function App() {
             <Header />
             <Hero />
             <Terminal />
-            <About />
+            <SectionDeployer sectionName="IDENTITY">
+              <About />
+            </SectionDeployer>
             <Experience />
-            <Projects />
+            <SectionDeployer sectionName="PROJECTS">
+              <Projects />
+            </SectionDeployer>
             <Education />
-            <Skills />
+            <SectionDeployer sectionName="SKILLS">
+              <Skills />
+            </SectionDeployer>
             <Contact />
             <Footer />
           </main>

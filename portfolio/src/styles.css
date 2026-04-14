@@ -1454,6 +1454,350 @@ textarea {
 }
 
 /* ============================================
+   18. SECTIONDEPLOYER COMPONENT STYLES
+   ============================================ */
+
+.section-deployer-terminal {
+  width: 100%;
+  min-height: 200px;
+  background: #050508;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.1),
+    inset 0 0 20px rgba(0, 255, 255, 0.05);
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  line-height: 1.8;
+  animation: terminalGlow 2s ease-in-out infinite;
+}
+
+.terminal-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.terminal-line {
+  color: var(--neon-cyan);
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  animation: terminalTyping 0.3s ease-out forwards;
+}
+
+.terminal-line:nth-child(1) { animation-delay: 0s; }
+.terminal-line:nth-child(2) { animation-delay: 0.15s; }
+.terminal-line:nth-child(3) { animation-delay: 0.3s; }
+.terminal-line:nth-child(4) { animation-delay: 0.45s; }
+.terminal-line:nth-child(5) { animation-delay: 0.6s; }
+
+.terminal-cursor {
+  color: var(--neon-magenta);
+  font-weight: bold;
+  display: inline-block;
+  animation: cursorBlink 0.8s steps(1) infinite;
+  margin-left: 0.2rem;
+}
+
+@keyframes terminalTyping {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes terminalGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 0.1),
+      inset 0 0 20px rgba(0, 255, 255, 0.05);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(0, 255, 255, 0.2),
+      inset 0 0 30px rgba(0, 255, 255, 0.1);
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.section-deployer-content {
+  width: 100%;
+  animation: contentReveal 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.content-reveal {
+  opacity: 0;
+  animation: glitchReveal 0.3s ease-out forwards;
+}
+
+@keyframes glitchReveal {
+  0% {
+    opacity: 0;
+    filter: blur(4px) brightness(0.8);
+    transform: scale(0.98);
+  }
+  50% {
+    filter: blur(2px) brightness(0.9);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px) brightness(1);
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   19. PROCESSMAP COMPONENT STYLES
+   ============================================ */
+
+.process-map-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: linear-gradient(135deg, rgba(5, 5, 8, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.1),
+    inset 0 0 20px rgba(0, 255, 255, 0.05);
+}
+
+.process-map-header {
+  text-align: center;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+  border-bottom: 1px solid rgba(184, 0, 255, 0.3);
+  padding-bottom: 1rem;
+}
+
+.process-map-header h3 {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  color: var(--neon-cyan);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.process-subtitle {
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.process-map-svg {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  margin: clamp(1rem, 3vw, 2rem) 0;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.15));
+}
+
+.process-connections {
+  stroke: var(--neon-cyan);
+  stroke-width: 2;
+  opacity: 0.5;
+}
+
+.connection-line {
+  animation: connectionPulse 2s ease-in-out infinite;
+}
+
+@keyframes connectionPulse {
+  0%, 100% {
+    stroke-opacity: 0.3;
+  }
+  50% {
+    stroke-opacity: 0.8;
+  }
+}
+
+.process-node {
+  user-select: none;
+  cursor: default;
+}
+
+.node-circle {
+  fill: rgba(5, 5, 8, 0.9);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.3));
+  transition: all 0.3s ease;
+}
+
+.scraper-node {
+  stroke: rgba(0, 255, 255, 0.7);
+}
+
+.engine-node {
+  stroke: rgba(184, 0, 255, 0.7);
+}
+
+.database-node {
+  stroke: rgba(255, 0, 255, 0.7);
+}
+
+.process-node:hover .node-circle {
+  stroke-width: 3;
+  filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+}
+
+.node-label {
+  font-size: 11px;
+  font-family: 'Fira Code', monospace;
+  font-weight: bold;
+  text-anchor: middle;
+  fill: var(--neon-cyan);
+  pointer-events: none;
+}
+
+.animated-particle {
+  pointer-events: none;
+}
+
+.particle-glow {
+  fill: var(--neon-magenta);
+  filter: drop-shadow(0 0 6px rgba(255, 0, 255, 0.8));
+  animation: particleEmit 0.6s ease-out forwards;
+}
+
+@keyframes particleEmit {
+  0% {
+    r: 8px;
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(255, 0, 255, 1));
+  }
+  100% {
+    r: 6px;
+    opacity: 0.5;
+    filter: drop-shadow(0 0 6px rgba(255, 0, 255, 0.5));
+  }
+}
+
+@keyframes particleTravel {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(200px);
+  }
+}
+
+.process-control {
+  display: flex;
+  justify-content: center;
+  margin: clamp(1rem, 3vw, 2rem) 0;
+}
+
+.run-bot-btn {
+  padding: clamp(0.6rem, 2vw, 0.9rem) clamp(1.2rem, 3vw, 1.8rem);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  color: var(--neon-cyan);
+  background: rgba(0, 255, 255, 0.1);
+  border: 2px solid var(--neon-cyan);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+}
+
+.run-bot-btn:hover:not(:disabled) {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.4),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.run-bot-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.run-bot-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.run-bot-btn.running {
+  border-color: var(--neon-magenta);
+  color: var(--neon-magenta);
+  background: rgba(184, 0, 255, 0.1);
+  box-shadow: 0 0 20px rgba(184, 0, 255, 0.3);
+  animation: buttonPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(184, 0, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(184, 0, 255, 0.6);
+  }
+}
+
+.process-status {
+  margin-top: clamp(1rem, 3vw, 1.5rem);
+  padding: clamp(0.8rem, 2vw, 1rem);
+  background: rgba(5, 5, 8, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  font-family: 'Fira Code', monospace;
+}
+
+.status-line {
+  color: var(--neon-cyan);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.status-indicator {
+  font-size: 0.8rem;
+  display: inline-block;
+  animation: statusBlink 1.5s ease-in-out infinite;
+}
+
+.status-indicator.running {
+  color: var(--neon-magenta);
+  animation: statusBlink 0.6s ease-in-out infinite;
+}
+
+.status-indicator.idle {
+  color: var(--text-muted);
+  animation: none;
+}
+
+@keyframes statusBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ============================================
    MÓDULO 2: GLITCH EFFECT (Easter Egg "hack")
    ============================================ */
 
