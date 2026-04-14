@@ -10661,35 +10661,6 @@ function TerminalBoot({ onComplete }) {
 	});
 }
 //#endregion
-//#region src/components/CustomCursor.jsx
-function CustomCursor() {
-	const cursorRef = (0, import_react.useRef)(null);
-	(0, import_react.useEffect)(() => {
-		const handleMouseMove = (e) => {
-			if (cursorRef.current) {
-				const x = e.clientX;
-				const y = e.clientY;
-				document.documentElement.style.setProperty("--cursor-x", `${x}px`);
-				document.documentElement.style.setProperty("--cursor-y", `${y}px`);
-				cursorRef.current.style.left = `${x}px`;
-				cursorRef.current.style.top = `${y}px`;
-			}
-		};
-		window.addEventListener("mousemove", handleMouseMove);
-		return () => {
-			window.removeEventListener("mousemove", handleMouseMove);
-		};
-	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
-        * {
-          cursor: none !important;
-        }
-      ` }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		ref: cursorRef,
-		className: "custom-cursor"
-	})] });
-}
-//#endregion
 //#region src/components/SectionDeployer.jsx
 /**
 * SectionDeployer Component
@@ -12152,7 +12123,7 @@ var ProfileGlitch = ({ imageUrl = logo_hacker_default }) => {
 	(0, import_react.useEffect)(() => {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
-		const ctx = canvas.getContext("2d");
+		const ctx = canvas.getContext("2d", { willReadFrequently: true });
 		const img = new Image();
 		img.crossOrigin = "anonymous";
 		img.onload = () => {
@@ -12177,7 +12148,7 @@ var ProfileGlitch = ({ imageUrl = logo_hacker_default }) => {
 	const applyGlitch = () => {
 		const canvas = canvasRef.current;
 		if (!canvas || !originalImageDataRef.current) return;
-		const ctx = canvas.getContext("2d");
+		const ctx = canvas.getContext("2d", { willReadFrequently: true });
 		const width = canvas.width;
 		const height = canvas.height;
 		const originalData = originalImageDataRef.current.data;
@@ -12219,7 +12190,7 @@ var ProfileGlitch = ({ imageUrl = logo_hacker_default }) => {
 	const restoreImage = () => {
 		const canvas = canvasRef.current;
 		if (!canvas || !originalImageDataRef.current) return;
-		canvas.getContext("2d").putImageData(originalImageDataRef.current, 0, 0);
+		canvas.getContext("2d", { willReadFrequently: true }).putImageData(originalImageDataRef.current, 0, 0);
 	};
 	/**
 	* Handler: Mouse Enter
@@ -12227,7 +12198,9 @@ var ProfileGlitch = ({ imageUrl = logo_hacker_default }) => {
 	const handleMouseEnter = () => {
 		if (!originalImageDataRef.current) return;
 		applyGlitch();
-		audioManager.playClick();
+		try {
+			audioManager.playClick();
+		} catch (e) {}
 	};
 	/**
 	* Handler: Mouse Leave
@@ -12301,8 +12274,7 @@ function About() {
 		backgroundColor: "#0f0f0f",
 		padding: "4rem 2rem",
 		color: "#ffffff",
-		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)",
-		"@media (max-width: 768px)": { padding: "2rem 1.5rem" }
+		background: "linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)"
 	};
 	const h2Style = {
 		textAlign: "center",
@@ -12310,11 +12282,7 @@ function About() {
 		marginBottom: "3rem",
 		fontSize: "2.5rem",
 		fontWeight: "800",
-		textShadow: "0 0 20px rgba(184, 0, 255, 0.3)",
-		"@media (max-width: 768px)": {
-			fontSize: "2rem",
-			marginBottom: "2rem"
-		}
+		textShadow: "0 0 20px rgba(184, 0, 255, 0.3)"
 	};
 	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 	const contentStyle = {
@@ -12410,6 +12378,7 @@ function About() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "about",
 		style: sectionStyle,
+		className: "about-section",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			style: {
 				maxWidth: "1200px",
@@ -12417,6 +12386,7 @@ function About() {
 			},
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 				style: h2Style,
+				className: "about-title",
 				children: "Acerca de mí"
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				style: contentStyle,
@@ -14814,11 +14784,6 @@ function Education() {
 }
 //#endregion
 //#region src/components/NeuralSkills.jsx
-/**
-* NeuralSkills Component
-* SVG-based skill network with physics simulation
-* Nodes attract to each other AND follow mouse
-*/
 var NeuralSkills = ({ skills = [
 	"Python",
 	"Django",
@@ -14831,37 +14796,35 @@ var NeuralSkills = ({ skills = [
 	"RPA",
 	"Data Science"
 ] }) => {
-	const svgRef = (0, import_react.useRef)(null);
 	const containerRef = (0, import_react.useRef)(null);
-	const nodesRef = (0, import_react.useRef)([]);
+	const animationRef = (0, import_react.useRef)(null);
+	const mouseRef = (0, import_react.useRef)({
+		x: -1e3,
+		y: -1e3
+	});
 	const dimensionsRef = (0, import_react.useRef)({
 		width: 800,
 		height: 500
 	});
-	const mouseRef = (0, import_react.useRef)({
-		x: 400,
-		y: 250
-	});
-	const animationRef = (0, import_react.useRef)(null);
+	const [nodes, setNodes] = (0, import_react.useState)([]);
 	(0, import_react.useEffect)(() => {
 		const container = containerRef.current;
 		if (!container) return;
-		const width = container.offsetWidth || 800;
-		const height = container.offsetHeight || 500;
-		dimensionsRef.current = {
-			width,
-			height
+		const updateDimensions = () => {
+			dimensionsRef.current = {
+				width: container.offsetWidth || 800,
+				height: container.offsetHeight || 500
+			};
 		};
-		nodesRef.current = skills.map((skill, i) => ({
+		updateDimensions();
+		let physicsNodes = skills.map((skill, i) => ({
 			id: i,
 			label: skill,
-			x: Math.random() * width,
-			y: Math.random() * height,
-			vx: (Math.random() - .5) * 4,
-			vy: (Math.random() - .5) * 4,
-			mass: 1,
-			radius: 25,
-			color: `hsl(${200 + i * 20}, 100%, 50%)`
+			x: Math.random() * dimensionsRef.current.width,
+			y: Math.random() * dimensionsRef.current.height,
+			vx: (Math.random() - .5) * 2,
+			vy: (Math.random() - .5) * 2,
+			radius: 15
 		}));
 		const handleMouseMove = (e) => {
 			const rect = container.getBoundingClientRect();
@@ -14870,164 +14833,144 @@ var NeuralSkills = ({ skills = [
 				y: e.clientY - rect.top
 			};
 		};
-		container.addEventListener("mousemove", handleMouseMove);
-		const animate = () => {
-			const nodes = nodesRef.current;
-			const { width, height } = dimensionsRef.current;
-			const mouse = mouseRef.current;
-			for (let i = 0; i < nodes.length; i++) {
-				for (let j = i + 1; j < nodes.length; j++) {
-					const dx = nodes[j].x - nodes[i].x;
-					const dy = nodes[j].y - nodes[i].y;
-					const distance = Math.sqrt(dx * dx + dy * dy) || 1;
-					const minDistance = 80;
-					const maxDistance = 250;
-					const force = (distance < minDistance ? (minDistance - distance) * .3 : 0) - (distance > maxDistance ? 0 : (1 - distance / maxDistance) * .08);
-					const fx = dx / distance * force;
-					const fy = dy / distance * force;
-					nodes[i].vx -= fx * .1;
-					nodes[i].vy -= fy * .1;
-					nodes[j].vx += fx * .1;
-					nodes[j].vy += fy * .1;
-				}
-				const mouseX = mouse.x || width / 2;
-				const mouseY = mouse.y || height / 2;
-				const dmx = mouseX - nodes[i].x;
-				const dmy = mouseY - nodes[i].y;
-				const mouseDist = Math.sqrt(dmx * dmx + dmy * dmy) || 1;
-				const mouseForce = (1 - Math.min(mouseDist / 300, 1)) * .15;
-				nodes[i].vx += dmx / mouseDist * mouseForce;
-				nodes[i].vy += dmy / mouseDist * mouseForce;
-			}
-			nodes.forEach((node) => {
-				node.vx *= .96;
-				node.vy *= .96;
-				node.x += node.vx;
-				node.y += node.vy;
-				const padding = node.radius + 5;
-				if (node.x - padding < 0) {
-					node.x = padding;
-					node.vx *= -.6;
-				}
-				if (node.x + padding > width) {
-					node.x = width - padding;
-					node.vx *= -.6;
-				}
-				if (node.y - padding < 0) {
-					node.y = padding;
-					node.vy *= -.6;
-				}
-				if (node.y + padding > height) {
-					node.y = height - padding;
-					node.vy *= -.6;
-				}
-			});
-			renderNetwork();
-			animationRef.current = requestAnimationFrame(animate);
-		};
-		animationRef.current = requestAnimationFrame(animate);
-		const handleResize = () => {
-			if (container) dimensionsRef.current = {
-				width: container.offsetWidth || 800,
-				height: container.offsetHeight || 500
+		const handleMouseLeave = () => {
+			mouseRef.current = {
+				x: -1e3,
+				y: -1e3
 			};
 		};
-		window.addEventListener("resize", handleResize);
+		container.addEventListener("mousemove", handleMouseMove);
+		container.addEventListener("mouseleave", handleMouseLeave);
+		window.addEventListener("resize", updateDimensions);
+		const animate = () => {
+			const mouse = mouseRef.current;
+			const { width, height } = dimensionsRef.current;
+			for (let i = 0; i < physicsNodes.length; i++) for (let j = i + 1; j < physicsNodes.length; j++) {
+				const n1 = physicsNodes[i];
+				const n2 = physicsNodes[j];
+				const dx = n2.x - n1.x;
+				const dy = n2.y - n1.y;
+				const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+				const minDistance = 60;
+				if (dist < minDistance) {
+					const force = (minDistance - dist) / dist;
+					const ax = dx * force * .05;
+					const ay = dy * force * .05;
+					n1.vx -= ax;
+					n1.vy -= ay;
+					n2.vx += ax;
+					n2.vy += ay;
+				}
+			}
+			physicsNodes.forEach((node) => {
+				const dx = mouse.x - node.x;
+				const dy = mouse.y - node.y;
+				const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+				if (dist < 200) {
+					node.vx += dx / dist * .08;
+					node.vy += dy / dist * .08;
+				} else {
+					node.vx += (Math.random() - .5) * .15;
+					node.vy += (Math.random() - .5) * .15;
+				}
+				node.vx *= .98;
+				node.vy *= .98;
+				const speed = Math.sqrt(node.vx * node.vx + node.vy * node.vy);
+				if (speed > 1.5) {
+					node.vx = node.vx / speed * 1.5;
+					node.vy = node.vy / speed * 1.5;
+				}
+				node.x += node.vx;
+				node.y += node.vy;
+				const padding = 20;
+				if (node.x < padding) {
+					node.x = padding;
+					node.vx *= -1;
+				}
+				if (node.x > width - padding) {
+					node.x = width - padding;
+					node.vx *= -1;
+				}
+				if (node.y < padding) {
+					node.y = padding;
+					node.vy *= -1;
+				}
+				if (node.y > height - padding) {
+					node.y = height - padding;
+					node.vy *= -1;
+				}
+			});
+			setNodes([...physicsNodes]);
+			animationRef.current = requestAnimationFrame(animate);
+		};
+		animate();
 		return () => {
-			window.removeEventListener("resize", handleResize);
 			container.removeEventListener("mousemove", handleMouseMove);
-			if (animationRef.current) cancelAnimationFrame(animationRef.current);
+			container.removeEventListener("mouseleave", handleMouseLeave);
+			window.removeEventListener("resize", updateDimensions);
+			cancelAnimationFrame(animationRef.current);
 		};
 	}, [skills]);
-	/**
-	* Renderizar red de nodos
-	*/
-	const renderNetwork = () => {
-		const svg = svgRef.current;
-		if (!svg) return;
-		const nodes = nodesRef.current;
-		while (svg.firstChild) svg.removeChild(svg.firstChild);
-		const linesGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		linesGroup.setAttribute("class", "neural-connections");
-		for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
-			const dx = nodes[j].x - nodes[i].x;
-			const dy = nodes[j].y - nodes[i].y;
-			const distance = Math.sqrt(dx * dx + dy * dy);
-			const maxDistance = 250;
-			if (distance < maxDistance) {
-				const opacity = 1 - distance / maxDistance;
-				const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-				line.setAttribute("x1", nodes[i].x);
-				line.setAttribute("y1", nodes[i].y);
-				line.setAttribute("x2", nodes[j].x);
-				line.setAttribute("y2", nodes[j].y);
-				line.setAttribute("stroke", `rgba(0, 255, 255, ${opacity * .5})`);
-				line.setAttribute("stroke-width", "1.5");
-				line.setAttribute("class", "neural-line");
-				linesGroup.appendChild(line);
-			}
-		}
-		svg.appendChild(linesGroup);
-		const nodesGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		nodesGroup.setAttribute("class", "neural-nodes");
-		nodes.forEach((node) => {
-			const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-			const glow = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-			glow.setAttribute("cx", node.x);
-			glow.setAttribute("cy", node.y);
-			glow.setAttribute("r", node.radius + 8);
-			glow.setAttribute("fill", "none");
-			glow.setAttribute("stroke", "rgba(0, 255, 255, 0.3)");
-			glow.setAttribute("stroke-width", "2");
-			glow.setAttribute("class", "node-glow");
-			g.appendChild(glow);
-			const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-			circle.setAttribute("cx", node.x);
-			circle.setAttribute("cy", node.y);
-			circle.setAttribute("r", node.radius);
-			circle.setAttribute("fill", "rgba(5, 5, 8, 0.85)");
-			circle.setAttribute("stroke", "rgba(0, 255, 255, 0.7)");
-			circle.setAttribute("stroke-width", "2.5");
-			circle.setAttribute("class", "neural-node");
-			circle.style.cursor = "pointer";
-			circle.addEventListener("mouseenter", () => {
-				circle.setAttribute("r", node.radius + 6);
-				circle.setAttribute("stroke", "rgba(184, 0, 255, 1)");
-				circle.setAttribute("stroke-width", "3.5");
-				circle.setAttribute("filter", "drop-shadow(0 0 15px rgba(184, 0, 255, 0.7))");
-			});
-			circle.addEventListener("mouseleave", () => {
-				circle.setAttribute("r", node.radius);
-				circle.setAttribute("stroke", "rgba(0, 255, 255, 0.7)");
-				circle.setAttribute("stroke-width", "2.5");
-				circle.setAttribute("filter", "none");
-			});
-			g.appendChild(circle);
-			const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-			text.setAttribute("x", node.x);
-			text.setAttribute("y", node.y);
-			text.setAttribute("text-anchor", "middle");
-			text.setAttribute("dominant-baseline", "middle");
-			text.setAttribute("fill", "#00ffff");
-			text.setAttribute("font-family", "\"Fira Code\", monospace");
-			text.setAttribute("font-size", "11px");
-			text.setAttribute("font-weight", "bold");
-			text.setAttribute("pointer-events", "none");
-			text.setAttribute("class", "neural-label");
-			text.textContent = node.label;
-			g.appendChild(text);
-			nodesGroup.appendChild(g);
-		});
-		svg.appendChild(nodesGroup);
-	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		ref: containerRef,
 		className: "neural-skills-container",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-			ref: svgRef,
-			className: "neural-skills-svg",
-			viewBox: "0 0 800 500",
-			preserveAspectRatio: "xMidYMid slice"
+		style: {
+			width: "100%",
+			minHeight: "450px",
+			height: "50vh",
+			position: "relative",
+			overflow: "hidden"
+		},
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+			viewBox: `0 0 ${dimensionsRef.current.width} ${dimensionsRef.current.height}`,
+			style: {
+				width: "100%",
+				height: "100%",
+				position: "absolute",
+				top: 0,
+				left: 0,
+				zIndex: 1
+			},
+			children: [nodes.map((node, i) => nodes.slice(i + 1).map((otherNode, j) => {
+				const dist = Math.hypot(otherNode.x - node.x, otherNode.y - node.y);
+				if (dist > 160) return null;
+				return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("line", {
+					x1: node.x,
+					y1: node.y,
+					x2: otherNode.x,
+					y2: otherNode.y,
+					stroke: `rgba(0, 255, 255, ${1 - dist / 160})`,
+					strokeWidth: "1",
+					className: "neural-line"
+				}, `line-${i}-${j}`);
+			})), nodes.map((node) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("g", {
+				style: {
+					cursor: "pointer",
+					transformOrigin: `${node.x}px ${node.y}px`
+				},
+				className: "neural-node-group",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+					cx: node.x,
+					cy: node.y,
+					r: 15,
+					fill: "transparent"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("text", {
+					x: node.x,
+					y: node.y,
+					textAnchor: "middle",
+					dominantBaseline: "middle",
+					fill: "#00ffff",
+					fontSize: "12px",
+					fontFamily: "monospace",
+					fontWeight: "bold",
+					className: "neural-label",
+					style: {
+						textShadow: "0px 2px 4px rgba(0,0,0,0.9), 0px 0px 8px rgba(0,255,255,0.6)",
+						transition: "all 0.3s ease"
+					},
+					children: node.label
+				})]
+			}, node.id))]
 		})
 	});
 };
@@ -15759,44 +15702,40 @@ function Footer() {
 function App() {
 	const [bootComplete, setBootComplete] = (0, import_react.useState)(false);
 	const [isBooting, setIsBooting] = (0, import_react.useState)(true);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CommandCenterProvider, { children: [
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CustomCursor, {}),
-		!bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BootScreen, { onComplete: () => setBootComplete(true) }),
-		bootComplete && isBooting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TerminalBoot, { onComplete: () => setIsBooting(false) }) : bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
-			className: "cyber-portfolio fade-in",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(MainTerminal, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
-					sectionId: "ABOUT",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
-						sectionName: "IDENTITY",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {})
-					})
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Experience, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
-					sectionId: "PROJECTS",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
-						sectionName: "PROJECTS",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {})
-					})
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Education, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
-					sectionId: "SKILLS",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
-						sectionName: "SKILLS",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {})
-					})
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Contact, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InfoHub, {})
-			]
-		})
-	] });
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CommandCenterProvider, { children: [!bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BootScreen, { onComplete: () => setBootComplete(true) }), bootComplete && isBooting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TerminalBoot, { onComplete: () => setIsBooting(false) }) : bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
+		className: "cyber-portfolio fade-in",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(MainTerminal, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
+				sectionId: "ABOUT",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
+					sectionName: "IDENTITY",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {})
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Experience, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
+				sectionId: "PROJECTS",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
+					sectionName: "PROJECTS",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {})
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Education, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionGuard, {
+				sectionId: "SKILLS",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionDeployer, {
+					sectionName: "SKILLS",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {})
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Contact, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InfoHub, {})
+		]
+	})] });
 }
 //#endregion
 //#region src/main.jsx
