@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import { CommandCenterProvider } from './context/CommandCenterContext'
 import BootScreen from './components/BootScreen'
 import TerminalBoot from './components/TerminalBoot'
 import CustomCursor from './components/CustomCursor'
 import SectionDeployer from './components/SectionDeployer'
-import Terminal from './components/Terminal'
+import SectionGuard from './components/SectionGuard'
+import MainTerminal from './components/MainTerminal'
+import InfoHub from './components/InfoHub'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -19,7 +22,7 @@ function App() {
   const [isBooting, setIsBooting] = useState(true)
 
   return (
-    <>
+    <CommandCenterProvider>
       <CustomCursor />
       {!bootComplete && <BootScreen onComplete={() => setBootComplete(true)} />}
       {bootComplete && isBooting ? (
@@ -29,24 +32,31 @@ function App() {
           <main className="cyber-portfolio fade-in">
             <Header />
             <Hero />
-            <Terminal />
-            <SectionDeployer sectionName="IDENTITY">
-              <About />
-            </SectionDeployer>
+            <MainTerminal />
+            <SectionGuard sectionId="ABOUT">
+              <SectionDeployer sectionName="IDENTITY">
+                <About />
+              </SectionDeployer>
+            </SectionGuard>
             <Experience />
-            <SectionDeployer sectionName="PROJECTS">
-              <Projects />
-            </SectionDeployer>
+            <SectionGuard sectionId="PROJECTS">
+              <SectionDeployer sectionName="PROJECTS">
+                <Projects />
+              </SectionDeployer>
+            </SectionGuard>
             <Education />
-            <SectionDeployer sectionName="SKILLS">
-              <Skills />
-            </SectionDeployer>
+            <SectionGuard sectionId="SKILLS">
+              <SectionDeployer sectionName="SKILLS">
+                <Skills />
+              </SectionDeployer>
+            </SectionGuard>
             <Contact />
             <Footer />
+            <InfoHub />
           </main>
         )
       )}
-    </>
+    </CommandCenterProvider>
   )
 }
 
