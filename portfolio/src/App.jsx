@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import TerminalBoot from './components/TerminalBoot'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -8,20 +10,26 @@ import Skills from './components/Skills'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
-// Force rebuild - 2026-03-16
 function App() {
+  const [isBooting, setIsBooting] = useState(true)
 
   return (
     <>
-      <Header />
-      <Hero />
-      <About />
-      <Experience />
-      <Projects />
-      <Education />
-      <Skills />
-      <Contact />
-      <Footer />
+      {isBooting ? (
+        <TerminalBoot onComplete={() => setIsBooting(false)} />
+      ) : (
+        <main className="cyber-portfolio fade-in">
+          <Header />
+          <Hero />
+          <About />
+          <Experience />
+          <Projects />
+          <Education />
+          <Skills />
+          <Contact />
+          <Footer />
+        </main>
+      )}
     </>
   )
 }
