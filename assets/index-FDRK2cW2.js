@@ -10747,17 +10747,6 @@ function FaBars(props) {
 		}]
 	})(props);
 }
-function FaArrowRight(props) {
-	return GenIcon({
-		"tag": "svg",
-		"attr": { "viewBox": "0 0 448 512" },
-		"child": [{
-			"tag": "path",
-			"attr": { "d": "M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z" },
-			"child": []
-		}]
-	})(props);
-}
 //#endregion
 //#region src/components/Header.jsx
 function Header() {
@@ -11043,6 +11032,331 @@ function Hero() {
 	});
 }
 //#endregion
+//#region src/utils/AudioManager.js
+/**
+* CyberAudio - Web Audio API Manager
+* Singleton para gestionar todos los sonidos de la Bionic Workstation
+* Cyberware sound effects sin librerías externas
+*/
+var CyberAudio = class {
+	constructor() {
+		this.audioCtx = null;
+		this.masterGain = null;
+		this.isInitialized = false;
+		this.volume = .15;
+	}
+	/**
+	* Inicializa AudioContext en primera interacción (autoplay policy)
+	*/
+	init() {
+		if (this.isInitialized) return;
+		try {
+			this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+			this.masterGain = this.audioCtx.createGain();
+			this.masterGain.connect(this.audioCtx.destination);
+			this.masterGain.gain.value = this.volume;
+			this.isInitialized = true;
+		} catch (error) {
+			console.warn("AudioContext not available:", error);
+		}
+	}
+	/**
+	* playClick() - Sonido de click (UI feedback)
+	* Square wave: 150Hz → 40Hz sobre 50ms
+	*/
+	playClick() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .05;
+		const osc = this.audioCtx.createOscillator();
+		const gainNode = this.audioCtx.createGain();
+		osc.type = "square";
+		osc.frequency.setValueAtTime(150, now);
+		osc.frequency.exponentialRampToValueAtTime(40, now + duration);
+		gainNode.gain.setValueAtTime(.1, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		osc.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		osc.start(now);
+		osc.stop(now + duration);
+	}
+	/**
+	* playScan() - Sonido de escaneo AR
+	* Sawtooth wave: 800Hz → 1200Hz sobre 200ms
+	*/
+	playScan() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .2;
+		const osc = this.audioCtx.createOscillator();
+		const gainNode = this.audioCtx.createGain();
+		const filter = this.audioCtx.createBiquadFilter();
+		osc.type = "sawtooth";
+		osc.frequency.setValueAtTime(800, now);
+		osc.frequency.linearRampToValueAtTime(1200, now + duration);
+		filter.type = "lowpass";
+		filter.frequency.value = 3e3;
+		gainNode.gain.setValueAtTime(.08, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		osc.connect(filter);
+		filter.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		osc.start(now);
+		osc.stop(now + duration);
+	}
+	/**
+	* playGlitch() - Sonido de glitch/aberración
+	* White noise con highpass filter por 150ms
+	*/
+	playGlitch() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .15;
+		const bufferSize = this.audioCtx.sampleRate * duration;
+		const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
+		const noiseData = noiseBuffer.getChannelData(0);
+		for (let i = 0; i < bufferSize; i++) noiseData[i] = Math.random() * 2 - 1;
+		const source = this.audioCtx.createBufferSource();
+		const gainNode = this.audioCtx.createGain();
+		const filter = this.audioCtx.createBiquadFilter();
+		source.buffer = noiseBuffer;
+		filter.type = "highpass";
+		filter.frequency.value = 2e3;
+		gainNode.gain.setValueAtTime(.08, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		source.connect(filter);
+		filter.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		source.start(now);
+		source.stop(now + duration);
+	}
+	/**
+	* playBeep() - Sonido de beep puro
+	* Sine wave a 1000Hz por 80ms
+	*/
+	playBeep() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .08;
+		const osc = this.audioCtx.createOscillator();
+		const gainNode = this.audioCtx.createGain();
+		osc.type = "sine";
+		osc.frequency.value = 1e3;
+		gainNode.gain.setValueAtTime(.1, now);
+		gainNode.gain.exponentialRampToValueAtTime(.01, now + duration);
+		osc.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		osc.start(now);
+		osc.stop(now + duration);
+	}
+	/**
+	* playDataPulse() - Secuencia de beeps para eventos de datos
+	* Toca múltiples beeps con delay entre ellos
+	* @param {number} count - Cantidad de beeps (default: 3)
+	* @param {number} delay - Delay entre beeps en ms (default: 100)
+	*/
+	playDataPulse(count = 3, delay = 100) {
+		if (!this.isInitialized) return;
+		const delaySeconds = delay / 1e3;
+		const now = this.audioCtx.currentTime;
+		for (let i = 0; i < count; i++) {
+			const startTime = now + i * delaySeconds;
+			const duration = .06;
+			const osc = this.audioCtx.createOscillator();
+			const gainNode = this.audioCtx.createGain();
+			osc.type = "sine";
+			osc.frequency.value = 1200;
+			osc.frequency.setValueAtTime(1200, startTime);
+			osc.frequency.exponentialRampToValueAtTime(800, startTime + duration);
+			gainNode.gain.setValueAtTime(.08, startTime);
+			gainNode.gain.exponentialRampToValueAtTime(.01, startTime + duration);
+			osc.connect(gainNode);
+			gainNode.connect(this.masterGain);
+			osc.start(startTime);
+			osc.stop(startTime + duration);
+		}
+	}
+	/**
+	* playStaticHum() - Sonido de zumbido estático
+	* Ruido blanco modulado para hover prolongado
+	* Duración: 500ms
+	*/
+	playStaticHum() {
+		if (!this.isInitialized) return;
+		const now = this.audioCtx.currentTime;
+		const duration = .5;
+		const bufferSize = this.audioCtx.sampleRate * duration;
+		const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
+		const noiseData = noiseBuffer.getChannelData(0);
+		for (let i = 0; i < bufferSize; i++) noiseData[i] = Math.random() * 2 - 1;
+		const source = this.audioCtx.createBufferSource();
+		const gainNode = this.audioCtx.createGain();
+		const filter = this.audioCtx.createBiquadFilter();
+		const lfo = this.audioCtx.createOscillator();
+		const lfoGain = this.audioCtx.createGain();
+		source.buffer = noiseBuffer;
+		filter.type = "lowpass";
+		filter.frequency.value = 2500;
+		lfo.type = "sine";
+		lfo.frequency.value = 3;
+		lfoGain.gain.value = 500;
+		gainNode.gain.setValueAtTime(.06, now);
+		gainNode.gain.exponentialRampToValueAtTime(.02, now + duration);
+		lfo.connect(lfoGain);
+		lfoGain.connect(filter.frequency);
+		source.connect(filter);
+		filter.connect(gainNode);
+		gainNode.connect(this.masterGain);
+		source.start(now);
+		source.stop(now + duration);
+		lfo.start(now);
+		lfo.stop(now + duration);
+	}
+	/**
+	* Controla el volumen general
+	* @param {number} value - Volumen 0 a 1
+	*/
+	setVolume(value) {
+		if (value < 0) value = 0;
+		if (value > 1) value = 1;
+		this.volume = value;
+		if (this.masterGain) this.masterGain.gain.value = value;
+	}
+	/**
+	* Silencia el audio
+	*/
+	mute() {
+		if (this.masterGain) this.masterGain.gain.value = 0;
+	}
+	/**
+	* Restaura el volumen anterior
+	*/
+	unmute() {
+		if (this.masterGain) this.masterGain.gain.value = this.volume;
+	}
+	/**
+	* Obtiene el estado del AudioContext
+	*/
+	getState() {
+		return {
+			initialized: this.isInitialized,
+			state: this.audioCtx ? this.audioCtx.state : "not-initialized",
+			volume: this.volume
+		};
+	}
+};
+var audioManager = new CyberAudio();
+//#endregion
+//#region src/components/ProfileGlitch.jsx
+/**
+* ProfileGlitch Component
+* Canvas-based profile image with chromatic aberration glitch effect
+* Hover to trigger red/blue color separation with audio feedback
+*/
+var ProfileGlitch = ({ imageUrl }) => {
+	const canvasRef = (0, import_react.useRef)(null);
+	const originalImageDataRef = (0, import_react.useRef)(null);
+	const imageRef = (0, import_react.useRef)(null);
+	(0, import_react.useEffect)(() => {
+		const canvas = canvasRef.current;
+		if (!canvas) return;
+		const ctx = canvas.getContext("2d");
+		const img = new Image();
+		img.crossOrigin = "anonymous";
+		img.onload = () => {
+			imageRef.current = img;
+			const canvasSize = 250;
+			canvas.width = canvasSize;
+			canvas.height = canvasSize;
+			ctx.drawImage(img, 0, 0, canvasSize, canvasSize);
+			const original = ctx.getImageData(0, 0, canvasSize, canvasSize);
+			originalImageDataRef.current = ctx.createImageData(original);
+			originalImageDataRef.current.data.set(original.data);
+		};
+		img.onerror = () => {
+			console.warn(`Failed to load image: ${imageUrl}`);
+		};
+		img.src = imageUrl;
+	}, [imageUrl]);
+	/**
+	* Aplica efecto hacker glitch - scanlines aleatorias con desplazamiento de color
+	* Similar al efecto de distorsión de terminal
+	*/
+	const applyGlitch = () => {
+		const canvas = canvasRef.current;
+		if (!canvas || !originalImageDataRef.current) return;
+		const ctx = canvas.getContext("2d");
+		const width = canvas.width;
+		const height = canvas.height;
+		const originalData = originalImageDataRef.current.data;
+		const glitched = ctx.createImageData(width, height);
+		const glitchData = glitched.data;
+		glitchData.set(originalData);
+		const glitchStrength = Math.random() > .5 ? 8 : 12;
+		const glitchLines = Math.floor(Math.random() * 8) + 4;
+		for (let lineNum = 0; lineNum < glitchLines; lineNum++) {
+			const glitchY = Math.floor(Math.random() * height);
+			const offsetAmount = (Math.random() - .5) * glitchStrength;
+			for (let x = 0; x < width; x++) {
+				const idx = (glitchY * width + x) * 4;
+				const sourceX = Math.max(0, Math.min(width - 1, x + Math.round(offsetAmount)));
+				const sourceIdx = (glitchY * width + sourceX) * 4;
+				glitchData[idx] = originalData[sourceIdx];
+				glitchData[idx + 1] = originalData[sourceIdx + 1];
+				glitchData[idx + 2] = originalData[sourceIdx + 2];
+				glitchData[idx + 3] = originalData[sourceIdx + 3];
+			}
+		}
+		for (let lineNum = 0; lineNum < 3; lineNum++) {
+			const chromaY = Math.floor(Math.random() * height);
+			const rOffset = Math.floor(Math.random() * 6) - 3;
+			const bOffset = Math.floor(Math.random() * 6) - 3;
+			for (let x = rOffset; x < width; x++) {
+				const idx = (chromaY * width + x) * 4;
+				const sourceIdxR = (chromaY * width + (x - rOffset)) * 4;
+				const sourceIdxB = (chromaY * width + (x + bOffset)) * 4;
+				if (sourceIdxR >= 0 && sourceIdxR < originalData.length) glitchData[idx] = originalData[sourceIdxR];
+				if (sourceIdxB >= 0 && sourceIdxB < originalData.length) glitchData[idx + 2] = originalData[sourceIdxB + 2];
+			}
+		}
+		ctx.putImageData(glitched, 0, 0);
+	};
+	/**
+	* Restaurar imagen original
+	*/
+	const restoreImage = () => {
+		const canvas = canvasRef.current;
+		if (!canvas || !originalImageDataRef.current) return;
+		canvas.getContext("2d").putImageData(originalImageDataRef.current, 0, 0);
+	};
+	/**
+	* Handler: Mouse Enter
+	*/
+	const handleMouseEnter = () => {
+		if (!originalImageDataRef.current) return;
+		applyGlitch();
+		audioManager.playClick();
+	};
+	/**
+	* Handler: Mouse Leave
+	*/
+	const handleMouseLeave = () => {
+		if (!originalImageDataRef.current) return;
+		restoreImage();
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "profile-glitch-wrapper",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("canvas", {
+			ref: canvasRef,
+			className: "profile-glitch-canvas",
+			onMouseEnter: handleMouseEnter,
+			onMouseLeave: handleMouseLeave,
+			role: "img",
+			"aria-label": "Profile image with glitch effect"
+		})
+	});
+};
+//#endregion
 //#region src/components/About.jsx
 function About() {
 	const primarySkills = [
@@ -11113,9 +11427,9 @@ function About() {
 	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 	const contentStyle = {
 		display: "grid",
-		gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+		gridTemplateColumns: isMobile ? "1fr" : "300px 1fr 1fr",
 		alignItems: "start",
-		gap: isMobile ? "2rem" : "4rem",
+		gap: isMobile ? "2rem" : "3rem",
 		maxWidth: "1200px",
 		margin: "0 auto"
 	};
@@ -11214,156 +11528,167 @@ function About() {
 				children: "Acerca de mí"
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				style: contentStyle,
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					style: textStyle,
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-							style: pStyle,
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
-								width: "20",
-								height: "20",
-								viewBox: "0 0 24 24",
-								fill: "#b800ff",
-								style: {
-									display: "inline",
-									marginRight: "0.5rem",
-									verticalAlign: "middle"
-								},
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 2.75l7 3.45v6.5a7 7 0 01-7 7 7 7 0 01-7-7v-6.5l7-3.45z" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M10 15h4v2h-4zm0-4h4v2h-4z" })]
-							}), "Soy Ingeniero Civil Informático especializado en desarrollo Backend con Python, Django y APIs REST. Con experiencia en diseño, desarrollo e implementación de soluciones críticas utilizando Docker, Git y arquitecturas escalables."]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-							style: pStyle,
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
-								width: "20",
-								height: "20",
-								viewBox: "0 0 24 24",
-								fill: "#b800ff",
-								style: {
-									display: "inline",
-									marginRight: "0.5rem",
-									verticalAlign: "middle"
-								},
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2c-1.1 0-2 .9-2 2v8H8l4 6 4-6h-2V4c0-1.1-.9-2-2-2z" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M4 20h16v2H4z" })]
-							}), "Especialista en automatización de procesos (RPA) utilizando Rocketbot, con sólida experiencia en ingeniería de datos, web scraping y optimización de flujos operativos. Conocimiento básico en Power Automate. Especializado en desarrollar soluciones que automatizan tareas repetitivas y generan eficiencia operativa."]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-							style: h3Style,
-							children: "Habilidades Principales"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							style: skillsStyle,
-							children: primarySkills.map((skill, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								style: skillStyle,
-								onMouseEnter: (e) => {
-									e.currentTarget.style.transform = "translateY(-8px) scale(1.05)";
-									e.currentTarget.style.boxShadow = "0 15px 35px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.1)";
-									e.currentTarget.style.borderColor = "#b800ff";
-								},
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						style: {
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center"
+						},
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProfileGlitch, { imageUrl: "/images/logo_hacker.png" })
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: textStyle,
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+								style: pStyle,
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+									width: "20",
+									height: "20",
+									viewBox: "0 0 24 24",
+									fill: "#b800ff",
+									style: {
+										display: "inline",
+										marginRight: "0.5rem",
+										verticalAlign: "middle"
+									},
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 2.75l7 3.45v6.5a7 7 0 01-7 7 7 7 0 01-7-7v-6.5l7-3.45z" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M10 15h4v2h-4zm0-4h4v2h-4z" })]
+								}), "Soy Ingeniero Civil Informático especializado en desarrollo Backend con Python, Django y APIs REST. Con experiencia en diseño, desarrollo e implementación de soluciones críticas utilizando Docker, Git y arquitecturas escalables."]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+								style: pStyle,
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+									width: "20",
+									height: "20",
+									viewBox: "0 0 24 24",
+									fill: "#b800ff",
+									style: {
+										display: "inline",
+										marginRight: "0.5rem",
+										verticalAlign: "middle"
+									},
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M12 2c-1.1 0-2 .9-2 2v8H8l4 6 4-6h-2V4c0-1.1-.9-2-2-2z" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M4 20h16v2H4z" })]
+								}), "Especialista en automatización de procesos (RPA) utilizando Rocketbot, con sólida experiencia en ingeniería de datos, web scraping y optimización de flujos operativos. Conocimiento básico en Power Automate. Especializado en desarrollar soluciones que automatizan tareas repetitivas y generan eficiencia operativa."]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+								style: h3Style,
+								children: "Habilidades Principales"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: skillsStyle,
+								children: primarySkills.map((skill, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									style: skillStyle,
+									onMouseEnter: (e) => {
+										e.currentTarget.style.transform = "translateY(-8px) scale(1.05)";
+										e.currentTarget.style.boxShadow = "0 15px 35px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.1)";
+										e.currentTarget.style.borderColor = "#b800ff";
+									},
+									onMouseLeave: (e) => {
+										e.currentTarget.style.transform = "translateY(0) scale(1)";
+										e.currentTarget.style.boxShadow = "0 8px 20px rgba(184, 0, 255, 0.1), inset 0 0 15px rgba(184, 0, 255, 0.05)";
+										e.currentTarget.style.borderColor = "rgba(184, 0, 255, 0.4)";
+									},
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+											position: "absolute",
+											top: "-30%",
+											right: "-30%",
+											width: "150px",
+											height: "150px",
+											borderRadius: "50%",
+											backgroundColor: "rgba(184, 0, 255, 0.05)",
+											pointerEvents: "none"
+										} }),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+											src: skill.logo,
+											alt: skill.name,
+											style: skillImgStyle
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											style: {
+												color: "#b800ff",
+												position: "relative",
+												zIndex: 1
+											},
+											children: skill.name
+										})
+									]
+								}, idx))
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: statsGridStyle,
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: statCardStyle,
+								onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
 								onMouseLeave: (e) => {
-									e.currentTarget.style.transform = "translateY(0) scale(1)";
-									e.currentTarget.style.boxShadow = "0 8px 20px rgba(184, 0, 255, 0.1), inset 0 0 15px rgba(184, 0, 255, 0.05)";
-									e.currentTarget.style.borderColor = "rgba(184, 0, 255, 0.4)";
+									e.currentTarget.style.transform = "translateY(0)";
+									e.currentTarget.style.boxShadow = "none";
 								},
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-										position: "absolute",
-										top: "-30%",
-										right: "-30%",
-										width: "150px",
-										height: "150px",
-										borderRadius: "50%",
-										backgroundColor: "rgba(184, 0, 255, 0.05)",
-										pointerEvents: "none"
-									} }),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-										src: skill.logo,
-										alt: skill.name,
-										style: skillImgStyle
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statIconStyle,
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCode, {})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										style: {
-											color: "#b800ff",
-											position: "relative",
-											zIndex: 1
-										},
-										children: skill.name
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statH3Style,
+										children: "2+"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statPStyle,
+										children: "Años de Experiencia Laboral"
 									})
 								]
-							}, idx))
-						})
-					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					style: statsGridStyle,
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							style: statCardStyle,
-							onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
-							onMouseLeave: (e) => {
-								e.currentTarget.style.transform = "translateY(0)";
-								e.currentTarget.style.boxShadow = "none";
-							},
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statIconStyle,
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCode, {})
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statH3Style,
-									children: "2+"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statPStyle,
-									children: "Años de Experiencia Laboral"
-								})
-							]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							style: statCardStyle,
-							onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
-							onMouseLeave: (e) => {
-								e.currentTarget.style.transform = "translateY(0)";
-								e.currentTarget.style.boxShadow = "none";
-							},
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statIconStyle,
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaRocket, {})
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statH3Style,
-									children: "15+"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statPStyle,
-									children: "Proyectos RPA & Backend"
-								})
-							]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							style: statCardStyle,
-							onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
-							onMouseLeave: (e) => {
-								e.currentTarget.style.transform = "translateY(0)";
-								e.currentTarget.style.boxShadow = "none";
-							},
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statIconStyle,
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLock, {})
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statH3Style,
-									children: "7+"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: statPStyle,
-									children: "Certificaciones Profesionales"
-								})
-							]
-						})
-					]
-				})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: statCardStyle,
+								onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
+								onMouseLeave: (e) => {
+									e.currentTarget.style.transform = "translateY(0)";
+									e.currentTarget.style.boxShadow = "none";
+								},
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statIconStyle,
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaRocket, {})
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statH3Style,
+										children: "15+"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statPStyle,
+										children: "Proyectos RPA & Backend"
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: statCardStyle,
+								onMouseEnter: (e) => Object.assign(e.currentTarget.style, statCardHoverStyle),
+								onMouseLeave: (e) => {
+									e.currentTarget.style.transform = "translateY(0)";
+									e.currentTarget.style.boxShadow = "none";
+								},
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statIconStyle,
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaLock, {})
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statH3Style,
+										children: "7+"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										style: statPStyle,
+										children: "Certificaciones Profesionales"
+									})
+								]
+							})
+						]
+					})
+				]
 			})]
 		})
 	});
@@ -12795,6 +13120,121 @@ function Experience() {
 	});
 }
 //#endregion
+//#region src/components/ProjectCard.jsx
+/**
+* ProjectCard Component
+* 3D Tilt physics + AR laser effect
+*/
+var ProjectCard = ({ title, description, tags = [], image, version = "v1.0" }) => {
+	const cardRef = (0, import_react.useRef)(null);
+	const [tilt, setTilt] = (0, import_react.useState)({
+		rotateX: 0,
+		rotateY: 0
+	});
+	const [isMobile, setIsMobile] = (0, import_react.useState)(typeof window !== "undefined" && window.innerWidth < 768);
+	import_react.useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+	/**
+	* Calcular rotación 3D basada en posición del ratón
+	*/
+	const handleMouseMove = (e) => {
+		if (!cardRef.current || isMobile) return;
+		const rect = cardRef.current.getBoundingClientRect();
+		const centerX = rect.left + rect.width / 2;
+		const centerY = rect.top + rect.height / 2;
+		const distX = e.clientX - centerX;
+		const distY = e.clientY - centerY;
+		const maxTilt = 15;
+		const rotateY = distX / (rect.width / 2) * maxTilt;
+		setTilt({
+			rotateX: -(distY / (rect.height / 2)) * maxTilt,
+			rotateY
+		});
+	};
+	/**
+	* Restaurar a posición neutral
+	*/
+	const handleMouseLeave = () => {
+		setTilt({
+			rotateX: 0,
+			rotateY: 0
+		});
+	};
+	/**
+	* Reproducir sonido de escaneo
+	*/
+	const handleMouseEnter = () => {
+		audioManager.playScan();
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		ref: cardRef,
+		className: "project-card cyber-glass",
+		style: {
+			transform: !isMobile ? `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)` : "perspective(1000px) rotateX(0) rotateY(0)",
+			transition: "transform 0.1s ease-out"
+		},
+		onMouseMove: handleMouseMove,
+		onMouseLeave: handleMouseLeave,
+		onMouseEnter: handleMouseEnter,
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "ar-laser" }),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+				className: "micro-data top-left",
+				children: [
+					"[",
+					version,
+					"]"
+				]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "micro-data top-right",
+				children: "[AR]"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "micro-data bottom-left",
+				children: "[SCAN]"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "micro-data bottom-right",
+				children: "[TX]"
+			}),
+			image && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "project-image",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+					src: image,
+					alt: title
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "project-content",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "project-title",
+						children: title
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "project-description",
+						children: description
+					}),
+					tags.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "project-tags",
+						children: tags.map((tag, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "tech-tag",
+							children: tag
+						}, idx))
+					})
+				]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "glow-border" })
+		]
+	});
+};
+//#endregion
 //#region src/components/Projects.jsx
 var projects = [
 	{
@@ -12889,105 +13329,13 @@ var projects = [
 ];
 function Projects() {
 	const [hoveredId, setHoveredId] = (0, import_react.useState)(null);
-	const sectionStyle = {
-		backgroundColor: "#0a0a0a",
-		padding: "6rem 2rem",
-		background: "linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)"
-	};
-	const h2Style = {
-		textAlign: "center",
-		color: "#b800ff",
-		marginBottom: "1rem",
-		fontSize: "3rem",
-		fontWeight: "800",
-		textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
-		letterSpacing: "2px"
-	};
-	const subtitleStyle = {
-		textAlign: "center",
-		color: "#aaaaaa",
-		marginBottom: "4rem",
-		fontSize: "1.1rem"
-	};
-	const gridStyle = {
-		display: "grid",
-		gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-		gap: "2rem",
-		maxWidth: "1200px",
-		margin: "0 auto"
-	};
-	const cardStyle = (isHovered, isFeatured) => ({
-		backgroundColor: "#1a1a1a",
-		borderRadius: "12px",
-		padding: "2rem",
-		transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
-		border: isFeatured ? `2px solid #b800ff` : `2px solid #333333`,
-		boxShadow: isHovered ? `0 20px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)` : `0 4px 6px rgba(184, 0, 255, 0.1)`,
-		transform: isHovered ? "translateY(-10px) scale(1.02)" : "translateY(0)",
-		position: "relative",
-		overflow: "hidden",
-		cursor: "pointer"
-	});
-	const badgeStyle = {
-		position: "absolute",
-		top: "1rem",
-		right: "1rem",
-		backgroundColor: "#b800ff",
-		color: "#ffffff",
-		padding: "0.4rem 0.8rem",
-		borderRadius: "20px",
-		fontSize: "0.7rem",
-		fontWeight: "700",
-		textTransform: "uppercase",
-		letterSpacing: "1px"
-	};
-	const cardH3Style = {
-		color: "#b800ff",
-		marginBottom: "0.8rem",
-		fontSize: "1.3rem",
-		fontWeight: "700",
-		marginTop: "0.5rem"
-	};
-	const cardPStyle = {
-		color: "#cccccc",
-		marginBottom: "1.5rem",
-		lineHeight: "1.6",
-		fontSize: "0.95rem"
-	};
-	const tagsStyle = {
-		display: "flex",
-		flexWrap: "wrap",
-		gap: "0.6rem",
-		marginBottom: "1.5rem"
-	};
-	const tagStyle = {
-		color: "#b800ff",
-		backgroundColor: "rgba(184, 0, 255, 0.1)",
-		borderRadius: "20px",
-		padding: "0.4rem 0.9rem",
-		fontSize: "0.8rem",
-		fontWeight: "600",
-		border: "1px solid rgba(184, 0, 255, 0.3)",
-		transition: "all 0.3s"
-	};
-	const linkContainerStyle = {
-		display: "flex",
-		gap: "1rem",
-		alignItems: "center"
-	};
-	const linkStyle = {
-		color: "#b800ff",
-		fontWeight: "700",
-		textDecoration: "none",
-		transition: "all 0.3s",
-		cursor: "pointer",
-		display: "flex",
-		alignItems: "center",
-		gap: "0.5rem"
-	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "projects",
-		style: sectionStyle,
+		style: {
+			backgroundColor: "#0a0a0a",
+			padding: "6rem 2rem",
+			background: "linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)"
+		},
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			style: {
 				maxWidth: "1200px",
@@ -12995,7 +13343,15 @@ function Projects() {
 			},
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
-					style: h2Style,
+					style: {
+						textAlign: "center",
+						color: "#b800ff",
+						marginBottom: "1rem",
+						fontSize: "3rem",
+						fontWeight: "800",
+						textShadow: "0 0 20px rgba(184, 0, 255, 0.5)",
+						letterSpacing: "2px"
+					},
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Folder, {
 						size: 32,
 						style: {
@@ -13005,60 +13361,28 @@ function Projects() {
 					}), "Mis Proyectos"]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					style: subtitleStyle,
+					style: {
+						textAlign: "center",
+						color: "#aaaaaa",
+						marginBottom: "4rem",
+						fontSize: "1.1rem"
+					},
 					children: "Trabajos destacados que demuestran mis habilidades técnicas"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					style: gridStyle,
-					children: projects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						style: cardStyle(hoveredId === project.id, project.featured),
-						onMouseEnter: () => setHoveredId(project.id),
-						onMouseLeave: () => setHoveredId(null),
-						children: [
-							project.featured && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: badgeStyle,
-								children: "Destacado"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-								style: cardH3Style,
-								children: project.title
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								style: cardPStyle,
-								children: project.description
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: tagsStyle,
-								children: project.tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									style: tagStyle,
-									children: tag
-								}, tag))
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								style: linkContainerStyle,
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-									href: project.link,
-									style: linkStyle,
-									onMouseEnter: (e) => {
-										e.target.style.color = "#ff00ff";
-										e.target.style.transform = "translateX(5px)";
-									},
-									onMouseLeave: (e) => {
-										e.target.style.color = "#b800ff";
-										e.target.style.transform = "translateX(0)";
-									},
-									children: ["Ver más ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowRight, {})]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: project.link,
-									style: {
-										...linkStyle,
-										color: "transparent"
-									},
-									title: "GitHub",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, { style: { color: "#b800ff" } })
-								})]
-							})
-						]
+					style: {
+						display: "grid",
+						gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+						gap: "2rem",
+						maxWidth: "1200px",
+						margin: "0 auto"
+					},
+					children: projects.map((project) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProjectCard, {
+						title: project.title,
+						description: project.description,
+						tags: project.tags,
+						image: project.image,
+						version: project.featured ? "v1.0" : "v1.0"
 					}, project.id))
 				})
 			]

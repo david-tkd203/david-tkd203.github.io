@@ -1,0 +1,1506 @@
+/* ============================================
+   BIONIC WORKSTATION - GLOBAL CSS
+   Cyberpunk-themed Portfolio Architecture
+   ============================================ */
+
+/* ============================================
+   1. CSS VARIABLES - Color Palette
+   ============================================ */
+
+:root {
+  /* Neon color palette */
+  --bg-void: #050508;
+  --neon-purple: #b800ff;
+  --neon-magenta: #ff00ff;
+  --neon-cyan: #00ffff;
+  --text-main: #f0f0f0;
+  --text-muted: #8888aa;
+
+  /* Legacy compatibility */
+  --primary-color: #b800ff;
+  --secondary-color: #ff00ff;
+  --dark-bg: #0a0a0a;
+  --card-bg: #1a1a1a;
+  --text-light: #ffffff;
+  --border-color: #b800ff;
+}
+
+/* ============================================
+   2. RESET & BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: clamp(14px, 2vw, 18px);
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--text-main);
+  font-family: 'Fira Code', 'Courier New', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+code {
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+/* ============================================
+   3. RESPONSIVE CONTAINER UTILITIES
+   ============================================ */
+
+.bionic-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1rem, 5vw, 3rem);
+  width: 100%;
+}
+
+/* ============================================
+   4. CYBER-GLASSMORPHISM STYLES
+   ============================================ */
+
+.cyber-glass {
+  background: rgba(5, 5, 8, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(184, 0, 255, 0.2);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-glass:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 
+    0 0 20px rgba(184, 0, 255, 0.3),
+    0 0 40px rgba(255, 0, 255, 0.15),
+    inset 0 0 15px rgba(184, 0, 255, 0.05);
+}
+
+/* ============================================
+   5. RESPONSIVE IMAGE CONTAINERS
+   ============================================ */
+
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: clamp(0.5rem, 3vw, 1rem);
+  background: rgba(5, 5, 8, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Skill logo responsive container */
+.skill-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: clamp(70px, 20vw, 120px);
+  height: clamp(70px, 20vw, 120px);
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(5, 5, 8, 0.4);
+  padding: clamp(0.4rem, 2vw, 0.8rem);
+  transition: all 0.3s ease;
+}
+
+.skill-logo-container:hover {
+  background: rgba(184, 0, 255, 0.1);
+  box-shadow: 0 0 15px rgba(184, 0, 255, 0.2);
+}
+
+.skill-logo-container img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Certification image wrapper */
+.cert-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(5, 5, 8, 0.4);
+  border: 1px solid rgba(184, 0, 255, 0.1);
+}
+
+.cert-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Image no-crop attribute - ensures full visibility */
+img[data-no-crop] {
+  object-fit: contain !important;
+  object-position: center !important;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Canvas & SVG responsive */
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================
+   6. ANIMATIONS & KEYFRAMES
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(184, 0, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(184, 0, 255, 0.5);
+  }
+}
+
+@keyframes cyberGlitch {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 20%, 0 20%);
+    transform: translate(-2px, -2px);
+  }
+  20% {
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+    transform: translate(2px, 2px);
+  }
+  40% {
+    clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%);
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    transform: translate(2px, -2px);
+  }
+  80% {
+    clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%);
+    transform: translate(-2px, 2px);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes chromaShift {
+  0%, 100% {
+    text-shadow: -3px 0 0 rgba(184, 0, 255, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7);
+  }
+  50% {
+    text-shadow: -4px 0 0 rgba(184, 0, 255, 0.5), 4px 0 0 rgba(0, 255, 255, 0.5);
+  }
+}
+
+@keyframes scanlines {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes cyberPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(184, 0, 255, 0.3), inset 0 0 10px rgba(184, 0, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.5), inset 0 0 20px rgba(184, 0, 255, 0.2);
+  }
+}
+
+@keyframes laserScan {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   7. UTILITY CLASSES
+   ============================================ */
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.glitch {
+  animation: cyberGlitch 0.3s ease-in-out;
+}
+
+.cyber-pulse {
+  animation: cyberPulse 2s ease-in-out infinite;
+}
+
+.chroma-shift {
+  animation: chromaShift 1s ease-in-out infinite;
+}
+
+.scanlines {
+  animation: scanlines 0.3s linear infinite;
+}
+
+.mono-text {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  letter-spacing: 0.05em;
+}
+
+.muted-text {
+  color: var(--text-muted);
+}
+
+.hidden-overflow {
+  overflow: hidden;
+}
+
+/* ============================================
+   8. RESPONSIVE TYPOGRAPHY
+   ============================================ */
+
+h1 {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+  font-weight: bold;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: clamp(0.8rem, 2vw, 1.5rem);
+  font-weight: bold;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  margin-bottom: clamp(0.6rem, 1.5vw, 1rem);
+  font-weight: 600;
+}
+
+p {
+  font-size: clamp(0.875rem, 1.5vw, 1.1rem);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  line-height: 1.7;
+}
+
+/* ============================================
+   9. SCROLLBAR STYLING (Webkit)
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-purple);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-magenta);
+}
+
+/* ============================================
+   10. LEGACY COMPONENT STYLES
+   ============================================ */
+
+.cyber-card {
+  position: relative;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(184, 0, 255, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.cyber-card:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 30px rgba(184, 0, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.3), inset 0 0 20px rgba(184, 0, 255, 0.1);
+  transform: translateY(-8px);
+  background: rgba(10, 10, 10, 0.6);
+}
+
+.fade-in-portfolio {
+  animation: fadeInPortfolio 0.8s ease-out forwards;
+}
+
+@keyframes fadeInPortfolio {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   11. TERMINAL BOOT SCREEN (Legacy)
+   ============================================ */
+
+.terminal-boot-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-void);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.terminal-boot-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 255, 0.03) 0px,
+    rgba(255, 0, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.terminal-boot-content {
+  position: relative;
+  z-index: 3;
+  width: 90%;
+  max-width: 700px;
+  background-color: rgba(5, 5, 8, 0.95);
+  border: 2px solid var(--neon-purple);
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1);
+  font-family: 'Courier New', 'Courier', monospace;
+  overflow: hidden;
+}
+
+.terminal-header {
+  background: linear-gradient(90deg, var(--neon-purple) 0%, var(--bg-void) 100%);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--neon-purple);
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--text-main);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.terminal-body {
+  padding: 24px 20px;
+  min-height: 300px;
+  color: var(--neon-magenta);
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+}
+
+@keyframes blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  color: var(--neon-magenta);
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+/* ============================================
+   12. RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .bionic-container {
+    padding: clamp(0.75rem, 3vw, 1.5rem);
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+
+  h2 {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+  }
+
+  .skill-logo-container {
+    width: clamp(60px, 15vw, 100px);
+    height: clamp(60px, 15vw, 100px);
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: clamp(13px, 1.8vw, 14px);
+  }
+
+  h1 {
+    font-size: clamp(1.3rem, 5vw, 2rem);
+  }
+
+  p {
+    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+  }
+
+  .skill-logo-container {
+    width: clamp(50px, 12vw, 80px);
+    height: clamp(50px, 12vw, 80px);
+  }
+}
+
+/* ============================================
+   13. ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Already dark by default, but ensure consistency */
+  body {
+    background-color: var(--bg-void);
+    color: var(--text-main);
+  }
+}
+
+/* ============================================
+   14. PROJECTCARD COMPONENT STYLES
+   ============================================ */
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  border-radius: 12px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.project-card:hover {
+  border-color: var(--neon-purple);
+  box-shadow:
+    0 0 30px rgba(255, 0, 255, 0.3),
+    0 0 60px rgba(184, 0, 255, 0.2),
+    inset 0 0 20px rgba(184, 0, 255, 0.1);
+}
+
+/* AR Laser - línea cian que escanea */
+.ar-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px rgba(0, 255, 255, 0.5);
+  opacity: 0;
+  transform-origin: top center;
+}
+
+.project-card:hover .ar-laser {
+  animation: laserScan 1.5s ease-in-out infinite;
+}
+
+@keyframes laserScan {
+  0% {
+    top: 0;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Micro-datos en esquinas */
+.micro-data {
+  position: absolute;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.65rem;
+  color: var(--neon-cyan);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.project-card:hover .micro-data {
+  opacity: 1;
+}
+
+.micro-data.top-left {
+  top: 1rem;
+  left: 1rem;
+}
+
+.micro-data.top-right {
+  top: 1rem;
+  right: 1rem;
+}
+
+.micro-data.bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.micro-data.bottom-right {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+/* Imagen del proyecto */
+.project-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: rgba(5, 5, 8, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+/* Contenido del proyecto */
+.project-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.project-title {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: bold;
+  color: var(--neon-cyan);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.project-description {
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  color: var(--text-main);
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* Tags / Tech stack */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.tech-tag {
+  display: inline-block;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  border-radius: 4px;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .tech-tag {
+  background: rgba(0, 255, 255, 0.3);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+/* Glow border effect */
+.glow-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.project-card:hover .glow-border {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .project-card {
+    min-height: 350px;
+    transform: perspective(1000px) rotateX(0) rotateY(0) !important;
+  }
+
+  .project-image {
+    height: 150px;
+  }
+
+  .micro-data {
+    font-size: 0.6rem;
+  }
+}
+
+/* ============================================
+   15. PROFILEGLITCH COMPONENT STYLES
+   ============================================ */
+
+.profile-glitch-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(5, 5, 8, 0.5);
+  border: 2px solid rgba(184, 0, 255, 0.3);
+  box-shadow: 0 0 20px rgba(184, 0, 255, 0.2), inset 0 0 20px rgba(184, 0, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-glitch-wrapper:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 30px rgba(184, 0, 255, 0.4), inset 0 0 30px rgba(184, 0, 255, 0.1);
+}
+
+.profile-glitch-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+  image-rendering: crisp-edges;
+}
+
+.profile-glitch-canvas:hover {
+  filter: brightness(1.05) contrast(1.1);
+}
+
+.profile-glitch-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 8, 0.8);
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+}
+
+.loading-text {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: var(--neon-magenta);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* ============================================
+   15. PRINT STYLES
+   ============================================ */
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .cyber-glass,
+  .cyber-card {
+    border: 1px solid #000;
+    box-shadow: none;
+    background: white;
+  }
+}
+/* Reset y estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Links y interacciones */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+/* Gradientes reutilizables */
+:root {
+  --primary-color: #b800ff;
+  --secondary-color: #ff00ff;
+  --dark-bg: #0a0a0a;
+  --card-bg: #1a1a1a;
+  --text-light: #ffffff;
+  --text-muted: #aaaaaa;
+  --border-color: #b800ff;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(184, 0, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(184, 0, 255, 0.5);
+  }
+}
+
+/* ============================================
+   TERMINAL BOOT SCREEN STYLES
+   ============================================ */
+
+.terminal-boot-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #050508;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Scanlines de fondo sutil */
+.terminal-boot-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 255, 0.03) 0px,
+    rgba(255, 0, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.terminal-boot-content {
+  position: relative;
+  z-index: 3;
+  width: 90%;
+  max-width: 700px;
+  background-color: rgba(5, 5, 8, 0.95);
+  border: 2px solid #b800ff;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(184, 0, 255, 0.4),
+              inset 0 0 20px rgba(184, 0, 255, 0.1);
+  font-family: 'Courier New', 'Courier', monospace;
+  overflow: hidden;
+}
+
+.terminal-header {
+  background: linear-gradient(90deg, #b800ff 0%, #050508 100%);
+  padding: 12px 16px;
+  border-bottom: 1px solid #b800ff;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.terminal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-body {
+  padding: 24px 20px;
+  min-height: 300px;
+  color: #ff00ff;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+}
+
+.terminal-log {
+  margin-bottom: 8px;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.terminal-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@keyframes blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  color: #ff00ff;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+/* ============================================
+   CYBER-GLASSMORPHISM CARD STYLES
+   ============================================ */
+
+.cyber-card {
+  position: relative;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(184, 0, 255, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 0 0;
+  border-color: transparent transparent transparent transparent;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-card:hover::before {
+  border-width: 16px 0 0 16px;
+  border-color: #b800ff transparent transparent transparent;
+  opacity: 1;
+}
+
+.cyber-card:hover {
+  border-color: #b800ff;
+  box-shadow: 0 0 30px rgba(184, 0, 255, 0.5),
+              0 0 60px rgba(255, 0, 255, 0.3),
+              inset 0 0 20px rgba(184, 0, 255, 0.1);
+  transform: translateY(-8px);
+  background: rgba(10, 10, 10, 0.6);
+}
+
+/* ============================================
+   FADE-IN ANIMATIONS FOR PORTFOLIO
+   ============================================ */
+
+.cyber-portfolio {
+  animation: fadeInPortfolio 0.8s ease-out forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeInPortfolio {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   MÓDULO 1: TERMINAL INTERACTIVA AVANZADA
+   ============================================ */
+
+.terminal-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
+  margin: 40px auto;
+  background: rgba(5, 5, 8, 0.6);
+  border: 2px solid #b800ff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(184, 0, 255, 0.3),
+              0 0 60px rgba(255, 0, 255, 0.15),
+              inset 0 0 20px rgba(184, 0, 255, 0.05);
+}
+
+.terminal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(0deg, transparent 24%, rgba(184, 0, 255, 0.05) 25%, rgba(184, 0, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(184, 0, 255, 0.05) 75%, rgba(184, 0, 255, 0.05) 76%, transparent 77%, transparent);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.terminal-header {
+  padding: 16px 20px;
+  background: linear-gradient(90deg, #b800ff 0%, rgba(184, 0, 255, 0.5) 100%);
+  border-bottom: 1px solid rgba(184, 0, 255, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.terminal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ffffff;
+}
+
+.terminal-icon {
+  color: #ff00ff;
+  font-size: 14px;
+}
+
+.terminal-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #00ff00;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+  }
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.4);
+  }
+}
+
+.terminal-display {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #00ff00;
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
+}
+
+.terminal-display::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-display::-webkit-scrollbar-track {
+  background: rgba(184, 0, 255, 0.1);
+}
+
+.terminal-display::-webkit-scrollbar-thumb {
+  background: #b800ff;
+  border-radius: 4px;
+}
+
+.terminal-display::-webkit-scrollbar-thumb:hover {
+  background: #ff00ff;
+}
+
+.terminal-entry {
+  margin-bottom: 12px;
+}
+
+.terminal-command {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.terminal-prompt {
+  color: #ff00ff;
+}
+
+.command-text {
+  color: #00ff00;
+}
+
+.terminal-output {
+  margin-top: 4px;
+  padding-left: 20px;
+  color: #00ff00;
+}
+
+.terminal-output.ascii pre {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.2;
+  color: #ff00ff;
+  margin: 8px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ascii-art {
+  color: #ff00ff;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.terminal-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 20px;
+  background: rgba(5, 5, 8, 0.8);
+  border-top: 1px solid rgba(184, 0, 255, 0.3);
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  position: relative;
+  z-index: 2;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  padding: 0;
+}
+
+.terminal-input::placeholder {
+  color: rgba(0, 255, 0, 0.3);
+}
+
+.cursor-blink {
+  color: #ff00ff;
+  animation: blink 1s infinite;
+}
+
+/* ============================================
+   MÓDULO 2: GLITCH EFFECT (Easter Egg "hack")
+   ============================================ */
+
+body.system-glitch {
+  animation: glitchEffect 0.15s infinite;
+}
+
+@keyframes glitchEffect {
+  0% {
+    clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 65%, 0 65%);
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    clip-path: polygon(0 30%, 100% 30%, 100% 33%, 0 33%);
+    transform: translate(2px, -2px);
+  }
+  60% {
+    clip-path: polygon(0 80%, 100% 80%, 100% 85%, 0 85%);
+    transform: translate(-1px, 1px);
+  }
+  80% {
+    clip-path: polygon(0 50%, 100% 50%, 100% 58%, 0 58%);
+    transform: translate(1px, -1px);
+  }
+  100% {
+    clip-path: polygon(0 0%, 100% 0%, 100% 100%, 0 100%);
+    transform: translate(0);
+  }
+}
+
+body.system-glitch::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 0, 255, 0.3) 50%, transparent 70%);
+  pointer-events: none;
+  animation: glitchGlowPulse 0.2s infinite;
+  z-index: 9998;
+}
+
+@keyframes glitchGlowPulse {
+  0% {
+    box-shadow: -5px 0 rgba(184, 0, 255, 0.8), 5px 0 rgba(0, 255, 255, 0.8) inset;
+  }
+  100% {
+    box-shadow: 5px 0 rgba(184, 0, 255, 0.8), -5px 0 rgba(0, 255, 255, 0.8) inset;
+  }
+}
+
+/* ============================================
+   MÓDULO 3: CUSTOM CURSOR CON GLOW PÚRPURA
+   ============================================ */
+
+:root {
+  --cursor-x: 0px;
+  --cursor-y: 0px;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #b800ff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  left: var(--cursor-x, 0);
+  top: var(--cursor-y, 0);
+  box-shadow: 0 0 15px rgba(184, 0, 255, 0.6),
+              0 0 30px rgba(184, 0, 255, 0.3),
+              inset 0 0 10px rgba(184, 0, 255, 0.2);
+  transition: left 0.05s ease-out, top 0.05s ease-out;
+}
+
+.custom-cursor::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ff00ff;
+  border-radius: 50%;
+  animation: cursorPulse 1.5s ease-in-out infinite;
+  top: 0;
+  left: 0;
+}
+
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: #ff00ff;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+}
+
+@keyframes cursorPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+   MÓDULO 3: GLASSMORPHISM PERFECTO
+   ============================================ */
+
+.cyber-glass {
+  background: rgba(5, 5, 8, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(184, 0, 255, 0.25) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2) !important;
+}
+
+/* ============================================
+   MÓDULO 3: FONDO DE CIRCUITO ANIMADO
+   ============================================ */
+
+.circuit-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><linearGradient id="circuit" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23b800ff;stop-opacity:0.05"/><stop offset="50%" style="stop-color:%23ff00ff;stop-opacity:0.1"/><stop offset="100%" style="stop-color:%2300ffff;stop-opacity:0.05"/></linearGradient></defs><rect width="100" height="100" fill="none" stroke="url(%23circuit)" stroke-width="1"/><circle cx="10" cy="10" r="2" fill="%23b800ff" opacity="0.3"/><circle cx="90" cy="10" r="2" fill="%23ff00ff" opacity="0.3"/><circle cx="10" cy="90" r="2" fill="%2300ffff" opacity="0.3"/><circle cx="90" cy="90" r="2" fill="%23b800ff" opacity="0.3"/><line x1="10" y1="10" x2="90" y2="90" stroke="%23b800ff" stroke-width="0.5" opacity="0.2"/><line x1="90" y1="10" x2="10" y2="90" stroke="%23ff00ff" stroke-width="0.5" opacity="0.2"/></svg>');
+  background-size: 100px 100px;
+  background-attachment: fixed;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.08;
+  animation: circuitFloat 20s linear infinite;
+}
+
+@keyframes circuitFloat {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100px 100px;
+  }
+}
+
+/* ============================================
+   ESTILOS RESPONSIVOS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .terminal-container {
+    height: 400px;
+    margin: 20px auto;
+  }
+
+  .terminal-display {
+    font-size: 12px;
+  }
+
+  .terminal-input-wrapper {
+    font-size: 12px;
+  }
+
+  .custom-cursor {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-container {
+    height: 300px;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+
+  .terminal-header {
+    padding: 12px 16px;
+    font-size: 11px;
+  }
+
+  .terminal-display {
+    font-size: 11px;
+    padding: 16px;
+  }
+
+  .terminal-input-wrapper {
+    padding: 12px 16px;
+    font-size: 11px;
+  }
+
+  .custom-cursor {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Media queries para responsivo */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}
