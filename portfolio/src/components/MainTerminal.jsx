@@ -7,6 +7,113 @@ import { audioManager } from '../utils/AudioManager';
  * Interactive command console with history display
  * Module 2: Terminal Access Control System
  */
+
+// ASCII Art Constants
+const whoamiASCII = `
+~~
+
+██████╗  █████╗ ██╗   ██╗██╗██████╗  ███╗   ██╗ █████╗ ███╗   ██╗ ██████╗██╗   ██╗██╗     ███████╗ ██████╗
+██╔══██╗██╔══██╗██║   ██║██║██╔══██╗ ████╗  ██║██╔══██╗████╗  ██║██╔════╝██║   ██║██║     ██╔════╝██╔═══██╗
+██║  ██║███████║██║   ██║██║██║  ██║ ██╔██╗ ██║███████║██╔██╗ ██║██║     ██║   ██║██║     █████╗  ██║   ██║
+██║  ██║██╔══██║╚██╗ ██╔╝██║██║  ██║ ██║╚██╗██║██╔══██║██║╚██╗██║██║     ██║   ██║██║     ██╔══╝  ██║   ██║
+██████╔╝██║  ██║ ╚████╔╝ ██║██████╔╝ ██║ ╚████║██║  ██║██║ ╚████║╚██████╗╚██████╔╝███████╗███████╗╚██████╔╝
+╚═════╝ ╚═╝  ╚═╝  ╚═══╝  ╚═╝╚═════╝  ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝ ╚═════╝
+
+════════════════════════════════════════════════════════════════════════════════════════════════════════════
+RPA Developer | Full-Stack Dev | Automation Specialist
+════════════════════════════════════════════════════════════════════════════════════════════════════════════
+`;
+
+const aboutASCII = `
+┌────────────────────────────────────────────────────────────┐
+│ [CLASSIFIED_FILE] : PERFIL PROFESIONAL                     │
+├────────────────────────────────────────────────────────────┤
+│ NOMBRE    : David Ñanculeo                                 │
+│ ROL       : Ingeniero Civil Informático                    │
+│ ENFOQUE   : Full-Stack / Backend / RPA Developer           │
+│ BASE      : Las Condes, Santiago, Chile                    │
+├────────────────────────────────────────────────────────────┤
+│ [INFO] Especialista en desarrollo de software, creación de │
+│ arquitecturas escalables y automatización de procesos.     │
+└────────────────────────────────────────────────────────────┘
+`;
+
+const projectsASCII = `
+┌──────────────────────────────────────────────────────────────────────┐
+│ [SYS_DIR] : /root/projects/                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│ [>] HMED                                                             │
+│     Plataforma médica integral de gestión de datos sanitarios        │
+│     Tags: React | TypeScript | Medical | Full Stack                 │
+│     Link: https://github.com/david-tkd203/hmed                      │
+│                                                                      │
+│ [>] Sistema de Auditoría ISO 27001                                  │
+│     Gestión de ciberseguridad con macros VBA y Python               │
+│     Tags: VBA | Python | ISO 27001 | Excel                          │
+│     Link: https://github.com/david-tkd203/ciberseguridad_auditoria  │
+│                                                                      │
+│ [>] Sistema Evaluación Taekwondo                                    │
+│     Evaluación objetiva con OpenCV, MediaPipe y PyQt5               │
+│     Tags: Python | OpenCV | ML | PyQt5                              │
+│     Link: https://github.com/david-tkd203/poomsae_accuracy          │
+│                                                                      │
+│ [>] Análisis Narcotráfico en X                                      │
+│     Motor de búsqueda y análisis de datos galardonado                │
+│     Tags: Python | Data Analysis | APIs | SQL                       │
+│     Link: https://github.com/david-tkd203/An-lisis-de-Drogas        │
+│                                                                      │
+│ [>] Gestión de Personas Full Stack                                  │
+│     React 18 + TypeScript (Vite) + Python Flask + MySQL             │
+│     Tags: React | TypeScript | Flask | MySQL                        │
+│     Link: https://github.com/david-tkd203/ENTREGA-WEB-MOBILE        │
+│                                                                      │
+│ [>] Instagram Unfollower Tool                                       │
+│     Automatización con Python y Selenium                             │
+│     Tags: Python | Selenium | Automation                            │
+│     Link: https://github.com/david-tkd203/Instagram-Unfollow-Tool   │
+│                                                                      │
+│ [>_] Poke API Web                                                   │
+│     Aplicación web con Django y buenas prácticas                    │
+│     Tags: Django | Python | REST API                                │
+│     Link: https://github.com/?q=poke                                │
+└──────────────────────────────────────────────────────────────────────┘
+`;
+
+const skillsASCII = `
+┌────────────────────────────────────────────────────────────┐
+│ [SYS_MODULES] : SKILL_MATRIX_V2.0                          │
+├────────────────────────────────────────────────────────────┤
+│ [BACKEND]  ██████████░░ 85% | Python, Django               │
+│ [FRONTEND] █████████░░░ 75% | React, Vite, CSS Vanilla     │
+│ [DATA/RPA] ████████████ 95% | PostgreSQL, Automatización   │
+│ [DEVOPS]   ████████░░░░ 70% | Docker, Linux                │
+└────────────────────────────────────────────────────────────┘
+`;
+
+const experienceASCII = `
+┌────────────────────────────────────────────────────────────┐
+│ [LOG_RECORDS] : HISTORIAL LABORAL Y EVALUACIONES           │
+├────────────────────────────────────────────────────────────┤
+│ [ACTIVE]  Desarrollo y mantenimiento de apps productivas.  │
+│           Arquitectura Backend y automatizaciones RPA.     │
+│                                                            │
+│ [ARCHIVE] Procesos y pruebas técnicas de alto nivel en:    │
+│           > Genesys                                        │
+│           > EPAM Systems                                   │
+│           > Evaluaciones HackerRank / Live Coding          │
+└────────────────────────────────────────────────────────────┘
+`;
+
+const contactASCII = `
+┌────────────────────────────────────────────────────────────┐
+│ [COMMS_LINK] : ESTABLECIENDO CONEXIÓN SEGURA...            │
+├────────────────────────────────────────────────────────────┤
+│ [GITHUB]   > https://github.com/david-tkd203               │
+│ [LINKEDIN] > linkedin.com/in/david-tkd203                  │
+│ [STATUS]   > ENCRIPTACIÓN RSA-2048 ACTIVADA                │
+└────────────────────────────────────────────────────────────┘
+`;
+
 const MainTerminal = () => {
   const { executeCommand } = useCommandCenter();
   const [history, setHistory] = useState([
@@ -18,6 +125,59 @@ const MainTerminal = () => {
     {
       command: 'scan sections...',
       response: '[OK] 3 SECTIONS FOUND: ABOUT | PROJECTS | SKILLS - [LOCKED]',
+      timestamp: new Date(),
+    },
+    {
+      command: 'run deploy --section ABOUT',
+      response: '[OK] DECRYPTING SECTION: ABOUT...',
+      timestamp: new Date(),
+    },
+    {
+      command: 'whoami',
+      response: `
+██████╗ ███████╗██╗   ██╗██╗██████╗      ██╗   ██╗ █████╗ ███╗   ██╗ ██████╗██╗   ██╗██╗     ███████╗ ██████╗ 
+██╔══██╗██╔════╝██║   ██║██║██╔══██╗     ██║   ██║██╔══██╗████╗  ██║██╔════╝██║   ██║██║     ██╔════╝██╔═══██╗
+██║  ██║█████╗  ██║   ██║██║██║  ██║     ██║   ██║███████║██╔██╗ ██║██║     ██║   ██║██║     █████╗  ██║   ██║
+██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║  ██║     ╚██╗ ██╔╝██╔══██║██║╚██╗██║██║     ██║   ██║██║     ██╔══╝  ██║   ██║
+██████╔╝███████╗ ╚████╔╝ ██║██████╔╝      ╚████╔╝ ██║  ██║██║ ╚████║╚██████╗╚██████╔╝███████╗███████╗╚██████╔╝
+╚═════╝ ╚══════╝  ╚═══╝  ╚═╝╚═════╝        ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝ ╚═════╝ 
+
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+RPA Developer | Full-Stack Dev | Automation Specialist
+════════════════════════════════════════════════════════════════════════════════════════════════════════════════`,
+      timestamp: new Date(),
+    },
+    {
+      command: 'help',
+      response: `┌─────────────────────────────────────────┐
+│      COMANDOS DISPONIBLES - v1.0        │
+└─────────────────────────────────────────┘
+
+DESBLOQUEO & CONTROL
+[1] run deploy --section ABOUT → Desbloquea ABOUT
+[2] run deploy --section PROJECTS → Desbloquea PROJECTS
+[3] run deploy --section SKILLS → Desbloquea SKILLS
+[4] run deploy --global → Desbloquea TODAS las secciones
+
+INFORMACIÓN & NAVEGACIÓN
+[5] whoami → Información de identificación
+[6] about → Perfil profesional clasificado
+[7] projects → Portafolio técnico
+[8] skills → Stack tecnológico
+[9] experience → Historial laboral
+[10] contact → Información de contacto
+
+UTILIDADES
+[11] clear → Limpia el historial
+[12] help → Muestra este mensaje
+
+EASTER EGG 🎯
+[?] hack → Acceso al sistema... ¿Qué pasará?
+
+┌─────────────────────────────────────────┐
+│   💡 Tip: Usa InfoHub (botón flotante)  │
+│      para desbloquear sin comandos      │
+└─────────────────────────────────────────┘`,
       timestamp: new Date(),
     },
   ]);
@@ -45,8 +205,33 @@ const MainTerminal = () => {
     if (!input.trim()) return;
 
     setIsProcessing(true);
-    const trimmedInput = input.trim();
-    const response = executeCommand(trimmedInput);
+    const trimmedInput = input.trim().toLowerCase();
+    let response;
+
+    // Intercept custom ASCII commands
+    switch (trimmedInput) {
+      case 'whoami':
+        response = whoamiASCII;
+        break;
+      case 'about':
+        response = aboutASCII;
+        break;
+      case 'projects':
+        response = projectsASCII;
+        break;
+      case 'skills':
+        response = skillsASCII;
+        break;
+      case 'experience':
+        response = experienceASCII;
+        break;
+      case 'contact':
+        response = contactASCII;
+        break;
+      default:
+        // Fall back to executeCommand for other commands
+        response = executeCommand(input);
+    }
 
     if (response === null) {
       // Clear command - just update history without adding command
@@ -54,12 +239,16 @@ const MainTerminal = () => {
       setInput('');
       setIsProcessing(false);
     } else {
+      // Check for glitch easter egg
+      const hasGlitch = response && response.includes('__GLITCH__');
+      const cleanResponse = hasGlitch ? response.replace('\n__GLITCH__', '') : response;
+
       // Add to history
       setHistory((prev) => [
         ...prev,
         {
-          command: trimmedInput,
-          response: response,
+          command: input,
+          response: cleanResponse,
           timestamp: new Date(),
         },
       ]);
@@ -67,6 +256,14 @@ const MainTerminal = () => {
       // Clear input
       setInput('');
       setIsProcessing(false);
+
+      // Apply glitch effect if hack was executed
+      if (hasGlitch) {
+        document.body.classList.add('system-glitch');
+        setTimeout(() => {
+          document.body.classList.remove('system-glitch');
+        }, 2000);
+      }
 
       // Play completion sound
       audioManager.playDataPulse();
@@ -150,15 +347,26 @@ const MainTerminal = () => {
             <p className="terminal-empty-text">[ESPERANDO COMANDOS...]</p>
           </div>
         ) : (
-          history.map((entry, idx) => (
-            <div key={idx} className="terminal-entry">
-              <div className="terminal-line">
-                <span className="terminal-prompt">$</span>
-                <span className="terminal-command">{entry.command}</span>
+          history.map((entry, idx) => {
+            // Check if response is ASCII art by command name
+            const isASCIICommand = ['whoami', 'about', 'projects', 'skills', 'experience', 'contact'].includes(
+              entry.command.trim().toLowerCase()
+            );
+            
+            return (
+              <div key={idx} className="terminal-entry">
+                <div className="terminal-line">
+                  <span className="terminal-prompt">$</span>
+                  <span className="terminal-command">{entry.command}</span>
+                </div>
+                {isASCIICommand ? (
+                  <pre className="ascii-output">{entry.response}</pre>
+                ) : (
+                  <div className="terminal-response">{entry.response}</div>
+                )}
               </div>
-              <div className="terminal-response">{entry.response}</div>
-            </div>
-          ))
+            );
+          })
         )}
         {isProcessing && (
           <div className="terminal-entry processing">
