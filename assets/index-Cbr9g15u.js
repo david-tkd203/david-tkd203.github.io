@@ -9947,10 +9947,111 @@ var require_react_jsx_runtime_production = /* @__PURE__ */ __commonJSMin(((expor
 	exports.jsxs = jsxProd;
 }));
 //#endregion
-//#region src/components/TerminalBoot.jsx
+//#region src/components/BootScreen.jsx
 var import_jsx_runtime = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_production();
 })))();
+/**
+* BootScreen Component
+* Displays a glitched boot sequence on page load
+* Shows logo_hacker.png with aggressive glitch effect
+*/
+var BootScreen = ({ onComplete }) => {
+	const canvasRef = (0, import_react.useRef)(null);
+	const [isVisible, setIsVisible] = (0, import_react.useState)(true);
+	const originalImageDataRef = (0, import_react.useRef)(null);
+	const [imageLoaded, setImageLoaded] = (0, import_react.useState)(false);
+	(0, import_react.useEffect)(() => {
+		const canvas = canvasRef.current;
+		if (!canvas) return;
+		const ctx = canvas.getContext("2d", { willReadFrequently: true });
+		const img = new Image();
+		img.src = "/images/logo_hacker.png";
+		img.onload = () => {
+			const size = Math.min(window.innerWidth * .6, window.innerHeight * .6, 400);
+			canvas.width = size;
+			canvas.height = size;
+			const x = (size - img.width) / 2;
+			const y = (size - img.height) / 2;
+			ctx.drawImage(img, x, y);
+			originalImageDataRef.current = ctx.getImageData(0, 0, size, size);
+			setImageLoaded(true);
+		};
+		let bootTime = 0;
+		const bootDuration = 3500;
+		const applyGlitch = () => {
+			const canvas = canvasRef.current;
+			if (!canvas || !originalImageDataRef.current) return;
+			const ctx = canvas.getContext("2d", { willReadFrequently: true });
+			const original = originalImageDataRef.current;
+			const imageData = ctx.createImageData(original);
+			imageData.data.set(original.data);
+			const lineHeight = imageData.height;
+			if (Math.random() > .3) for (let line = 0; line < 12; line++) {
+				const lineY = Math.floor(Math.random() * lineHeight);
+				const offset = Math.floor((Math.random() - .5) * 80);
+				for (let x = 0; x < imageData.width; x++) {
+					const sourceX = (x - offset + imageData.width) % imageData.width;
+					const sourceIdx = (lineY * imageData.width + sourceX) * 4;
+					const targetIdx = (lineY * imageData.width + x) * 4;
+					const rLine = Math.floor(Math.random() * lineHeight);
+					const bLine = Math.floor(Math.random() * lineHeight);
+					if (rLine === lineY) {
+						const rIdx = ((rLine + 5) * imageData.width + x) * 4;
+						if (rIdx + 3 < imageData.data.length && sourceIdx + 3 < imageData.data.length) imageData.data[rIdx] = original.data[sourceIdx];
+					}
+					if (bLine === lineY) {
+						const bIdx = ((bLine - 5) * imageData.width + x) * 4;
+						if (bIdx + 3 < imageData.data.length && sourceIdx + 3 < imageData.data.length) imageData.data[bIdx + 2] = original.data[sourceIdx + 2];
+					}
+					if (targetIdx + 3 < imageData.data.length && sourceIdx + 3 < imageData.data.length) {
+						imageData.data[targetIdx] = original.data[sourceIdx];
+						imageData.data[targetIdx + 1] = original.data[sourceIdx + 1];
+						imageData.data[targetIdx + 2] = original.data[sourceIdx + 2];
+						imageData.data[targetIdx + 3] = original.data[sourceIdx + 3];
+					}
+				}
+			}
+			for (let y = 0; y < lineHeight; y += 3) for (let x = 0; x < imageData.width; x++) {
+				const idx = (y * imageData.width + x) * 4;
+				if (idx + 3 < imageData.data.length) imageData.data[idx + 3] = Math.floor(imageData.data[idx + 3] * .7);
+			}
+			ctx.putImageData(imageData, 0, 0);
+		};
+		const animate = () => {
+			bootTime / bootDuration;
+			if (imageLoaded) applyGlitch();
+			bootTime += 30;
+			if (bootTime < bootDuration) setTimeout(animate, 30);
+			else {
+				setIsVisible(false);
+				setTimeout(() => {
+					if (onComplete) onComplete();
+				}, 500);
+			}
+		};
+		if (imageLoaded) animate();
+	}, [imageLoaded, onComplete]);
+	if (!isVisible) return null;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "boot-screen",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "boot-container",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("canvas", {
+				ref: canvasRef,
+				className: "boot-canvas"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "boot-text",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "boot-status",
+					children: "> INITIALIZING NEURAL NETWORK..."
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "boot-scanlines" })]
+			})]
+		})
+	});
+};
+//#endregion
+//#region src/components/TerminalBoot.jsx
 function TerminalBoot({ onComplete }) {
 	const [displayedLogs, setDisplayedLogs] = (0, import_react.useState)([]);
 	const [isComplete, setIsComplete] = (0, import_react.useState)(false);
@@ -13942,6 +14043,225 @@ function Education() {
 	});
 }
 //#endregion
+//#region src/components/NeuralSkills.jsx
+/**
+* NeuralSkills Component
+* SVG-based skill network with physics simulation
+* Nodes attract to each other AND follow mouse
+*/
+var NeuralSkills = ({ skills = [
+	"Python",
+	"Django",
+	"React",
+	"Vite",
+	"Docker",
+	"MySQL",
+	"APIs REST",
+	"Git",
+	"RPA",
+	"Data Science"
+] }) => {
+	const svgRef = (0, import_react.useRef)(null);
+	const containerRef = (0, import_react.useRef)(null);
+	const nodesRef = (0, import_react.useRef)([]);
+	const dimensionsRef = (0, import_react.useRef)({
+		width: 800,
+		height: 500
+	});
+	const mouseRef = (0, import_react.useRef)({
+		x: 400,
+		y: 250
+	});
+	const animationRef = (0, import_react.useRef)(null);
+	(0, import_react.useEffect)(() => {
+		const container = containerRef.current;
+		if (!container) return;
+		const width = container.offsetWidth || 800;
+		const height = container.offsetHeight || 500;
+		dimensionsRef.current = {
+			width,
+			height
+		};
+		nodesRef.current = skills.map((skill, i) => ({
+			id: i,
+			label: skill,
+			x: Math.random() * width,
+			y: Math.random() * height,
+			vx: (Math.random() - .5) * 4,
+			vy: (Math.random() - .5) * 4,
+			mass: 1,
+			radius: 25,
+			color: `hsl(${200 + i * 20}, 100%, 50%)`
+		}));
+		const handleMouseMove = (e) => {
+			const rect = container.getBoundingClientRect();
+			mouseRef.current = {
+				x: e.clientX - rect.left,
+				y: e.clientY - rect.top
+			};
+		};
+		container.addEventListener("mousemove", handleMouseMove);
+		const animate = () => {
+			const nodes = nodesRef.current;
+			const { width, height } = dimensionsRef.current;
+			const mouse = mouseRef.current;
+			for (let i = 0; i < nodes.length; i++) {
+				for (let j = i + 1; j < nodes.length; j++) {
+					const dx = nodes[j].x - nodes[i].x;
+					const dy = nodes[j].y - nodes[i].y;
+					const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+					const minDistance = 80;
+					const maxDistance = 250;
+					const force = (distance < minDistance ? (minDistance - distance) * .3 : 0) - (distance > maxDistance ? 0 : (1 - distance / maxDistance) * .08);
+					const fx = dx / distance * force;
+					const fy = dy / distance * force;
+					nodes[i].vx -= fx * .1;
+					nodes[i].vy -= fy * .1;
+					nodes[j].vx += fx * .1;
+					nodes[j].vy += fy * .1;
+				}
+				const mouseX = mouse.x || width / 2;
+				const mouseY = mouse.y || height / 2;
+				const dmx = mouseX - nodes[i].x;
+				const dmy = mouseY - nodes[i].y;
+				const mouseDist = Math.sqrt(dmx * dmx + dmy * dmy) || 1;
+				const mouseForce = (1 - Math.min(mouseDist / 300, 1)) * .15;
+				nodes[i].vx += dmx / mouseDist * mouseForce;
+				nodes[i].vy += dmy / mouseDist * mouseForce;
+			}
+			nodes.forEach((node) => {
+				node.vx *= .96;
+				node.vy *= .96;
+				node.x += node.vx;
+				node.y += node.vy;
+				const padding = node.radius + 5;
+				if (node.x - padding < 0) {
+					node.x = padding;
+					node.vx *= -.6;
+				}
+				if (node.x + padding > width) {
+					node.x = width - padding;
+					node.vx *= -.6;
+				}
+				if (node.y - padding < 0) {
+					node.y = padding;
+					node.vy *= -.6;
+				}
+				if (node.y + padding > height) {
+					node.y = height - padding;
+					node.vy *= -.6;
+				}
+			});
+			renderNetwork();
+			animationRef.current = requestAnimationFrame(animate);
+		};
+		animationRef.current = requestAnimationFrame(animate);
+		const handleResize = () => {
+			if (container) dimensionsRef.current = {
+				width: container.offsetWidth || 800,
+				height: container.offsetHeight || 500
+			};
+		};
+		window.addEventListener("resize", handleResize);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+			container.removeEventListener("mousemove", handleMouseMove);
+			if (animationRef.current) cancelAnimationFrame(animationRef.current);
+		};
+	}, [skills]);
+	/**
+	* Renderizar red de nodos
+	*/
+	const renderNetwork = () => {
+		const svg = svgRef.current;
+		if (!svg) return;
+		const nodes = nodesRef.current;
+		while (svg.firstChild) svg.removeChild(svg.firstChild);
+		const linesGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		linesGroup.setAttribute("class", "neural-connections");
+		for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+			const dx = nodes[j].x - nodes[i].x;
+			const dy = nodes[j].y - nodes[i].y;
+			const distance = Math.sqrt(dx * dx + dy * dy);
+			const maxDistance = 250;
+			if (distance < maxDistance) {
+				const opacity = 1 - distance / maxDistance;
+				const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+				line.setAttribute("x1", nodes[i].x);
+				line.setAttribute("y1", nodes[i].y);
+				line.setAttribute("x2", nodes[j].x);
+				line.setAttribute("y2", nodes[j].y);
+				line.setAttribute("stroke", `rgba(0, 255, 255, ${opacity * .5})`);
+				line.setAttribute("stroke-width", "1.5");
+				line.setAttribute("class", "neural-line");
+				linesGroup.appendChild(line);
+			}
+		}
+		svg.appendChild(linesGroup);
+		const nodesGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		nodesGroup.setAttribute("class", "neural-nodes");
+		nodes.forEach((node) => {
+			const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+			const glow = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+			glow.setAttribute("cx", node.x);
+			glow.setAttribute("cy", node.y);
+			glow.setAttribute("r", node.radius + 8);
+			glow.setAttribute("fill", "none");
+			glow.setAttribute("stroke", "rgba(0, 255, 255, 0.3)");
+			glow.setAttribute("stroke-width", "2");
+			glow.setAttribute("class", "node-glow");
+			g.appendChild(glow);
+			const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+			circle.setAttribute("cx", node.x);
+			circle.setAttribute("cy", node.y);
+			circle.setAttribute("r", node.radius);
+			circle.setAttribute("fill", "rgba(5, 5, 8, 0.85)");
+			circle.setAttribute("stroke", "rgba(0, 255, 255, 0.7)");
+			circle.setAttribute("stroke-width", "2.5");
+			circle.setAttribute("class", "neural-node");
+			circle.style.cursor = "pointer";
+			circle.addEventListener("mouseenter", () => {
+				circle.setAttribute("r", node.radius + 6);
+				circle.setAttribute("stroke", "rgba(184, 0, 255, 1)");
+				circle.setAttribute("stroke-width", "3.5");
+				circle.setAttribute("filter", "drop-shadow(0 0 15px rgba(184, 0, 255, 0.7))");
+			});
+			circle.addEventListener("mouseleave", () => {
+				circle.setAttribute("r", node.radius);
+				circle.setAttribute("stroke", "rgba(0, 255, 255, 0.7)");
+				circle.setAttribute("stroke-width", "2.5");
+				circle.setAttribute("filter", "none");
+			});
+			g.appendChild(circle);
+			const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			text.setAttribute("x", node.x);
+			text.setAttribute("y", node.y);
+			text.setAttribute("text-anchor", "middle");
+			text.setAttribute("dominant-baseline", "middle");
+			text.setAttribute("fill", "#00ffff");
+			text.setAttribute("font-family", "\"Fira Code\", monospace");
+			text.setAttribute("font-size", "11px");
+			text.setAttribute("font-weight", "bold");
+			text.setAttribute("pointer-events", "none");
+			text.setAttribute("class", "neural-label");
+			text.textContent = node.label;
+			g.appendChild(text);
+			nodesGroup.appendChild(g);
+		});
+		svg.appendChild(nodesGroup);
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		ref: containerRef,
+		className: "neural-skills-container",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+			ref: svgRef,
+			className: "neural-skills-svg",
+			viewBox: "0 0 800 500",
+			preserveAspectRatio: "xMidYMid slice"
+		})
+	});
+};
+//#endregion
 //#region src/components/Skills.jsx
 var TechLogo = ({ name, color, logoSrc }) => {
 	const [hover, setHover] = (0, import_react.useState)(false);
@@ -14243,6 +14563,36 @@ function Skills() {
 							}, sidx))
 						})]
 					}, idx);
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					style: {
+						marginTop: "6rem",
+						marginBottom: "4rem"
+					},
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						style: {
+							...h2Style,
+							fontSize: "2rem",
+							marginBottom: "2rem"
+						},
+						children: "Red de Habilidades"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(NeuralSkills, { skills: [
+						"Python",
+						"Django",
+						"React",
+						"Vite",
+						"Docker",
+						"MySQL",
+						"APIs REST",
+						"Git",
+						"RPA",
+						"Data Science",
+						"Rocketbot",
+						"Power Automate",
+						"Flask",
+						"Pandas",
+						"Selenium"
+					] })]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					style: {
@@ -14637,22 +14987,27 @@ function Footer() {
 //#endregion
 //#region src/App.jsx
 function App() {
+	const [bootComplete, setBootComplete] = (0, import_react.useState)(false);
 	const [isBooting, setIsBooting] = (0, import_react.useState)(true);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CustomCursor, {}), isBooting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TerminalBoot, { onComplete: () => setIsBooting(false) }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
-		className: "cyber-portfolio fade-in",
-		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Terminal, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Experience, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Education, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Contact, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {})
-		]
-	})] });
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CustomCursor, {}),
+		!bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BootScreen, { onComplete: () => setBootComplete(true) }),
+		bootComplete && isBooting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TerminalBoot, { onComplete: () => setIsBooting(false) }) : bootComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
+			className: "cyber-portfolio fade-in",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Terminal, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(About, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Experience, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Projects, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Education, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Skills, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Contact, {}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {})
+			]
+		})
+	] });
 }
 //#endregion
 //#region src/main.jsx

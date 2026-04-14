@@ -763,7 +763,69 @@ p {
 }
 
 /* ============================================
-   15. PROFILEGLITCH COMPONENT STYLES
+   15. NEURALSKILLS COMPONENT STYLES
+   ============================================ */
+
+.neural-skills-container {
+  width: 100%;
+  height: clamp(400px, 60vh, 600px);
+  background: linear-gradient(135deg, rgba(5, 5, 8, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.1),
+    inset 0 0 20px rgba(0, 255, 255, 0.05);
+  position: relative;
+}
+
+.neural-skills-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.2));
+}
+
+/* Líneas de conexión */
+.neural-line {
+  stroke-linecap: round;
+  transition: stroke 0.3s ease;
+  filter: url(#glow);
+}
+
+/* Nodos */
+.neural-node {
+  transition: all 0.2s ease;
+  filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.3));
+}
+
+.neural-node:hover {
+  filter: drop-shadow(0 0 12px rgba(255, 0, 255, 0.5));
+}
+
+/* Glow alrededor de nodos */
+.node-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    r: 30px;
+    opacity: 0.3;
+  }
+  50% {
+    r: 35px;
+    opacity: 0.6;
+  }
+}
+
+/* Labels de nodos */
+.neural-label {
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.5);
+}
+
+/* ============================================
+   16. PROFILEGLITCH COMPONENT STYLES
    ============================================ */
 
 .profile-glitch-wrapper {
@@ -1274,6 +1336,116 @@ textarea {
 
 .terminal-input::placeholder {
   color: rgba(0, 255, 0, 0.3);
+}
+
+/* ============================================
+   17. BOOTSCREEN COMPONENT STYLES
+   ============================================ */
+
+.boot-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #050508;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: bootFadeOut 0.5s ease-in-out 3.5s forwards;
+  overflow: hidden;
+}
+
+.boot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 5vw, 2rem);
+  position: relative;
+}
+
+.boot-canvas {
+  display: block;
+  max-width: 90vw;
+  max-height: 90vh;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 30px rgba(184, 0, 255, 0.4));
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.boot-text {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.boot-status {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  color: var(--neon-cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: bootTyping 2.5s steps(40, end) 0.3s forwards;
+  opacity: 0;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.boot-scanlines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: bootScanAnimation 0.1s infinite;
+}
+
+@keyframes bootFadeOut {
+  0% {
+    opacity: 1;
+    backdrop-filter: blur(0px);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+  }
+}
+
+@keyframes bootTyping {
+  0% {
+    opacity: 0;
+    width: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    width: 100%;
+  }
+}
+
+@keyframes bootScanAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(2px);
+  }
 }
 
 .cursor-blink {
