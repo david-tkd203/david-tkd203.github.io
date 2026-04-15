@@ -113,6 +113,42 @@ const contactASCII = `
 └────────────────────────────────────────────────────────────┘
 `;
 
+const messagePAscii = `
+✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨
+
+              ╔═══════════════════════════════════════════════╗
+              ║    💖 MENSAJE ESPECIAL PARA PAU 💖           ║
+              ║  [ENCRYPTED TRANSMISSION FROM DAVID]         ║
+              ╚═══════════════════════════════════════════════╝
+
+🌟 Espero que mañana te vaya SUPER bien, Pau.
+   Será un GRAN día, te irá EXCELENTE. 💪
+
+✨ Ve con TODO mañana. Aunque sea un empleo simple,
+   ¡RESALTA por tu motivación! Eres increíble. 🚀
+
+💎 Eres una GRAN profesional:
+   ✓ Hermosa 😍
+   ✓ Dedicada y motivada 🔥
+   ✓ Con un lenguaje excelente 💬
+   ✓ Capaz de hacer MUCHÍSIMO 🌈
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+           🍀 TODA MI SUERTE PARA MAÑANA 🍀
+
+        Ve y demuéstrale al mundo de qué estás hecha.
+              Confío totalmente en ti, preciosa. 💝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+     ⭐ Recuerda: Tu potencial es INFINITO ⭐
+     ❤️ Tú puedes con TODO lo que te propongas ❤️
+     🌸 Mañana será el primer día de tu éxito 🌸
+
+✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨
+`;
+
 const MainTerminal = () => {
   const { executeCommand } = useCommandCenter();
   const [history, setHistory] = useState([
@@ -226,6 +262,9 @@ EASTER EGG 🎯
         break;
       case 'contact':
         response = contactASCII;
+        break;
+      case '-message-p':
+        response = messagePAscii;
         break;
       default:
         // Fall back to executeCommand for other commands
