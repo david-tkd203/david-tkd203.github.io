@@ -28594,6 +28594,633 @@ var BoxGeometry = class BoxGeometry extends BufferGeometry {
 	}
 };
 /**
+* A polyhedron is a solid in three dimensions with flat faces. This class
+* will take an array of vertices, project them onto a sphere, and then
+* divide them up to the desired level of detail.
+*
+* @augments BufferGeometry
+*/
+var PolyhedronGeometry = class PolyhedronGeometry extends BufferGeometry {
+	/**
+	* Constructs a new polyhedron geometry.
+	*
+	* @param {Array<number>} [vertices] - A flat array of vertices describing the base shape.
+	* @param {Array<number>} [indices] - A flat array of indices describing the base shape.
+	* @param {number} [radius=1] - The radius of the shape.
+	* @param {number} [detail=0] - How many levels to subdivide the geometry. The more detail, the smoother the shape.
+	*/
+	constructor(vertices = [], indices = [], radius = 1, detail = 0) {
+		super();
+		this.type = "PolyhedronGeometry";
+		/**
+		* Holds the constructor parameters that have been
+		* used to generate the geometry. Any modification
+		* after instantiation does not change the geometry.
+		*
+		* @type {Object}
+		*/
+		this.parameters = {
+			vertices,
+			indices,
+			radius,
+			detail
+		};
+		const vertexBuffer = [];
+		const uvBuffer = [];
+		subdivide(detail);
+		applyRadius(radius);
+		generateUVs();
+		this.setAttribute("position", new Float32BufferAttribute(vertexBuffer, 3));
+		this.setAttribute("normal", new Float32BufferAttribute(vertexBuffer.slice(), 3));
+		this.setAttribute("uv", new Float32BufferAttribute(uvBuffer, 2));
+		if (detail === 0) this.computeVertexNormals();
+		else this.normalizeNormals();
+		function subdivide(detail) {
+			const a = new Vector3();
+			const b = new Vector3();
+			const c = new Vector3();
+			for (let i = 0; i < indices.length; i += 3) {
+				getVertexByIndex(indices[i + 0], a);
+				getVertexByIndex(indices[i + 1], b);
+				getVertexByIndex(indices[i + 2], c);
+				subdivideFace(a, b, c, detail);
+			}
+		}
+		function subdivideFace(a, b, c, detail) {
+			const cols = detail + 1;
+			const v = [];
+			for (let i = 0; i <= cols; i++) {
+				v[i] = [];
+				const aj = a.clone().lerp(c, i / cols);
+				const bj = b.clone().lerp(c, i / cols);
+				const rows = cols - i;
+				for (let j = 0; j <= rows; j++) if (j === 0 && i === cols) v[i][j] = aj;
+				else v[i][j] = aj.clone().lerp(bj, j / rows);
+			}
+			for (let i = 0; i < cols; i++) for (let j = 0; j < 2 * (cols - i) - 1; j++) {
+				const k = Math.floor(j / 2);
+				if (j % 2 === 0) {
+					pushVertex(v[i][k + 1]);
+					pushVertex(v[i + 1][k]);
+					pushVertex(v[i][k]);
+				} else {
+					pushVertex(v[i][k + 1]);
+					pushVertex(v[i + 1][k + 1]);
+					pushVertex(v[i + 1][k]);
+				}
+			}
+		}
+		function applyRadius(radius) {
+			const vertex = new Vector3();
+			for (let i = 0; i < vertexBuffer.length; i += 3) {
+				vertex.x = vertexBuffer[i + 0];
+				vertex.y = vertexBuffer[i + 1];
+				vertex.z = vertexBuffer[i + 2];
+				vertex.normalize().multiplyScalar(radius);
+				vertexBuffer[i + 0] = vertex.x;
+				vertexBuffer[i + 1] = vertex.y;
+				vertexBuffer[i + 2] = vertex.z;
+			}
+		}
+		function generateUVs() {
+			const vertex = new Vector3();
+			for (let i = 0; i < vertexBuffer.length; i += 3) {
+				vertex.x = vertexBuffer[i + 0];
+				vertex.y = vertexBuffer[i + 1];
+				vertex.z = vertexBuffer[i + 2];
+				const u = azimuth(vertex) / 2 / Math.PI + .5;
+				const v = inclination(vertex) / Math.PI + .5;
+				uvBuffer.push(u, 1 - v);
+			}
+			correctUVs();
+			correctSeam();
+		}
+		function correctSeam() {
+			for (let i = 0; i < uvBuffer.length; i += 6) {
+				const x0 = uvBuffer[i + 0];
+				const x1 = uvBuffer[i + 2];
+				const x2 = uvBuffer[i + 4];
+				if (Math.max(x0, x1, x2) > .9 && Math.min(x0, x1, x2) < .1) {
+					if (x0 < .2) uvBuffer[i + 0] += 1;
+					if (x1 < .2) uvBuffer[i + 2] += 1;
+					if (x2 < .2) uvBuffer[i + 4] += 1;
+				}
+			}
+		}
+		function pushVertex(vertex) {
+			vertexBuffer.push(vertex.x, vertex.y, vertex.z);
+		}
+		function getVertexByIndex(index, vertex) {
+			const stride = index * 3;
+			vertex.x = vertices[stride + 0];
+			vertex.y = vertices[stride + 1];
+			vertex.z = vertices[stride + 2];
+		}
+		function correctUVs() {
+			const a = new Vector3();
+			const b = new Vector3();
+			const c = new Vector3();
+			const centroid = new Vector3();
+			const uvA = new Vector2();
+			const uvB = new Vector2();
+			const uvC = new Vector2();
+			for (let i = 0, j = 0; i < vertexBuffer.length; i += 9, j += 6) {
+				a.set(vertexBuffer[i + 0], vertexBuffer[i + 1], vertexBuffer[i + 2]);
+				b.set(vertexBuffer[i + 3], vertexBuffer[i + 4], vertexBuffer[i + 5]);
+				c.set(vertexBuffer[i + 6], vertexBuffer[i + 7], vertexBuffer[i + 8]);
+				uvA.set(uvBuffer[j + 0], uvBuffer[j + 1]);
+				uvB.set(uvBuffer[j + 2], uvBuffer[j + 3]);
+				uvC.set(uvBuffer[j + 4], uvBuffer[j + 5]);
+				centroid.copy(a).add(b).add(c).divideScalar(3);
+				const azi = azimuth(centroid);
+				correctUV(uvA, j + 0, a, azi);
+				correctUV(uvB, j + 2, b, azi);
+				correctUV(uvC, j + 4, c, azi);
+			}
+		}
+		function correctUV(uv, stride, vector, azimuth) {
+			if (azimuth < 0 && uv.x === 1) uvBuffer[stride] = uv.x - 1;
+			if (vector.x === 0 && vector.z === 0) uvBuffer[stride] = azimuth / 2 / Math.PI + .5;
+		}
+		function azimuth(vector) {
+			return Math.atan2(vector.z, -vector.x);
+		}
+		function inclination(vector) {
+			return Math.atan2(-vector.y, Math.sqrt(vector.x * vector.x + vector.z * vector.z));
+		}
+	}
+	copy(source) {
+		super.copy(source);
+		this.parameters = Object.assign({}, source.parameters);
+		return this;
+	}
+	/**
+	* Factory method for creating an instance of this class from the given
+	* JSON object.
+	*
+	* @param {Object} data - A JSON object representing the serialized geometry.
+	* @return {PolyhedronGeometry} A new instance.
+	*/
+	static fromJSON(data) {
+		return new PolyhedronGeometry(data.vertices, data.indices, data.radius, data.detail);
+	}
+};
+/**
+* A geometry class for representing a dodecahedron.
+*
+* ```js
+* const geometry = new THREE.DodecahedronGeometry();
+* const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+* const dodecahedron = new THREE.Mesh( geometry, material );
+* scene.add( dodecahedron );
+* ```
+*
+* @augments PolyhedronGeometry
+* @demo scenes/geometry-browser.html#DodecahedronGeometry
+*/
+var DodecahedronGeometry = class DodecahedronGeometry extends PolyhedronGeometry {
+	/**
+	* Constructs a new dodecahedron geometry.
+	*
+	* @param {number} [radius=1] - Radius of the dodecahedron.
+	* @param {number} [detail=0] - Setting this to a value greater than `0` adds vertices making it no longer a dodecahedron.
+	*/
+	constructor(radius = 1, detail = 0) {
+		const t = (1 + Math.sqrt(5)) / 2;
+		const r = 1 / t;
+		const vertices = [
+			-1,
+			-1,
+			-1,
+			-1,
+			-1,
+			1,
+			-1,
+			1,
+			-1,
+			-1,
+			1,
+			1,
+			1,
+			-1,
+			-1,
+			1,
+			-1,
+			1,
+			1,
+			1,
+			-1,
+			1,
+			1,
+			1,
+			0,
+			-r,
+			-t,
+			0,
+			-r,
+			t,
+			0,
+			r,
+			-t,
+			0,
+			r,
+			t,
+			-r,
+			-t,
+			0,
+			-r,
+			t,
+			0,
+			r,
+			-t,
+			0,
+			r,
+			t,
+			0,
+			-t,
+			0,
+			-r,
+			t,
+			0,
+			-r,
+			-t,
+			0,
+			r,
+			t,
+			0,
+			r
+		];
+		super(vertices, [
+			3,
+			11,
+			7,
+			3,
+			7,
+			15,
+			3,
+			15,
+			13,
+			7,
+			19,
+			17,
+			7,
+			17,
+			6,
+			7,
+			6,
+			15,
+			17,
+			4,
+			8,
+			17,
+			8,
+			10,
+			17,
+			10,
+			6,
+			8,
+			0,
+			16,
+			8,
+			16,
+			2,
+			8,
+			2,
+			10,
+			0,
+			12,
+			1,
+			0,
+			1,
+			18,
+			0,
+			18,
+			16,
+			6,
+			10,
+			2,
+			6,
+			2,
+			13,
+			6,
+			13,
+			15,
+			2,
+			16,
+			18,
+			2,
+			18,
+			3,
+			2,
+			3,
+			13,
+			18,
+			1,
+			9,
+			18,
+			9,
+			11,
+			18,
+			11,
+			3,
+			4,
+			14,
+			12,
+			4,
+			12,
+			0,
+			4,
+			0,
+			8,
+			11,
+			9,
+			5,
+			11,
+			5,
+			19,
+			11,
+			19,
+			7,
+			19,
+			5,
+			14,
+			19,
+			14,
+			4,
+			19,
+			4,
+			17,
+			1,
+			12,
+			14,
+			1,
+			14,
+			5,
+			1,
+			5,
+			9
+		], radius, detail);
+		this.type = "DodecahedronGeometry";
+		/**
+		* Holds the constructor parameters that have been
+		* used to generate the geometry. Any modification
+		* after instantiation does not change the geometry.
+		*
+		* @type {Object}
+		*/
+		this.parameters = {
+			radius,
+			detail
+		};
+	}
+	/**
+	* Factory method for creating an instance of this class from the given
+	* JSON object.
+	*
+	* @param {Object} data - A JSON object representing the serialized geometry.
+	* @return {DodecahedronGeometry} A new instance.
+	*/
+	static fromJSON(data) {
+		return new DodecahedronGeometry(data.radius, data.detail);
+	}
+};
+/**
+* A geometry class for representing an icosahedron.
+*
+* ```js
+* const geometry = new THREE.IcosahedronGeometry();
+* const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+* const icosahedron = new THREE.Mesh( geometry, material );
+* scene.add( icosahedron );
+* ```
+*
+* @augments PolyhedronGeometry
+* @demo scenes/geometry-browser.html#IcosahedronGeometry
+*/
+var IcosahedronGeometry = class IcosahedronGeometry extends PolyhedronGeometry {
+	/**
+	* Constructs a new icosahedron geometry.
+	*
+	* @param {number} [radius=1] - Radius of the icosahedron.
+	* @param {number} [detail=0] - Setting this to a value greater than `0` adds vertices making it no longer a icosahedron.
+	*/
+	constructor(radius = 1, detail = 0) {
+		const t = (1 + Math.sqrt(5)) / 2;
+		const vertices = [
+			-1,
+			t,
+			0,
+			1,
+			t,
+			0,
+			-1,
+			-t,
+			0,
+			1,
+			-t,
+			0,
+			0,
+			-1,
+			t,
+			0,
+			1,
+			t,
+			0,
+			-1,
+			-t,
+			0,
+			1,
+			-t,
+			t,
+			0,
+			-1,
+			t,
+			0,
+			1,
+			-t,
+			0,
+			-1,
+			-t,
+			0,
+			1
+		];
+		super(vertices, [
+			0,
+			11,
+			5,
+			0,
+			5,
+			1,
+			0,
+			1,
+			7,
+			0,
+			7,
+			10,
+			0,
+			10,
+			11,
+			1,
+			5,
+			9,
+			5,
+			11,
+			4,
+			11,
+			10,
+			2,
+			10,
+			7,
+			6,
+			7,
+			1,
+			8,
+			3,
+			9,
+			4,
+			3,
+			4,
+			2,
+			3,
+			2,
+			6,
+			3,
+			6,
+			8,
+			3,
+			8,
+			9,
+			4,
+			9,
+			5,
+			2,
+			4,
+			11,
+			6,
+			2,
+			10,
+			8,
+			6,
+			7,
+			9,
+			8,
+			1
+		], radius, detail);
+		this.type = "IcosahedronGeometry";
+		/**
+		* Holds the constructor parameters that have been
+		* used to generate the geometry. Any modification
+		* after instantiation does not change the geometry.
+		*
+		* @type {Object}
+		*/
+		this.parameters = {
+			radius,
+			detail
+		};
+	}
+	/**
+	* Factory method for creating an instance of this class from the given
+	* JSON object.
+	*
+	* @param {Object} data - A JSON object representing the serialized geometry.
+	* @return {IcosahedronGeometry} A new instance.
+	*/
+	static fromJSON(data) {
+		return new IcosahedronGeometry(data.radius, data.detail);
+	}
+};
+/**
+* A geometry class for representing an octahedron.
+*
+* ```js
+* const geometry = new THREE.OctahedronGeometry();
+* const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+* const octahedron = new THREE.Mesh( geometry, material );
+* scene.add( octahedron );
+* ```
+*
+* @augments PolyhedronGeometry
+* @demo scenes/geometry-browser.html#OctahedronGeometry
+*/
+var OctahedronGeometry = class OctahedronGeometry extends PolyhedronGeometry {
+	/**
+	* Constructs a new octahedron geometry.
+	*
+	* @param {number} [radius=1] - Radius of the octahedron.
+	* @param {number} [detail=0] - Setting this to a value greater than `0` adds vertices making it no longer a octahedron.
+	*/
+	constructor(radius = 1, detail = 0) {
+		super([
+			1,
+			0,
+			0,
+			-1,
+			0,
+			0,
+			0,
+			1,
+			0,
+			0,
+			-1,
+			0,
+			0,
+			0,
+			1,
+			0,
+			0,
+			-1
+		], [
+			0,
+			2,
+			4,
+			0,
+			4,
+			3,
+			0,
+			3,
+			5,
+			0,
+			5,
+			2,
+			1,
+			2,
+			5,
+			1,
+			5,
+			3,
+			1,
+			3,
+			4,
+			1,
+			4,
+			2
+		], radius, detail);
+		this.type = "OctahedronGeometry";
+		/**
+		* Holds the constructor parameters that have been
+		* used to generate the geometry. Any modification
+		* after instantiation does not change the geometry.
+		*
+		* @type {Object}
+		*/
+		this.parameters = {
+			radius,
+			detail
+		};
+	}
+	/**
+	* Factory method for creating an instance of this class from the given
+	* JSON object.
+	*
+	* @param {Object} data - A JSON object representing the serialized geometry.
+	* @return {OctahedronGeometry} A new instance.
+	*/
+	static fromJSON(data) {
+		return new OctahedronGeometry(data.radius, data.detail);
+	}
+};
+/**
 * A geometry class for representing a plane.
 *
 * ```js
@@ -28783,6 +29410,78 @@ var SphereGeometry = class SphereGeometry extends BufferGeometry {
 	*/
 	static fromJSON(data) {
 		return new SphereGeometry(data.radius, data.widthSegments, data.heightSegments, data.phiStart, data.phiLength, data.thetaStart, data.thetaLength);
+	}
+};
+/**
+* A geometry class for representing an tetrahedron.
+*
+* ```js
+* const geometry = new THREE.TetrahedronGeometry();
+* const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+* const tetrahedron = new THREE.Mesh( geometry, material );
+* scene.add( tetrahedron );
+* ```
+*
+* @augments PolyhedronGeometry
+* @demo scenes/geometry-browser.html#TetrahedronGeometry
+*/
+var TetrahedronGeometry = class TetrahedronGeometry extends PolyhedronGeometry {
+	/**
+	* Constructs a new tetrahedron geometry.
+	*
+	* @param {number} [radius=1] - Radius of the tetrahedron.
+	* @param {number} [detail=0] - Setting this to a value greater than `0` adds vertices making it no longer a tetrahedron.
+	*/
+	constructor(radius = 1, detail = 0) {
+		super([
+			1,
+			1,
+			1,
+			-1,
+			-1,
+			1,
+			-1,
+			1,
+			-1,
+			1,
+			-1,
+			-1
+		], [
+			2,
+			1,
+			0,
+			0,
+			3,
+			2,
+			1,
+			3,
+			0,
+			2,
+			3,
+			1
+		], radius, detail);
+		this.type = "TetrahedronGeometry";
+		/**
+		* Holds the constructor parameters that have been
+		* used to generate the geometry. Any modification
+		* after instantiation does not change the geometry.
+		*
+		* @type {Object}
+		*/
+		this.parameters = {
+			radius,
+			detail
+		};
+	}
+	/**
+	* Factory method for creating an instance of this class from the given
+	* JSON object.
+	*
+	* @param {Object} data - A JSON object representing the serialized geometry.
+	* @return {TetrahedronGeometry} A new instance.
+	*/
+	static fromJSON(data) {
+		return new TetrahedronGeometry(data.radius, data.detail);
 	}
 };
 /**
@@ -43044,11 +43743,11 @@ function genMorphTargets(basePos, count) {
 			const len = Math.sqrt(x * x + y * y + z * z);
 			const nx = x / len, ny = y / len, nz = z / len;
 			const phase = t / count * Math.PI * 2;
-			const distortion = 1 + .6 * Math.sin(i * .3 + phase) + .4 * Math.cos(i * .7 + phase * 1.5);
-			const twist = 1 + .3 * Math.sin(i * .1 + t * 1.2);
+			const distortion = 1 + .8 * Math.sin(i * .3 + phase) + .5 * Math.cos(i * .7 + phase * 1.5);
+			const twist = 1 + .4 * Math.sin(i * .1 + t * 1.2);
 			arr[i] = nx * len * distortion * twist;
-			arr[i + 1] = ny * len * distortion * (1 + .2 * Math.sin(i * .05 + t));
-			arr[i + 2] = nz * len * distortion * (1 + .15 * Math.cos(i * .08 + t * .7));
+			arr[i + 1] = ny * len * distortion * (1 + .3 * Math.sin(i * .05 + t));
+			arr[i + 2] = nz * len * distortion * (1 + .2 * Math.cos(i * .08 + t * .7));
 		}
 		targets.push(arr);
 	}
@@ -43056,6 +43755,7 @@ function genMorphTargets(basePos, count) {
 }
 function ThreeScene({ mouse }) {
 	const containerRef = (0, import_react.useRef)(null);
+	(0, import_react.useRef)(0);
 	(0, import_react.useEffect)(() => {
 		const container = containerRef.current;
 		if (!container) return;
@@ -43072,31 +43772,43 @@ function ThreeScene({ mouse }) {
 		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 		renderer.setClearColor(0, 0);
 		container.appendChild(renderer.domElement);
-		const COUNT = 280;
+		const COUNT = 600;
 		const posArr = new Float32Array(COUNT * 3);
+		const originArr = new Float32Array(COUNT * 3);
 		const velArr = [];
-		const BASE_SIZE = .18;
+		const sizes = new Float32Array(COUNT);
 		for (let i = 0; i < COUNT; i++) {
-			const radius = 6 + Math.random() * 28;
-			const theta = Math.random() * Math.PI * 2;
-			const phi = Math.acos(2 * Math.random() - 1);
-			posArr[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-			posArr[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-			posArr[i * 3 + 2] = radius * Math.cos(phi);
+			const armAngle = Math.floor(Math.random() * 4) / 4 * Math.PI * 2;
+			const radius = 4 + Math.random() * 26;
+			const angle = armAngle + radius * .3 + (Math.random() - .5) * .8;
+			const spread = (Math.random() - .5) * 4 * (1 + radius * .05);
+			const x = Math.cos(angle) * radius + spread;
+			const z = Math.sin(angle) * radius + spread;
+			const y = (Math.random() - .5) * 2 * (1 + radius * .08);
+			posArr[i * 3] = x;
+			posArr[i * 3 + 1] = y;
+			posArr[i * 3 + 2] = z;
+			originArr[i * 3] = x;
+			originArr[i * 3 + 1] = y;
+			originArr[i * 3 + 2] = z;
 			velArr.push({
-				x: (Math.random() - .5) * .004,
-				y: (Math.random() - .5) * .004,
-				z: (Math.random() - .5) * .004,
+				orbitSpeed: .1 + Math.random() * .3,
+				orbitRadius: radius,
+				orbitOffset: angle,
+				yOsc: (Math.random() - .5) * 2,
+				ySpeed: .2 + Math.random() * .3,
 				phase: Math.random() * Math.PI * 2
 			});
+			sizes[i] = .08 + Math.random() * .25;
 		}
 		const ptGeo = new BufferGeometry();
 		ptGeo.setAttribute("position", new BufferAttribute(posArr, 3));
+		ptGeo.setAttribute("size", new BufferAttribute(sizes, 1));
 		const ptMat = new PointsMaterial({
 			color: "#84cc16",
-			size: BASE_SIZE,
+			size: .15,
 			transparent: true,
-			opacity: .5,
+			opacity: .6,
 			blending: 2,
 			sizeAttenuation: true,
 			depthWrite: false
@@ -43106,7 +43818,7 @@ function ThreeScene({ mouse }) {
 		const lineMat = new LineBasicMaterial({
 			color: "#84cc16",
 			transparent: true,
-			opacity: .06,
+			opacity: .03,
 			blending: 2,
 			depthWrite: false
 		});
@@ -43116,80 +43828,120 @@ function ThreeScene({ mouse }) {
 		lineGeo.setDrawRange(0, 0);
 		const lines = new LineSegments(lineGeo, lineMat);
 		scene.add(lines);
-		const morphBase = new SphereGeometry(2.5, 20, 20);
-		const morphTargets = genMorphTargets(morphBase.attributes.position.array.slice(), 8);
-		const morphMat = new MeshBasicMaterial({
+		const morphBase = new SphereGeometry(2.8, 24, 24);
+		const morphTargets = genMorphTargets(morphBase.attributes.position.array.slice(), 10);
+		const wireMat = new MeshBasicMaterial({
 			color: "#84cc16",
 			transparent: true,
-			opacity: .08,
+			opacity: .1,
 			wireframe: true,
 			depthWrite: false
 		});
-		const morphMesh = new Mesh(morphBase, morphMat);
+		const morphMesh = new Mesh(morphBase, wireMat);
 		scene.add(morphMesh);
-		const morphMat2 = new MeshBasicMaterial({
-			color: "#84cc16",
+		const solidMat = new MeshBasicMaterial({
+			color: "#a3e635",
 			transparent: true,
-			opacity: .03,
+			opacity: .04,
 			depthWrite: false
 		});
-		const morphMesh2 = new Mesh(morphBase.clone(), morphMat2);
-		morphMesh2.scale.set(.85, .85, .85);
-		scene.add(morphMesh2);
+		const solidMesh = new Mesh(morphBase.clone(), solidMat);
+		solidMesh.scale.set(.8, .8, .8);
+		scene.add(solidMesh);
+		const orbitShapes = [];
+		const orbitColors = [
+			"#84cc16",
+			"#a3e635",
+			"#65a30d",
+			"#bef264"
+		];
+		const orbitGeos = [
+			new OctahedronGeometry(.4),
+			new DodecahedronGeometry(.35),
+			new IcosahedronGeometry(.3),
+			new TetrahedronGeometry(.45)
+		];
+		for (let i = 0; i < 8; i++) {
+			const mat = new MeshBasicMaterial({
+				color: orbitColors[i % orbitColors.length],
+				transparent: true,
+				opacity: .25,
+				wireframe: Math.random() > .5
+			});
+			const mesh = new Mesh(orbitGeos[i % orbitGeos.length], mat);
+			mesh.userData = {
+				radius: 4.5 + Math.random() * 3,
+				angle: i / 8 * Math.PI * 2,
+				speed: .15 + Math.random() * .25,
+				tilt: (Math.random() - .5) * .8
+			};
+			scene.add(mesh);
+			orbitShapes.push(mesh);
+		}
 		let scrollNorm = 0;
 		const onScroll = () => {
-			const docEl = document.documentElement;
-			scrollNorm = window.scrollY / (docEl.scrollHeight - window.innerHeight);
+			const de = document.documentElement;
+			scrollNorm = window.scrollY / (de.scrollHeight - window.innerHeight);
 		};
 		window.addEventListener("scroll", onScroll, { passive: true });
-		let targetMX = 0, targetMY = 0;
+		let burstPower = 0;
+		const onClick = () => {
+			burstPower = 1;
+		};
+		window.addEventListener("click", onClick);
 		let frame;
 		const clock = new Clock();
 		const linePosArr = lineGeo.attributes.position.array;
+		let targetMX = 0, targetMY = 0;
 		const animate = () => {
 			frame = requestAnimationFrame(animate);
 			const t = clock.getElapsedTime();
-			targetMX += ((mouse?.current?.[0] ?? 0) - targetMX) * .04;
-			targetMY += ((mouse?.current?.[1] ?? 0) - targetMY) * .04;
+			targetMX += ((mouse?.current?.[0] ?? 0) - targetMX) * .035;
+			targetMY += ((mouse?.current?.[1] ?? 0) - targetMY) * .035;
+			burstPower *= .97;
+			if (burstPower < .001) burstPower = 0;
 			const pPos = points.geometry.attributes.position.array;
-			const spread = 1 + scrollNorm * .6;
+			const galaxyTilt = targetMX * .3;
+			targetMY * .3;
+			const spreadFactor = 1 + scrollNorm * .8 + burstPower * 3;
 			for (let i = 0; i < COUNT; i++) {
 				const i3 = i * 3;
-				pPos[i3] += velArr[i].x + Math.sin(t * .3 + velArr[i].phase) * .002 + targetMX * .001;
-				pPos[i3 + 1] += velArr[i].y + Math.cos(t * .4 + velArr[i].phase) * .002 + targetMY * .001;
-				pPos[i3 + 2] += velArr[i].z;
-				const x = pPos[i3], y = pPos[i3 + 1], z = pPos[i3 + 2];
-				if (Math.sqrt(x * x + y * y + z * z) > 30 * spread) {
-					pPos[i3] *= .98;
-					pPos[i3 + 1] *= .98;
-					pPos[i3 + 2] *= .98;
-				}
+				const v = velArr[i];
+				const angle = v.orbitOffset + t * v.orbitSpeed * (.5 + scrollNorm * .3);
+				const radius = v.orbitRadius * spreadFactor;
+				const burstOff = burstPower * (originArr[i3] * 2 + (Math.random() - .5) * 5);
+				const baseX = Math.cos(angle) * radius + burstOff;
+				const baseZ = Math.sin(angle) * radius + burstOff;
+				const baseY = Math.sin(t * v.ySpeed + v.phase) * 1.5 * spreadFactor + burstOff * .5;
+				const cosT = Math.cos(galaxyTilt);
+				const sinT = Math.sin(galaxyTilt);
+				pPos[i3] = baseX;
+				pPos[i3 + 1] = baseY * cosT - baseZ * sinT;
+				pPos[i3 + 2] = baseY * sinT + baseZ * cosT;
 			}
 			points.geometry.attributes.position.needsUpdate = true;
-			ptMat.size = BASE_SIZE * (1 + scrollNorm * 1.5 + Math.abs(targetMX) * .3);
-			const connectDist = 6 + scrollNorm * 4 + Math.abs(targetMX) * 2;
+			ptMat.size = .12 + scrollNorm * .2 + burstPower * .5;
+			const connectDist = 5 + scrollNorm * 3 + burstPower * 4;
 			let idx = 0;
-			for (let i = 0; i < COUNT; i++) {
-				const i3 = i * 3;
-				for (let j = i + 1; j < COUNT; j++) {
-					const j3 = j * 3;
-					const dx = pPos[i3] - pPos[j3];
-					const dy = pPos[i3 + 1] - pPos[j3 + 1];
-					const dz = pPos[i3 + 2] - pPos[j3 + 2];
-					if (Math.sqrt(dx * dx + dy * dy + dz * dz) < connectDist && idx < linePosArr.length / 3 - 3) {
-						linePosArr[idx * 3] = pPos[i3];
-						linePosArr[idx * 3 + 1] = pPos[i3 + 1];
-						linePosArr[idx * 3 + 2] = pPos[i3 + 2];
-						linePosArr[(idx + 1) * 3] = pPos[j3];
-						linePosArr[(idx + 1) * 3 + 1] = pPos[j3 + 1];
-						linePosArr[(idx + 1) * 3 + 2] = pPos[j3 + 2];
-						idx += 2;
-					}
+			for (let i = 0; i < COUNT; i += 2) for (let j = i + 1; j < COUNT; j += 2) {
+				if (idx >= linePosArr.length / 3 - 3) break;
+				const i3 = i * 3, j3 = j * 3;
+				const dx = pPos[i3] - pPos[j3];
+				const dy = pPos[i3 + 1] - pPos[j3 + 1];
+				const dz = pPos[i3 + 2] - pPos[j3 + 2];
+				if (Math.sqrt(dx * dx + dy * dy + dz * dz) < connectDist) {
+					linePosArr[idx * 3] = pPos[i3];
+					linePosArr[idx * 3 + 1] = pPos[i3 + 1];
+					linePosArr[idx * 3 + 2] = pPos[i3 + 2];
+					linePosArr[(idx + 1) * 3] = pPos[j3];
+					linePosArr[(idx + 1) * 3 + 1] = pPos[j3 + 1];
+					linePosArr[(idx + 1) * 3 + 2] = pPos[j3 + 2];
+					idx += 2;
 				}
 			}
 			lineGeo.setDrawRange(0, idx);
 			lineGeo.attributes.position.needsUpdate = true;
-			lineMat.opacity = .04 + scrollNorm * .08 + Math.sin(t * .5) * .02;
+			lineMat.opacity = .02 + scrollNorm * .06 + burstPower * .1 + Math.sin(t * .4) * .015;
 			const morphIndex = Math.floor(scrollNorm * (morphTargets.length - 1));
 			const morphFrac = scrollNorm * (morphTargets.length - 1) % 1;
 			const current = morphTargets[morphIndex];
@@ -43197,28 +43949,42 @@ function ThreeScene({ mouse }) {
 			const morphPos = morphMesh.geometry.attributes.position.array;
 			for (let i = 0; i < morphPos.length; i++) morphPos[i] = current[i] + (next[i] - current[i]) * morphFrac;
 			morphMesh.geometry.attributes.position.needsUpdate = true;
-			morphMesh2.geometry.attributes.position.array.set(morphPos);
-			morphMesh2.geometry.attributes.position.needsUpdate = true;
-			const rotSpeed = .12 + scrollNorm * .2;
-			morphMesh.rotation.x = t * rotSpeed + targetMY * .3;
-			morphMesh.rotation.y = t * rotSpeed * 1.3 + targetMX * .3;
-			morphMesh2.rotation.x = t * rotSpeed + .5 + targetMY * .3;
-			morphMesh2.rotation.y = t * rotSpeed * 1.3 + .5 + targetMX * .3;
-			const pulse = 1 + Math.sin(t * .8) * (.05 + scrollNorm * .1);
+			solidMesh.geometry.attributes.position.array.set(morphPos);
+			solidMesh.geometry.attributes.position.needsUpdate = true;
+			const rotSpeed = .1 + scrollNorm * .25;
+			morphMesh.rotation.x = t * rotSpeed + targetMY * .4;
+			morphMesh.rotation.y = t * rotSpeed * 1.4 + targetMX * .4;
+			solidMesh.rotation.x = t * rotSpeed + .4 + targetMY * .4;
+			solidMesh.rotation.y = t * rotSpeed * 1.4 + .4 + targetMX * .4;
+			const pulse = 1 + Math.sin(t * .7 + burstPower * 2) * (.06 + scrollNorm * .12 + burstPower * .3);
 			morphMesh.scale.set(pulse, pulse, pulse);
-			morphMat.opacity = .06 + scrollNorm * .1;
-			morphMat2.opacity = .02 + scrollNorm * .04;
-			const camDist = 35 - scrollNorm * 8;
-			camera.position.x = Math.sin(t * .04) * (2 + scrollNorm * 3) + targetMX * 2;
-			camera.position.y = Math.cos(t * .06) * (1.5 + scrollNorm * 2) + targetMY * 2;
+			wireMat.opacity = .06 + scrollNorm * .12 + burstPower * .2;
+			solidMat.opacity = .02 + scrollNorm * .05 + burstPower * .08;
+			wireMat.color.setHSL(.25 - scrollNorm * .1 + burstPower * .05, .8, .45);
+			solidMat.color.setHSL(.25 - scrollNorm * .1 + burstPower * .05, .8, .5);
+			for (let i = 0; i < orbitShapes.length; i++) {
+				const mesh = orbitShapes[i];
+				const d = mesh.userData;
+				const a = d.angle + t * d.speed;
+				const r = d.radius * (1 + scrollNorm * .3);
+				mesh.position.x = Math.cos(a) * r + targetMX * .5;
+				mesh.position.z = Math.sin(a) * r + targetMY * .5;
+				mesh.position.y = Math.sin(t * .5 + i) * 1.5;
+				mesh.rotation.x = t * .8 + i;
+				mesh.rotation.y = t * 1.2 + i;
+				mesh.scale.setScalar(1 + Math.sin(t * .5 + i) * .3 + burstPower * .5);
+				mesh.material.opacity = .15 + scrollNorm * .2 + burstPower * .3;
+			}
+			const camDist = 35 - scrollNorm * 8 - burstPower * 2;
+			camera.position.x = Math.sin(t * .03) * (2 + scrollNorm * 4) + targetMX * 3;
+			camera.position.y = Math.cos(t * .05) * (1.5 + scrollNorm * 3) + targetMY * 3;
 			camera.position.z = camDist;
 			camera.lookAt(0, 0, 0);
 			renderer.render(scene, camera);
 		};
 		animate();
 		const resize = () => {
-			const w = container.clientWidth;
-			const h = container.clientHeight;
+			const w = container.clientWidth, h = container.clientHeight;
 			camera.aspect = w / h;
 			camera.updateProjectionMatrix();
 			renderer.setSize(w, h);
@@ -43227,6 +43993,7 @@ function ThreeScene({ mouse }) {
 		return () => {
 			cancelAnimationFrame(frame);
 			window.removeEventListener("scroll", onScroll);
+			window.removeEventListener("click", onClick);
 			window.removeEventListener("resize", resize);
 			renderer.dispose();
 			if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement);
