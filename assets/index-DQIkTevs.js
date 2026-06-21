@@ -43740,7 +43740,7 @@ function genMorphTargets(basePos, count) {
 		const arr = new Float32Array(vlen);
 		for (let i = 0; i < vlen; i += stride) {
 			const x = basePos[i], y = basePos[i + 1], z = basePos[i + 2];
-			const len = Math.sqrt(x * x + y * y + z * z);
+			const len = Math.sqrt(x * x + y * y + z * z) || 1;
 			const nx = x / len, ny = y / len, nz = z / len;
 			const phase = t / count * Math.PI * 2;
 			const distortion = 1 + .8 * Math.sin(i * .3 + phase) + .5 * Math.cos(i * .7 + phase * 1.5);
@@ -43755,7 +43755,6 @@ function genMorphTargets(basePos, count) {
 }
 function ThreeScene({ mouse }) {
 	const containerRef = (0, import_react.useRef)(null);
-	(0, import_react.useRef)(0);
 	(0, import_react.useEffect)(() => {
 		const container = containerRef.current;
 		if (!container) return;
@@ -43772,11 +43771,10 @@ function ThreeScene({ mouse }) {
 		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 		renderer.setClearColor(0, 0);
 		container.appendChild(renderer.domElement);
-		const COUNT = 600;
+		const COUNT = 400;
 		const posArr = new Float32Array(COUNT * 3);
-		const originArr = new Float32Array(COUNT * 3);
-		const velArr = [];
-		const sizes = new Float32Array(COUNT);
+		const burstDir = new Float32Array(COUNT * 3);
+		const particleData = [];
 		for (let i = 0; i < COUNT; i++) {
 			const armAngle = Math.floor(Math.random() * 4) / 4 * Math.PI * 2;
 			const radius = 4 + Math.random() * 26;
@@ -43788,27 +43786,23 @@ function ThreeScene({ mouse }) {
 			posArr[i * 3] = x;
 			posArr[i * 3 + 1] = y;
 			posArr[i * 3 + 2] = z;
-			originArr[i * 3] = x;
-			originArr[i * 3 + 1] = y;
-			originArr[i * 3 + 2] = z;
-			velArr.push({
+			burstDir[i * 3] = (Math.random() - .5) * 2;
+			burstDir[i * 3 + 1] = (Math.random() - .5) * 2;
+			burstDir[i * 3 + 2] = (Math.random() - .5) * 2;
+			particleData.push({
 				orbitSpeed: .1 + Math.random() * .3,
 				orbitRadius: radius,
 				orbitOffset: angle,
-				yOsc: (Math.random() - .5) * 2,
-				ySpeed: .2 + Math.random() * .3,
-				phase: Math.random() * Math.PI * 2
+				yPhase: Math.random() * Math.PI * 2
 			});
-			sizes[i] = .08 + Math.random() * .25;
 		}
 		const ptGeo = new BufferGeometry();
 		ptGeo.setAttribute("position", new BufferAttribute(posArr, 3));
-		ptGeo.setAttribute("size", new BufferAttribute(sizes, 1));
 		const ptMat = new PointsMaterial({
 			color: "#84cc16",
-			size: .15,
+			size: .18,
 			transparent: true,
-			opacity: .6,
+			opacity: .5,
 			blending: 2,
 			sizeAttenuation: true,
 			depthWrite: false
@@ -43818,17 +43812,18 @@ function ThreeScene({ mouse }) {
 		const lineMat = new LineBasicMaterial({
 			color: "#84cc16",
 			transparent: true,
-			opacity: .03,
+			opacity: .04,
 			blending: 2,
 			depthWrite: false
 		});
 		const lineGeo = new BufferGeometry();
-		const linePos = new Float32Array(COUNT * 3 * 2);
+		const maxLines = 300;
+		const linePos = new Float32Array(maxLines * 2 * 3);
 		lineGeo.setAttribute("position", new BufferAttribute(linePos, 3));
 		lineGeo.setDrawRange(0, 0);
 		const lines = new LineSegments(lineGeo, lineMat);
 		scene.add(lines);
-		const morphBase = new SphereGeometry(2.8, 24, 24);
+		const morphBase = new SphereGeometry(2.8, 20, 20);
 		const morphTargets = genMorphTargets(morphBase.attributes.position.array.slice(), 10);
 		const wireMat = new MeshBasicMaterial({
 			color: "#84cc16",
@@ -43848,7 +43843,6 @@ function ThreeScene({ mouse }) {
 		const solidMesh = new Mesh(morphBase.clone(), solidMat);
 		solidMesh.scale.set(.8, .8, .8);
 		scene.add(solidMesh);
-		const orbitShapes = [];
 		const orbitColors = [
 			"#84cc16",
 			"#a3e635",
@@ -43861,32 +43855,37 @@ function ThreeScene({ mouse }) {
 			new IcosahedronGeometry(.3),
 			new TetrahedronGeometry(.45)
 		];
+		const orbitGroup = new Group();
+		scene.add(orbitGroup);
+		const orbitMeshes = [];
 		for (let i = 0; i < 8; i++) {
 			const mat = new MeshBasicMaterial({
 				color: orbitColors[i % orbitColors.length],
 				transparent: true,
-				opacity: .25,
-				wireframe: Math.random() > .5
+				opacity: .2,
+				wireframe: i % 2 === 0
 			});
 			const mesh = new Mesh(orbitGeos[i % orbitGeos.length], mat);
+			const r = 5 + Math.random() * 3;
+			const a = i / 8 * Math.PI * 2;
 			mesh.userData = {
-				radius: 4.5 + Math.random() * 3,
-				angle: i / 8 * Math.PI * 2,
-				speed: .15 + Math.random() * .25,
-				tilt: (Math.random() - .5) * .8
+				radius: r,
+				angle: a,
+				speed: .15 + Math.random() * .2
 			};
-			scene.add(mesh);
-			orbitShapes.push(mesh);
+			mesh.position.set(Math.cos(a) * r, (Math.random() - .5) * 3, Math.sin(a) * r);
+			orbitGroup.add(mesh);
+			orbitMeshes.push(mesh);
 		}
 		let scrollNorm = 0;
 		const onScroll = () => {
-			const de = document.documentElement;
-			scrollNorm = window.scrollY / (de.scrollHeight - window.innerHeight);
+			const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+			scrollNorm = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
 		};
 		window.addEventListener("scroll", onScroll, { passive: true });
 		let burstPower = 0;
 		const onClick = () => {
-			burstPower = 1;
+			burstPower = .8;
 		};
 		window.addEventListener("click", onClick);
 		let frame;
@@ -43896,95 +43895,93 @@ function ThreeScene({ mouse }) {
 		const animate = () => {
 			frame = requestAnimationFrame(animate);
 			const t = clock.getElapsedTime();
-			targetMX += ((mouse?.current?.[0] ?? 0) - targetMX) * .035;
-			targetMY += ((mouse?.current?.[1] ?? 0) - targetMY) * .035;
-			burstPower *= .97;
+			const mx = mouse?.current?.[0] ?? 0;
+			const my = mouse?.current?.[1] ?? 0;
+			targetMX += (mx - targetMX) * .04;
+			targetMY += (my - targetMY) * .04;
+			burstPower *= .96;
 			if (burstPower < .001) burstPower = 0;
 			const pPos = points.geometry.attributes.position.array;
-			const galaxyTilt = targetMX * .3;
-			targetMY * .3;
-			const spreadFactor = 1 + scrollNorm * .8 + burstPower * 3;
+			const spreadFactor = 1 + scrollNorm * .6;
 			for (let i = 0; i < COUNT; i++) {
 				const i3 = i * 3;
-				const v = velArr[i];
-				const angle = v.orbitOffset + t * v.orbitSpeed * (.5 + scrollNorm * .3);
-				const radius = v.orbitRadius * spreadFactor;
-				const burstOff = burstPower * (originArr[i3] * 2 + (Math.random() - .5) * 5);
-				const baseX = Math.cos(angle) * radius + burstOff;
-				const baseZ = Math.sin(angle) * radius + burstOff;
-				const baseY = Math.sin(t * v.ySpeed + v.phase) * 1.5 * spreadFactor + burstOff * .5;
-				const cosT = Math.cos(galaxyTilt);
-				const sinT = Math.sin(galaxyTilt);
-				pPos[i3] = baseX;
-				pPos[i3 + 1] = baseY * cosT - baseZ * sinT;
-				pPos[i3 + 2] = baseY * sinT + baseZ * cosT;
+				const d = particleData[i];
+				const angle = d.orbitOffset + t * d.orbitSpeed * (.5 + scrollNorm * .2);
+				const radius = d.orbitRadius * spreadFactor;
+				const bx = Math.cos(angle) * radius;
+				const bz = Math.sin(angle) * radius;
+				const by = Math.sin(t * .3 + d.yPhase) * 1.5 * spreadFactor;
+				const burstStr = burstPower * 20;
+				pPos[i3] = bx + burstDir[i3] * burstStr;
+				pPos[i3 + 1] = by + burstDir[i3 + 1] * burstStr;
+				pPos[i3 + 2] = bz + burstDir[i3 + 2] * burstStr;
 			}
 			points.geometry.attributes.position.needsUpdate = true;
-			ptMat.size = .12 + scrollNorm * .2 + burstPower * .5;
-			const connectDist = 5 + scrollNorm * 3 + burstPower * 4;
+			ptMat.size = .15 + scrollNorm * .15 + burstPower * .4;
+			const connectDist = 5 + scrollNorm * 3 + burstPower * 5;
 			let idx = 0;
-			for (let i = 0; i < COUNT; i += 2) for (let j = i + 1; j < COUNT; j += 2) {
-				if (idx >= linePosArr.length / 3 - 3) break;
+			const step = 3;
+			for (let i = 0; i < COUNT; i += step) for (let j = i + step; j < COUNT; j += step) {
+				if (idx >= maxLines * 2) break;
 				const i3 = i * 3, j3 = j * 3;
 				const dx = pPos[i3] - pPos[j3];
 				const dy = pPos[i3 + 1] - pPos[j3 + 1];
 				const dz = pPos[i3 + 2] - pPos[j3 + 2];
-				if (Math.sqrt(dx * dx + dy * dy + dz * dz) < connectDist) {
-					linePosArr[idx * 3] = pPos[i3];
-					linePosArr[idx * 3 + 1] = pPos[i3 + 1];
-					linePosArr[idx * 3 + 2] = pPos[i3 + 2];
-					linePosArr[(idx + 1) * 3] = pPos[j3];
-					linePosArr[(idx + 1) * 3 + 1] = pPos[j3 + 1];
-					linePosArr[(idx + 1) * 3 + 2] = pPos[j3 + 2];
+				if (dx * dx + dy * dy + dz * dz < connectDist * connectDist) {
+					const li = idx * 3;
+					linePosArr[li] = pPos[i3];
+					linePosArr[li + 1] = pPos[i3 + 1];
+					linePosArr[li + 2] = pPos[i3 + 2];
+					linePosArr[li + 3] = pPos[j3];
+					linePosArr[li + 4] = pPos[j3 + 1];
+					linePosArr[li + 5] = pPos[j3 + 2];
 					idx += 2;
 				}
 			}
 			lineGeo.setDrawRange(0, idx);
 			lineGeo.attributes.position.needsUpdate = true;
-			lineMat.opacity = .02 + scrollNorm * .06 + burstPower * .1 + Math.sin(t * .4) * .015;
-			const morphIndex = Math.floor(scrollNorm * (morphTargets.length - 1));
+			lineMat.opacity = .02 + scrollNorm * .05 + burstPower * .08;
+			const morphIndex = Math.min(Math.floor(scrollNorm * (morphTargets.length - 1)), morphTargets.length - 2);
 			const morphFrac = scrollNorm * (morphTargets.length - 1) % 1;
-			const current = morphTargets[morphIndex];
-			const next = morphTargets[Math.min(morphIndex + 1, morphTargets.length - 1)];
-			const morphPos = morphMesh.geometry.attributes.position.array;
-			for (let i = 0; i < morphPos.length; i++) morphPos[i] = current[i] + (next[i] - current[i]) * morphFrac;
+			const cur = morphTargets[morphIndex];
+			const nxt = morphTargets[morphIndex + 1];
+			const mp = morphMesh.geometry.attributes.position.array;
+			for (let i = 0; i < mp.length; i++) mp[i] = cur[i] + (nxt[i] - cur[i]) * morphFrac;
 			morphMesh.geometry.attributes.position.needsUpdate = true;
-			solidMesh.geometry.attributes.position.array.set(morphPos);
+			solidMesh.geometry.attributes.position.array.set(mp);
 			solidMesh.geometry.attributes.position.needsUpdate = true;
-			const rotSpeed = .1 + scrollNorm * .25;
-			morphMesh.rotation.x = t * rotSpeed + targetMY * .4;
-			morphMesh.rotation.y = t * rotSpeed * 1.4 + targetMX * .4;
-			solidMesh.rotation.x = t * rotSpeed + .4 + targetMY * .4;
-			solidMesh.rotation.y = t * rotSpeed * 1.4 + .4 + targetMX * .4;
-			const pulse = 1 + Math.sin(t * .7 + burstPower * 2) * (.06 + scrollNorm * .12 + burstPower * .3);
+			const rotSpd = .1 + scrollNorm * .2;
+			morphMesh.rotation.x = t * rotSpd + targetMY * .3;
+			morphMesh.rotation.y = t * rotSpd * 1.3 + targetMX * .3;
+			solidMesh.rotation.x = t * rotSpd + .3 + targetMY * .3;
+			solidMesh.rotation.y = t * rotSpd * 1.3 + .3 + targetMX * .3;
+			const pulse = 1 + Math.sin(t * .6 + burstPower * 3) * (.05 + scrollNorm * .08 + burstPower * .2);
 			morphMesh.scale.set(pulse, pulse, pulse);
-			wireMat.opacity = .06 + scrollNorm * .12 + burstPower * .2;
-			solidMat.opacity = .02 + scrollNorm * .05 + burstPower * .08;
-			wireMat.color.setHSL(.25 - scrollNorm * .1 + burstPower * .05, .8, .45);
-			solidMat.color.setHSL(.25 - scrollNorm * .1 + burstPower * .05, .8, .5);
-			for (let i = 0; i < orbitShapes.length; i++) {
-				const mesh = orbitShapes[i];
-				const d = mesh.userData;
-				const a = d.angle + t * d.speed;
-				const r = d.radius * (1 + scrollNorm * .3);
-				mesh.position.x = Math.cos(a) * r + targetMX * .5;
-				mesh.position.z = Math.sin(a) * r + targetMY * .5;
-				mesh.position.y = Math.sin(t * .5 + i) * 1.5;
-				mesh.rotation.x = t * .8 + i;
-				mesh.rotation.y = t * 1.2 + i;
-				mesh.scale.setScalar(1 + Math.sin(t * .5 + i) * .3 + burstPower * .5);
-				mesh.material.opacity = .15 + scrollNorm * .2 + burstPower * .3;
+			wireMat.opacity = .05 + scrollNorm * .1 + burstPower * .15;
+			solidMat.opacity = .02 + scrollNorm * .04 + burstPower * .06;
+			wireMat.color.setHSL(.25 - scrollNorm * .08, .7, .4 + burstPower * .1);
+			solidMat.color.setHSL(.25 - scrollNorm * .08, .7, .45 + burstPower * .1);
+			orbitGroup.rotation.y = t * .05;
+			orbitGroup.rotation.x = Math.sin(t * .03) * .1 + targetMY * .1;
+			orbitGroup.rotation.z = Math.cos(t * .04) * .05 + targetMX * .1;
+			for (const mesh of orbitMeshes) {
+				mesh.rotation.x = t * .6;
+				mesh.rotation.y = t * .8;
+				const s = 1 + Math.sin(t * .4 + mesh.userData.angle) * .2 + burstPower * .3;
+				mesh.scale.setScalar(s);
+				mesh.material.opacity = .15 + scrollNorm * .15 + burstPower * .2;
 			}
-			const camDist = 35 - scrollNorm * 8 - burstPower * 2;
-			camera.position.x = Math.sin(t * .03) * (2 + scrollNorm * 4) + targetMX * 3;
-			camera.position.y = Math.cos(t * .05) * (1.5 + scrollNorm * 3) + targetMY * 3;
-			camera.position.z = camDist;
+			const camDist = 35 - scrollNorm * 6 - burstPower * 1;
+			camera.position.x = Math.sin(t * .03) * (1 + scrollNorm * 2) + targetMX * 2;
+			camera.position.y = Math.cos(t * .05) * (1 + scrollNorm * 2) + targetMY * 2;
+			camera.position.z = Math.max(camDist, 20);
 			camera.lookAt(0, 0, 0);
 			renderer.render(scene, camera);
 		};
 		animate();
 		const resize = () => {
 			const w = container.clientWidth, h = container.clientHeight;
+			if (w === 0 || h === 0) return;
 			camera.aspect = w / h;
 			camera.updateProjectionMatrix();
 			renderer.setSize(w, h);
