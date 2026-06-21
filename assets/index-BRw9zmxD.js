@@ -44498,7 +44498,7 @@ function Hero() {
 									children: "Contacto"
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-									href: "/document/cv/David_Nanculeo_cv_4_completo.pdf",
+									href: "/document/cv/David_Nanculeo_cv_es_harvard.pdf",
 									target: "_blank",
 									rel: "noopener noreferrer",
 									className: "btn btn-ghost",
