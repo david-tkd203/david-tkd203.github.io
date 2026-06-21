@@ -1,151 +1,122 @@
-import React, { useEffect, useRef, useState } from 'react';
-import hackerLogo from '../assets/images/logo_hacker.png';
+import { useState, useEffect } from 'react'
 
-/**
- * BootScreen Component
- * Displays a glitched boot sequence on page load
- * Shows logo_hacker.png with aggressive glitch effect
- */
-const BootScreen = ({ onComplete }) => {
-  const canvasRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(true);
-  const originalImageDataRef = useRef(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
+const messages = [
+  { text: 'Loading kernel modules...', done: false },
+  { text: 'Initializing display server...', done: false },
+  { text: 'Mounting filesystems...', done: false },
+  { text: 'Starting services...', done: false },
+  { text: 'Ready.', done: false },
+]
+
+export default function BootScreen({ onComplete }) {
+  const [progress, setProgress] = useState(0)
+  const [currentMsg, setCurrentMsg] = useState(0)
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    const img = new Image();
-    img.src = hackerLogo;
-
-    img.onload = () => {
-      // Escalar canvas para que sea square y contenga la imagen
-      const size = Math.min(window.innerWidth * 0.6, window.innerHeight * 0.6, 400);
-      canvas.width = size;
-      canvas.height = size;
-
-      // Dibujar imagen centrada
-      const x = (size - img.width) / 2;
-      const y = (size - img.height) / 2;
-      ctx.drawImage(img, x, y);
-
-      // Guardar original
-      originalImageDataRef.current = ctx.getImageData(0, 0, size, size);
-      setImageLoaded(true);
-    };
-
-    // Boot sequence: 3.5 segundos total
-    let bootTime = 0;
-    const bootDuration = 3500;
-
-    const applyGlitch = () => {
-      const canvas = canvasRef.current;
-      if (!canvas || !originalImageDataRef.current) return;
-
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      const original = originalImageDataRef.current;
-      const imageData = ctx.createImageData(original);
-      imageData.data.set(original.data);
-
-      // Aplicar glitch agresivo (escaneo horizontal)
-      const lineHeight = imageData.height;
-      const random = Math.random();
-
-      if (random > 0.3) {
-        // Glitch intenso: múltiples líneas desplazadas
-        for (let line = 0; line < 12; line++) {
-          const lineY = Math.floor(Math.random() * lineHeight);
-          const offset = Math.floor((Math.random() - 0.5) * 80); // ±40px
-
-          for (let x = 0; x < imageData.width; x++) {
-            const sourceX = (x - offset + imageData.width) % imageData.width;
-            const sourceIdx = (lineY * imageData.width + sourceX) * 4;
-            const targetIdx = (lineY * imageData.width + x) * 4;
-
-            // Separación cromática dramática
-            const rLine = Math.floor(Math.random() * lineHeight);
-            const bLine = Math.floor(Math.random() * lineHeight);
-
-            if (rLine === lineY) {
-              // Canal rojo desplazado
-              const rIdx = ((rLine + 5) * imageData.width + x) * 4;
-              if (rIdx + 3 < imageData.data.length && sourceIdx + 3 < imageData.data.length) {
-                imageData.data[rIdx] = original.data[sourceIdx];
-              }
-            }
-
-            if (bLine === lineY) {
-              // Canal azul desplazado
-              const bIdx = ((bLine - 5) * imageData.width + x) * 4;
-              if (bIdx + 3 < imageData.data.length && sourceIdx + 3 < imageData.data.length) {
-                imageData.data[bIdx + 2] = original.data[sourceIdx + 2];
-              }
-            }
-
-            // Copiar píxeles desplazados
-            if (targetIdx + 3 < imageData.data.length && sourceIdx + 3 < imageData.data.length) {
-              imageData.data[targetIdx] = original.data[sourceIdx];
-              imageData.data[targetIdx + 1] = original.data[sourceIdx + 1];
-              imageData.data[targetIdx + 2] = original.data[sourceIdx + 2];
-              imageData.data[targetIdx + 3] = original.data[sourceIdx + 3];
-            }
-          }
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + Math.random() * 8 + 2
+        if (next >= 100) {
+          clearInterval(interval)
+          // fade out
+          setTimeout(() => {
+            setVisible(false)
+            setTimeout(onComplete, 400)
+          }, 500)
+          return 100
         }
-      }
+        return Math.min(next, 100)
+      })
+    }, 120)
 
-      // Agregar scanlines digitales
-      for (let y = 0; y < lineHeight; y += 3) {
-        for (let x = 0; x < imageData.width; x++) {
-          const idx = (y * imageData.width + x) * 4;
-          if (idx + 3 < imageData.data.length) {
-            imageData.data[idx + 3] = Math.floor(imageData.data[idx + 3] * 0.7);
-          }
-        }
-      }
+    return () => clearInterval(interval)
+  }, [onComplete])
 
-      ctx.putImageData(imageData, 0, 0);
-    };
-
-    const animate = () => {
-      const progress = bootTime / bootDuration;
-
-      if (imageLoaded) {
-        applyGlitch();
-      }
-
-      bootTime += 30;
-
-      if (bootTime < bootDuration) {
-        setTimeout(animate, 30);
-      } else {
-        // Fade out
-        setIsVisible(false);
-        setTimeout(() => {
-          if (onComplete) onComplete();
-        }, 500);
-      }
-    };
-
-    if (imageLoaded) {
-      animate();
+  useEffect(() => {
+    if (currentMsg < messages.length - 1 && progress > (currentMsg + 1) * 20) {
+      const timer = setTimeout(() => setCurrentMsg((prev) => prev + 1), 100)
+      return () => clearTimeout(timer)
     }
-  }, [imageLoaded, onComplete]);
-
-  if (!isVisible) return null;
+  }, [progress, currentMsg])
 
   return (
-    <div className="boot-screen">
-      <div className="boot-container">
-        <canvas ref={canvasRef} className="boot-canvas" />
-        <div className="boot-text">
-          <p className="boot-status">&gt; INITIALIZING NEURAL NETWORK...</p>
-          <div className="boot-scanlines" />
-        </div>
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: 9999,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'var(--bg)',
+      opacity: visible ? 1 : 0,
+      transition: 'opacity 0.4s ease',
+      padding: '2rem'
+    }}>
+      {/* Logo */}
+      <div style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(4rem, 15vw, 8rem)',
+        lineHeight: 1,
+        letterSpacing: '0.05em',
+        color: 'var(--accent)',
+        marginBottom: '3rem',
+        textTransform: 'uppercase'
+      }}>
+        DN
+      </div>
+
+      {/* Progress bar */}
+      <div style={{
+        width: 'min(300px, 80vw)',
+        height: '3px',
+        background: 'var(--border)',
+        borderRadius: '2px',
+        overflow: 'hidden',
+        marginBottom: '2rem'
+      }}>
+        <div style={{
+          width: `${progress}%`,
+          height: '100%',
+          background: 'var(--accent)',
+          borderRadius: '2px',
+          transition: 'width 0.15s ease-out',
+          boxShadow: '0 0 12px var(--accent-glow)'
+        }} />
+      </div>
+
+      {/* Status messages */}
+      <div style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: '0.75rem',
+        color: 'var(--fg-muted)',
+        textAlign: 'center',
+        lineHeight: 2,
+        minHeight: '4rem'
+      }}>
+        {messages.slice(0, currentMsg + 1).map((msg, i) => (
+          <div key={i} style={{
+            opacity: i === currentMsg && progress < 100 ? 1 : 0.5,
+            transition: 'opacity 0.3s'
+          }}>
+            {i === currentMsg && progress < 100 ? '▸' : '✓'} {msg.text}
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom hint */}
+      <div style={{
+        position: 'absolute',
+        bottom: '2rem',
+        fontFamily: 'var(--font-body)',
+        fontSize: '0.6rem',
+        color: 'var(--border)',
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase'
+      }}>
+        {Math.floor(progress)}%
       </div>
     </div>
-  );
-};
-
-export default BootScreen;
+  )
+}

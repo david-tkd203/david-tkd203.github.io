@@ -1,97 +1,27 @@
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
-  const footerStyle = {
-    color: '#ffffff',
-    textAlign: 'center',
-    background: 'linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #0a0a0a 100%)',
-    padding: '3rem 2rem 2rem 2rem',
-    borderTop: '2px solid #b800ff',
-    boxShadow: '0 -2px 20px rgba(184, 0, 255, 0.2)'
-  };
-
-  const contentStyle = {
-    maxWidth: '1200px',
-    margin: '0 auto'
-  };
-
-  const linksStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '2rem',
-    marginBottom: '2rem',
-    flexWrap: 'wrap'
-  };
-
-  const linkStyle = {
-    color: '#b800ff',
-    fontWeight: '600',
-    textDecoration: 'none',
-    transition: 'all 0.3s',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    fontSize: '0.95rem'
-  };
-
-  const pStyle = {
-    opacity: 0.9,
-    margin: 0,
-    fontSize: '0.95rem',
-    lineHeight: '1.6'
-  };
+  const year = new Date().getFullYear()
 
   return (
-    <footer style={footerStyle}>
-      <div style={contentStyle}>
-        <div style={linksStyle}>
-          <a href="https://github.com/david-tkd203" target="_blank" rel="noopener noreferrer" title="GitHub" style={linkStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ff00ff';
-              e.currentTarget.style.transform = 'translateY(-3px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = '#b800ff';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            <FaGithub /> GitHub
+    <footer className="footer">
+      <div className="container">
+        <div className="footer-links">
+          <a href="https://github.com/david-tkd203" target="_blank" rel="noopener noreferrer">
+            <FaGithub size={14} /> GitHub
           </a>
-          <a href="https://www.linkedin.com/in/david-nanculeo" target="_blank" rel="noopener noreferrer" title="LinkedIn" style={linkStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ff00ff';
-              e.currentTarget.style.transform = 'translateY(-3px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = '#b800ff';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            <FaLinkedin /> LinkedIn
+          <a href="https://www.linkedin.com/in/david-nanculeo" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin size={14} /> LinkedIn
           </a>
-          <a href="mailto:david.203.52@gmail.com" title="Email" style={linkStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ff00ff';
-              e.currentTarget.style.transform = 'translateY(-3px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = '#b800ff';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            <FaEnvelope /> Email
+          <a href="mailto:david.203.52@gmail.com">
+            <FaEnvelope size={14} /> Email
           </a>
         </div>
-        <p style={pStyle}>
-          &copy; {currentYear} David Nanculeo.
-        </p>
-        <p style={{ ...pStyle, marginTop: '0.5rem', fontSize: '0.85rem' }}>
-          Ingeniero en Informática | Full Stack Developer | RPA Specialist
+        <p>© {year} David Nanculeo</p>
+        <p style={{ marginTop: '0.3rem', fontSize: '0.7rem' }}>
+          Ingeniero en Informática · Full Stack · RPA Specialist
         </p>
       </div>
     </footer>
-  );
+  )
 }

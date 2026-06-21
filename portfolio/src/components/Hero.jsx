@@ -1,143 +1,122 @@
-import { useState } from 'react';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { useRef, useEffect } from 'react'
+import { FaArrowDown, FaFileDownload } from 'react-icons/fa'
+
+const tickerItems = [
+  'Python', 'Django', 'React', 'TypeScript', 'Docker', 'RPA',
+  'APIs REST', 'PostgreSQL', 'MySQL', 'Pandas', 'Git', 'Linux',
+  'Selenium', 'Rocketbot', 'Power Automate', 'Jenkins', 'Flask',
+  'HTML/CSS', 'Odoo', 'Nginx', 'Jira', 'Cloud Computing'
+]
+
+const Ticker = () => (
+  <div className="ticker">
+    <div className="ticker-track">
+      {[...Array(3)].map((_, i) => (
+        <div key={i} style={{ display: 'inline-flex', gap: '3rem' }}>
+          {tickerItems.map((item, j) => (
+            <span key={`${i}-${j}`} className="ticker-item">
+              <span className="ticker-dot" />
+              {item}
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+)
 
 export default function Hero() {
-  const [primaryHover, setPrimaryHover] = useState(false);
-  const [secondaryHover, setSecondaryHover] = useState(false);
+  const heroRef = useRef(null)
+  const glowRef = useRef(null)
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  useEffect(() => {
+    const hero = heroRef.current
+    const glow = glowRef.current
+    if (!hero || !glow) return
 
-  const heroStyle = {
-    background: 'linear-gradient(135deg, #1a0033 0%, #0a0a0a 50%, #b800ff 100%)',
-    color: 'white',
-    padding: isMobile ? '4rem 1.5rem' : '8rem 2rem',
-    textAlign: 'center',
-    minHeight: isMobile ? '450px' : '600px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    overflow: 'hidden'
-  };
+    const onMove = (e) => {
+      const r = hero.getBoundingClientRect()
+      const x = e.clientX - r.left
+      const y = e.clientY - r.top
+      glow.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`
+    }
+    const onLeave = () => { glow.style.opacity = '0' }
+    const onEnter = () => { glow.style.opacity = '1' }
 
-  const contentStyle = {
-    maxWidth: '600px',
-    position: 'relative',
-    zIndex: 10
-  };
-
-  const h1Style = {
-    fontSize: isMobile ? '2rem' : '3.5rem',
-    marginBottom: '1rem',
-    fontWeight: '800',
-    letterSpacing: '-1px'
-  };
-
-  const pStyle = {
-    opacity: 0.9,
-    marginBottom: '2rem',
-    fontSize: isMobile ? '1rem' : '1.3rem',
-    lineHeight: '1.6'
-  };
-
-  const buttonsStyle = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: isMobile ? '0.8rem' : '1rem',
-    marginBottom: '2rem'
-  };
-
-  const btnPrimaryStyle = {
-    cursor: 'pointer',
-    border: 'none',
-    borderRadius: '8px',
-    padding: isMobile ? '0.7rem 1.5rem' : '0.8rem 2rem',
-    fontSize: isMobile ? '0.9rem' : '1rem',
-    fontWeight: '700',
-    transition: 'all 0.3s',
-    backgroundColor: primaryHover ? '#ff00ff' : '#b800ff',
-    color: '#ffffff',
-    boxShadow: primaryHover ? '0 10px 20px rgba(184, 0, 255, 0.6)' : '0 0 30px rgba(184, 0, 255, 0.4)',
-    transform: primaryHover ? 'translateY(-2px)' : 'translateY(0)',
-    whiteSpace: 'nowrap'
-  };
-
-  const btnSecondaryStyle = {
-    cursor: 'pointer',
-    border: '2px solid #ffffff',
-    borderRadius: '8px',
-    padding: isMobile ? '0.7rem 1.5rem' : '0.8rem 2rem',
-    fontSize: isMobile ? '0.9rem' : '1rem',
-    fontWeight: '700',
-    transition: 'all 0.3s',
-    backgroundColor: secondaryHover ? '#b800ff' : 'transparent',
-    color: secondaryHover ? '#000000' : '#ffffff',
-    borderColor: secondaryHover ? '#b800ff' : '#ffffff',
-    transform: secondaryHover ? 'translateY(-2px)' : 'translateY(0)',
-    whiteSpace: 'nowrap'
-  };
-
-  const socialLinksStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '2rem',
-    marginTop: '3rem'
-  };
-
-  const iconLinkStyle = {
-    color: '#b800ff',
-    fontSize: '2rem',
-    transition: 'all 0.3s',
-    cursor: 'pointer',
-    textDecoration: 'none'
-  };
+    hero.addEventListener('mousemove', onMove)
+    hero.addEventListener('mouseleave', onLeave)
+    hero.addEventListener('mouseenter', onEnter)
+    return () => {
+      hero.removeEventListener('mousemove', onMove)
+      hero.removeEventListener('mouseleave', onLeave)
+      hero.removeEventListener('mouseenter', onEnter)
+    }
+  }, [])
 
   return (
-    <section id="home" style={heroStyle}>
-      <div style={contentStyle}>
-        <h1 style={h1Style}>Hola, soy David Nanculeo</h1>
-        <p style={pStyle}>Ingeniero en Informática | Desarrollador Full Stack | Especialista en Tecnologías Web</p>
-        <div style={buttonsStyle}>
-          <button
-            style={btnPrimaryStyle}
-            onMouseEnter={() => setPrimaryHover(true)}
-            onMouseLeave={() => setPrimaryHover(false)}
-            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            Ver mis proyectos
-          </button>
-          <a
-            href="/document/cv/David_Nanculeo_cv_4_completo.pdf"
-            download
-            style={{...btnSecondaryStyle, display: 'inline-block', textDecoration: 'none', textAlign: 'center'}}
-            onMouseEnter={() => setSecondaryHover(true)}
-            onMouseLeave={() => setSecondaryHover(false)}
-          >
-            Descargar CV
-          </a>
-        </div>
-        <div style={socialLinksStyle}>
-          <a href="https://github.com/david-tkd203" target="_blank" rel="noopener noreferrer" style={iconLinkStyle}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.2) translateY(-3px)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-          >
-            <FaGithub />
-          </a>
-          <a href="https://www.linkedin.com/in/david-nanculeo" target="_blank" rel="noopener noreferrer" style={iconLinkStyle}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.2) translateY(-3px)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-          >
-            <FaLinkedin />
-          </a>
-          <a href="mailto:david.203.52@gmail.com" style={iconLinkStyle}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.2) translateY(-3px)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-          >
-            <FaEnvelope />
-          </a>
+    <>
+      <div className="section hero" id="home" ref={heroRef} style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero-glow" ref={glowRef} style={{ zIndex: 1 }} />
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="hero-grid">
+            <div>
+              <p className="display-sm" style={{ color: 'var(--accent)', marginBottom: '0.25rem' }}>
+                DAVID NANCULEO
+              </p>
+              <h1 className="hero-name">
+                <span className="accent">&lt;</span>
+                {' '}CODE{' '}
+                <span className="accent">/&gt;</span>
+              </h1>
+              <p className="hero-sub">
+                Ingeniero Civil Informático especializado en Backend, RPA y automatización inteligente.
+                Construyo sistemas que funcionan mientras dormís.
+              </p>
+              <div className="hero-actions">
+                <a href="#projects" className="btn btn-primary">
+                  Ver Proyectos <FaArrowDown size={12} />
+                </a>
+                <a href="mailto:david.203.52@gmail.com" className="btn btn-ghost">
+                  Contacto
+                </a>
+                <a href="/document/cv/David_Nanculeo_cv_4_completo.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                  <FaFileDownload size={12} /> CV
+                </a>
+              </div>
+            </div>
+
+            <div className="hero-stats">
+              <div className="stat">
+                <div className="stat-num">2+</div>
+                <div className="stat-label">Años Exp.</div>
+              </div>
+              <div className="stat">
+                <div className="stat-num">15+</div>
+                <div className="stat-label">Proyectos</div>
+              </div>
+              <div className="stat">
+                <div className="stat-num">7+</div>
+                <div className="stat-label">Certs</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
-  );
+
+      <Ticker />
+
+      <style>{`
+        .hero {
+          min-height: 70vh;
+          display: flex;
+          align-items: center;
+          padding-top: 6rem;
+        }
+        @media (max-width: 767px) {
+          .hero { min-height: 60vh; padding-top: 5rem; }
+          .hero-stats { margin-top: 1rem; }
+        }
+      `}</style>
+    </>
+  )
 }

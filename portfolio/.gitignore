@@ -23,3 +23,6 @@ assets
 *.njsproj
 *.sln
 *.sw?
+
+# SDD workspace
+.atl/

@@ -1,260 +1,116 @@
-import { useState } from 'react';
-import { Cpu, Code, PaletteFill, Database, Gear, BarChartFill, Link } from 'react-bootstrap-icons';
-import NeuralSkills from './NeuralSkills';
+import { Code, Palette, Database, Gear, BarChart, Link45deg } from 'react-bootstrap-icons'
 
-const TechLogo = ({ name, color, logoSrc }) => {
-  const [hover, setHover] = useState(false);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+const logoMap = {
+  'Python': '/images/logo_python.png',
+  'Django': '/images/logo_django.png',
+  'React 18': '/images/logo_react.png',
+  'React': '/images/logo_react.png',
+  'Vite': '/images/logo_vite.png',
+  'JavaScript': '/images/logo_js.png',
+  'HTML5': '/images/logo_html.png',
+  'CSS3/SASS': '/images/logo_css.png',
+  'Rocketbot': '/images/logo_rocketbot.png',
+  'Power Automate': '/images/logo_power_automate.png',
+  'Selenium': '/images/logo_selenium.svg',
+  'MySQL': '/images/logo_mysql.png',
+  'PostgreSQL': '/images/logo_postgres.png',
+  'SQL Server': '/images/logo_sqlserver.png',
+  'Firebase': '/images/logo_firebase.png',
+  'PhpMyAdmin': '/images/logo_phpmyadmin.png',
+  'Docker': '/images/logo_docker.png',
+  'Git': '/images/logo_git.png',
+  'Nginx': '/images/logo_nginx.png',
+  'Jira': '/images/logo_jira.png',
+  'CPanel': '/images/logo_cpanel.png',
+  'Postman': '/images/logo_postman.png',
+  'Pandas': '/images/logo_pandas.png',
+  'Excel Avanzado': '/images/logo_excel.png',
+  'Excel VBA': '/images/logo_excel.png',
+  'APIs REST': '/images/logo_postman.png',
+  'Jenkins': '/images/logo_jenkins.png',
+  'Flask': '/images/logo_flask.png',
+  'TypeScript': '/images/logo_typescript.png',
+  'Jinja2': '/images/logo_jinja2.png'
+}
 
-  const logoStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.8rem',
-    padding: isMobile ? '1.2rem' : '2rem',
-    backgroundColor: 'linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%)',
-    borderRadius: '16px',
-    border: `2px solid ${color}`,
-    cursor: 'pointer',
-    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-    transform: hover ? (isMobile ? 'scale(1.05)' : 'translateY(-12px) scale(1.08)') : 'translateY(0)',
-    boxShadow: hover 
-      ? `0 20px 50px ${color}50, inset 0 0 20px ${color}15, 0 0 30px ${color}30` 
-      : `0 4px 6px rgba(184, 0, 255, 0.1), inset 0 0 10px rgba(184, 0, 255, 0.05)`,
-    position: 'relative',
-    overflow: 'hidden',
-    backdropFilter: 'backdrop-filter(blur(10px))'
-  };
-
-  const glowStyle = {
-    position: 'absolute',
-    top: '-50%',
-    left: '-50%',
-    right: '-50%',
-    bottom: '-50%',
-    background: `radial-gradient(circle, ${color}30 0%, transparent 70%)`,
-    opacity: hover ? 1 : 0,
-    transition: 'opacity 0.4s',
-    pointerEvents: 'none'
-  };
-
-  const iconContainerStyle = {
-    textAlign: 'center',
-    minHeight: '60px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    zIndex: 1,
-    width: '100%'
-  };
-
-  const imgStyle = {
-    width: isMobile ? '40px' : '48px',
-    height: isMobile ? '40px' : '48px',
-    objectFit: 'contain',
-    filter: hover ? `drop-shadow(0 0 8px ${color})` : 'none',
-    transition: 'filter 0.4s'
-  };
-
-  const nameStyle = {
-    color: '#ffffff',
-    fontSize: isMobile ? '0.85rem' : '0.95rem',
-    fontWeight: '600',
-    textAlign: 'center',
-    position: 'relative',
-    zIndex: 1
-  };
-
-  return (
-    <div 
-      style={logoStyle}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <div style={glowStyle}></div>
-      <div style={iconContainerStyle}>
-        <img 
-          src={logoSrc}
-          alt={name}
-          style={imgStyle}
-        />
-      </div>
-      <div style={nameStyle}>{name}</div>
-    </div>
-  );
-};
+const categories = [
+  {
+    title: 'Backend & RPA',
+    icon: Gear,
+    skills: ['Python', 'Django', 'Rocketbot', 'Power Automate', 'Selenium', 'Flask']
+  },
+  {
+    title: 'Frontend',
+    icon: Palette,
+    skills: ['React 18', 'React', 'Vite', 'JavaScript', 'HTML5', 'CSS3/SASS', 'TypeScript']
+  },
+  {
+    title: 'Bases de Datos',
+    icon: Database,
+    skills: ['MySQL', 'PostgreSQL', 'SQL Server', 'Firebase', 'PhpMyAdmin']
+  },
+  {
+    title: 'DevOps & Herramientas',
+    icon: Gear,
+    skills: ['Docker', 'Git', 'Nginx', 'Jira', 'CPanel', 'Postman', 'Jenkins', 'Jinja2']
+  },
+  {
+    title: 'Data & Análisis',
+    icon: BarChart,
+    skills: ['Pandas', 'Excel Avanzado', 'Excel VBA']
+  },
+  {
+    title: 'APIs & Cloud',
+    icon: Link45deg,
+    skills: ['APIs REST', 'Postman']
+  }
+]
 
 export default function Skills() {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
-  const sectionStyle = {
-    backgroundColor: '#0a0a0a',
-    padding: isMobile ? '3rem 1.5rem' : '6rem 2rem',
-    background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)'
-  };
-
-  const containerStyle = {
-    maxWidth: '1200px',
-    margin: '0 auto'
-  };
-
-  const h2Style = {
-    textAlign: 'center',
-    color: '#b800ff',
-    marginBottom: '1rem',
-    fontSize: isMobile ? '2rem' : '3rem',
-    fontWeight: '800',
-    textShadow: '0 0 20px rgba(184, 0, 255, 0.5)',
-    letterSpacing: '2px'
-  };
-
-  const subtitleStyle = {
-    textAlign: 'center',
-    color: '#aaaaaa',
-    marginBottom: '4rem',
-    fontSize: isMobile ? '0.95rem' : '1.1rem'
-  };
-
-  const categoryStyle = {
-    marginBottom: '4rem'
-  };
-
-  const categoryTitleStyle = {
-    color: '#ff00ff',
-    fontSize: '1.8rem',
-    marginBottom: '2rem',
-    paddingLeft: '1rem',
-    borderLeft: '4px solid #ff00ff',
-    fontWeight: '700'
-  };
-
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-    gap: '2rem'
-  };
-
-  const skillCategories = [
-    {
-      title: 'Backend & RPA',
-      color: '#b800ff',
-      icon: Code,
-      skills: [
-        { name: 'Python', logo: '/images/logo_python.png' },
-        { name: 'Django', logo: '/images/logo_django.png' },
-        { name: 'Rocketbot', logo: '/images/logo_rocketbot.png' },
-        { name: 'Power Automate', logo: '/images/logo_power_automate.png' },
-        { name: 'Selenium', logo: '/images/logo_selenium.svg' }
-      ]
-    },
-    {
-      title: 'Frontend',
-      color: '#00d4ff',
-      icon: PaletteFill,
-      skills: [
-        { name: 'React 18', logo: '/images/logo_react.png' },
-        { name: 'Vite', logo: '/images/logo_vite.png' },
-        { name: 'JavaScript', logo: '/images/logo_js.png' },
-        { name: 'HTML5', logo: '/images/logo_html.png' },
-        { name: 'CSS3/SASS', logo: '/images/logo_css.png' }
-      ]
-    },
-    {
-      title: 'Bases de Datos',
-      color: '#ff6b6b',
-      icon: Database,
-      skills: [
-        { name: 'MySQL', logo: '/images/logo_mysql.png' },
-        { name: 'PostgreSQL', logo: '/images/logo_postgres.png' },
-        { name: 'SQL Server', logo: '/images/logo_oracle.png' },
-        { name: 'Firebase', logo: '/images/logo_firebase.png' },
-        { name: 'PhpMyAdmin', logo: '/images/logo_phpmyadmin.png' }
-      ]
-    },
-    {
-      title: 'DevOps & Herramientas',
-      color: '#ffd700',
-      icon: Gear,
-      skills: [
-        { name: 'Docker', logo: '/images/logo_docker.png' },
-        { name: 'Git', logo: '/images/logo_git.png' },
-        { name: 'Nginx', logo: '/images/logo_nginx.png' },
-        { name: 'Jira', logo: '/images/logo_jira.png' },
-        { name: 'CPanel', logo: '/images/logo_cpanel.png' },
-        { name: 'Postman', logo: '/images/logo_postman.png' }
-      ]
-    },
-    {
-      title: 'Data & Análisis',
-      color: '#a78bfa',
-      icon: BarChartFill,
-      skills: [
-        { name: 'Pandas', logo: '/images/logo_pandas.png' },
-        { name: 'Excel Avanzado', logo: '/images/logo_excel.png' },
-        { name: 'Excel VBA', logo: '/images/logo_excel.png' }
-      ]
-    },
-    {
-      title: 'APIs & Integraciones',
-      color: '#00BB9E',
-      icon: Link,
-      skills: [
-        { name: 'APIs REST', logo: '/images/logo_postman.png' }
-      ]
-    }
-  ];
-
   return (
-    <section id="skills" style={sectionStyle}>
-      <div style={containerStyle}>
-        <h2 style={h2Style}><Cpu size={32} style={{marginRight: '0.5rem', verticalAlign: 'middle'}} />Tecnologías & Herramientas</h2>
-        <p style={subtitleStyle}>Stack completo de technologies para desarrollar soluciones modernas</p>
+    <section className="section reveal-el" id="skills">
+      <div className="container">
+        <h2 className="section-title">Tecnologías</h2>
+        <p className="section-sub">Stack completo para construir soluciones modernas</p>
 
-        {skillCategories.map((category, idx) => {
-          const IconComponent = category.icon;
-          return (
-            <div key={idx} style={categoryStyle}>
-              <h3 style={categoryTitleStyle}><IconComponent size={24} style={{marginRight: '0.6rem', verticalAlign: 'middle'}} />{category.title}</h3>
-            <div style={gridStyle}>
-              {category.skills.map((skill, sidx) => (
-                <TechLogo 
-                  key={sidx}
-                  name={skill.name}
-                  logoSrc={skill.logo}
-                  color={category.color}
-                />
-              ))}
-            </div>
-          </div>
-          );
-        })}
-
-        {/* Neural Skills Network */}
-        <div style={{ marginTop: '6rem', marginBottom: '4rem' }}>
-          <h3 style={{ ...h2Style, fontSize: '2rem', marginBottom: '2rem' }}>Red de Habilidades</h3>
-          <NeuralSkills skills={[
-            'Python', 'Django', 'React', 'Vite', 'Docker',
-            'MySQL', 'APIs REST', 'Git', 'RPA', 'Data Science',
-            'Rocketbot', 'Power Automate', 'Flask', 'Pandas', 'Selenium'
-          ]} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+          {categories.map((cat, i) => {
+            const Icon = cat.icon
+            return (
+              <div key={i}>
+                <h3 style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.03em',
+                  color: 'var(--accent)',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem'
+                }}>
+                  <Icon size={16} />
+                  {cat.title}
+                </h3>
+                <div className="grid-auto">
+                  {cat.skills.map((s, j) => (
+                    <div key={j} className="skill-logo">
+                      {logoMap[s] && <img src={logoMap[s]} alt={s} />}
+                      <span>{s}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </div>
 
-        <div style={{
-          marginTop: '6rem',
-          padding: '3rem',
-          backgroundColor: 'rgba(184, 0, 255, 0.1)',
-          borderRadius: '12px',
-          border: '2px solid #b800ff',
-          textAlign: 'center'
-        }}>
-          <p style={{ color: '#b800ff', fontWeight: '700', fontSize: '1.1rem' }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#b800ff" style={{display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle'}}><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <div className="card" style={{ marginTop: '3rem', textAlign: 'center', padding: '2rem' }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--accent-text)', fontWeight: 600 }}>
             Especialista en integraciones Backend & RPA con +4 años de experiencia
           </p>
         </div>
       </div>
     </section>
-  );
+  )
 }

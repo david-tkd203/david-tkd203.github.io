@@ -1,198 +1,266 @@
-import { useState } from 'react';
-import { FaGithub, FaArrowRight } from 'react-icons/fa';
-import { Folder } from 'react-bootstrap-icons';
-import ProjectCard from './ProjectCard';
+import { useState, useRef, useEffect } from 'react'
+import { FaGithub, FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
 const projects = [
   {
     id: 1,
     title: 'Hmed',
-    description: 'Plataforma médica más reciente. Herramienta integral de gestión de datos sanitarios con análisis avanzado.',
-    tags: ['React', 'TypeScript', 'Medical', 'Full Stack'],
+    description: 'Plataforma web de Historial Clínico Global con extracción inteligente desde PDFs e imágenes mediante OCR. Arquitectura Django + React + PostgreSQL con autenticación JWT y 4 servicios Docker.',
+    tags: ['Python', 'Django', 'React', 'Docker', 'OCR'],
     link: 'https://github.com/david-tkd203/hmed',
+    image: '/projects/hmed_landing.png',
     featured: true
   },
   {
     id: 2,
-    title: 'Sistema de Auditoría ISO 27001',
-    description: 'Herramienta de gestión de ciberseguridad con macros VBA y Python. CRUD dinámico, cálculo automatizado de riesgos y reportabilidad PDF/CSV.',
-    tags: ['VBA', 'Python', 'ISO 27001', 'Excel'],
+    title: 'SGSI Ciberseguridad',
+    description: 'Sistema de Gestión de Seguridad de la Información ISO 27001 con matriz de riesgos, dashboard interactivo, scripts Python y generación de documentos Word profesionales.',
+    tags: ['Python', 'VBA', 'ISO 27001', 'Excel'],
     link: 'https://github.com/david-tkd203/ciberseguridad_auditoria',
     featured: true
   },
   {
     id: 3,
-    title: 'Sistema Evaluación Taekwondo',
-    description: 'Evaluación objetiva de técnicas Poomsae con visión por computador (OpenCV, MediaPipe) e interfaz PyQt5 con visualización 3D.',
-    tags: ['Python', 'OpenCV', 'Machine Learning', 'PyQt5'],
-    link: 'https://github.com/david-tkd203/poomsae_accuracy',
+    title: 'Poomsae Kinect 3D',
+    description: 'Sistema de evaluación automatizada de exactitud en Poomsae (Taekwondo WT) usando Kinect v2 + MediaPipe. Clasificación con Random Forest/SVM y exportación 3D (OBJ/GLB). Tesis de Licenciatura.',
+    tags: ['Python', 'OpenCV', 'ML', 'Kinect', '3D'],
+    link: 'https://github.com/david-tkd203/poomsae_kinect_3D',
+    image: '/projects/evaluacion_taekwondo.gif',
     featured: true
   },
   {
-    id: 4,
-    title: 'Análisis Narcotráfico en X',
-    description: 'Motor de búsqueda y análisis de datos galardonado. Procesamiento de 10,000+ registros con análisis de tendencias delictivas.',
-    tags: ['Python', 'Data Analysis', 'APIs', 'SQL'],
+    id: 8,
+    title: 'Automation Jobs',
+    description: 'Bots que buscan empleos en LinkedIn e Indeed, analizan compatibilidad con tu perfil usando IA local (Ollama) y completan formularios Easy Apply automáticamente.',
+    tags: ['Node.js', 'Puppeteer', 'Ollama', 'Automation'],
+    link: 'https://github.com/david-tkd203/automation-jobs',
+    featured: true
+  },
+  {
+    id: 5,
+    title: 'Análisis Narcotráfico',
+    description: 'Análisis de contenido sobre drogas y narcotráfico en redes sociales chilenas. Procesa datos Excel con Pandas para obtener métricas, hashtags y visualizaciones.',
+    tags: ['Python', 'Pandas', 'Data Analysis', 'APIs'],
     link: 'https://github.com/david-tkd203/An-lisis-de-Drogas',
     featured: false
   },
   {
-    id: 5,
-    title: 'Gestión de Personas Full Stack',
-    description: 'App Full Stack con React 18 + TypeScript (Vite) en frontend y Python Flask en backend. Integración MySQL completa.',
-    tags: ['React', 'TypeScript', 'Flask', 'MySQL'],
-    link: 'https://github.com/david-tkd203/ENTREGA-WEB-MOBILE',
-    featured: true
+    id: 9,
+    title: 'Matriz Lo Miranda · VotME',
+    description: 'Herramienta IST con filtros en cascada desde Excel (SheetJS). Dos modos: carga automática del archivo fuente o selección manual. Bootstrap 5.',
+    tags: ['JavaScript', 'SheetJS', 'Bootstrap', 'Excel'],
+    link: 'https://github.com/david-tkd203/matriz-lo-miranda',
+    featured: false
   },
   {
     id: 6,
-    title: 'Instagram Unfollower Tool',
-    description: 'Automatización con Python y Selenium para gestión de solicitudes de seguimiento con procesamiento JSON.',
-    tags: ['Python', 'Selenium', 'Automation'],
+    title: 'Unfollower Tool',
+    description: 'Bot para cancelar solicitudes de seguimiento pendientes en Instagram. Arquitectura limpia con clases POO, modo local y Docker.',
+    tags: ['Python', 'Selenium', 'Docker', 'POO'],
     link: 'https://github.com/david-tkd203/Instagram-Unfollow-Tool',
     featured: false
   },
   {
     id: 7,
-    title: 'Poke API Web',
-    description: 'Aplicación web desarrollada con Django siguiendo buenas prácticas de arquitectura y consumo de APIs externas.',
-    tags: ['Django', 'Python', 'REST API'],
-    link: 'https://github.com/?q=poke',
+    title: 'Poke Web API',
+    description: 'Evaluación técnica Django que consume la PokéAPI, procesa datos en tabla ordenada por experiencia base. Login, panel admin y Docker Compose.',
+    tags: ['Django', 'Python', 'REST API', 'Docker'],
+    link: 'https://github.com/david-tkd203/Poke-Web-API',
     featured: false
   }
-];
+]
 
 export default function Projects() {
-  const [hoveredId, setHoveredId] = useState(null);
+  const scrollRef = useRef(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
 
-  const sectionStyle = {
-    backgroundColor: '#0a0a0a',
-    padding: '6rem 2rem',
-    background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%)'
-  };
+  const updateScrollState = () => {
+    const el = scrollRef.current
+    if (!el) return
+    setCanScrollLeft(el.scrollLeft > 10)
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10)
+  }
 
-  const h2Style = {
-    textAlign: 'center',
-    color: '#b800ff',
-    marginBottom: '1rem',
-    fontSize: '3rem',
-    fontWeight: '800',
-    textShadow: '0 0 20px rgba(184, 0, 255, 0.5)',
-    letterSpacing: '2px'
-  };
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    el.addEventListener('scroll', updateScrollState)
+    updateScrollState()
+    return () => el.removeEventListener('scroll', updateScrollState)
+  }, [])
 
-  const subtitleStyle = {
-    textAlign: 'center',
-    color: '#aaaaaa',
-    marginBottom: '4rem',
-    fontSize: '1.1rem'
-  };
-
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: '2rem',
-    maxWidth: '1200px',
-    margin: '0 auto'
-  };
-
-  const cardStyle = (isHovered, isFeatured) => ({
-    backgroundColor: '#1a1a1a',
-    borderRadius: '12px',
-    padding: '2rem',
-    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-    border: isFeatured ? `2px solid #b800ff` : `2px solid #333333`,
-    boxShadow: isHovered 
-      ? `0 20px 40px rgba(184, 0, 255, 0.4), inset 0 0 20px rgba(184, 0, 255, 0.1)` 
-      : `0 4px 6px rgba(184, 0, 255, 0.1)`,
-    transform: isHovered ? 'translateY(-10px) scale(1.02)' : 'translateY(0)',
-    position: 'relative',
-    overflow: 'hidden',
-    cursor: 'pointer'
-  });
-
-  const badgeStyle = {
-    position: 'absolute',
-    top: '1rem',
-    right: '1rem',
-    backgroundColor: '#b800ff',
-    color: '#ffffff',
-    padding: '0.4rem 0.8rem',
-    borderRadius: '20px',
-    fontSize: '0.7rem',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: '1px'
-  };
-
-  const cardH3Style = {
-    color: '#b800ff',
-    marginBottom: '0.8rem',
-    fontSize: '1.3rem',
-    fontWeight: '700',
-    marginTop: '0.5rem'
-  };
-
-  const cardPStyle = {
-    color: '#cccccc',
-    marginBottom: '1.5rem',
-    lineHeight: '1.6',
-    fontSize: '0.95rem'
-  };
-
-  const tagsStyle = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '0.6rem',
-    marginBottom: '1.5rem'
-  };
-
-  const tagStyle = {
-    color: '#b800ff',
-    backgroundColor: 'rgba(184, 0, 255, 0.1)',
-    borderRadius: '20px',
-    padding: '0.4rem 0.9rem',
-    fontSize: '0.8rem',
-    fontWeight: '600',
-    border: '1px solid rgba(184, 0, 255, 0.3)',
-    transition: 'all 0.3s'
-  };
-
-  const linkContainerStyle = {
-    display: 'flex',
-    gap: '1rem',
-    alignItems: 'center'
-  };
-
-  const linkStyle = {
-    color: '#b800ff',
-    fontWeight: '700',
-    textDecoration: 'none',
-    transition: 'all 0.3s',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem'
-  };
+  const scroll = (dir) => {
+    const el = scrollRef.current
+    if (!el) return
+    const card = el.querySelector('.project-card')
+    const amount = card ? card.offsetWidth + 24 : 400
+    el.scrollBy({ left: dir * amount, behavior: 'smooth' })
+  }
 
   return (
-    <section id="projects" style={sectionStyle}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={h2Style}><Folder size={32} style={{marginRight: '0.5rem', verticalAlign: 'middle'}} />Mis Proyectos</h2>
-        <p style={subtitleStyle}>Trabajos destacados que demuestran mis habilidades técnicas</p>
-        <div style={gridStyle}>
-          {projects.map(project => (
-            <ProjectCard
-              key={project.id}
-              title={project.title}
-              description={project.description}
-              tags={project.tags}
-              image={project.image}
-              version={project.featured ? 'v1.0' : 'v1.0'}
-            />
+    <section className="section reveal-el" id="projects">
+      <div className="container">
+        <h2 className="section-title">Proyectos</h2>
+      </div>
+
+      <div style={{ position: 'relative', padding: '0 var(--section-px)' }}>
+        {/* Gradient fades */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: 'clamp(2rem, 5vw, 4rem)',
+          background: `linear-gradient(to right, var(--bg), transparent)`,
+          zIndex: 2,
+          pointerEvents: 'none',
+          opacity: canScrollLeft ? 1 : 0,
+          transition: 'opacity 0.3s'
+        }} />
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          bottom: 0,
+          width: 'clamp(2rem, 5vw, 4rem)',
+          background: `linear-gradient(to left, var(--bg), transparent)`,
+          zIndex: 2,
+          pointerEvents: 'none',
+          opacity: canScrollRight ? 1 : 0,
+          transition: 'opacity 0.3s'
+        }} />
+
+        {/* Scroll buttons */}
+        {canScrollLeft && (
+          <button
+            onClick={() => scroll(-1)}
+            style={{
+              position: 'absolute',
+              left: '0.5rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 3,
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
+              color: 'var(--accent)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+              backdropFilter: 'blur(8px)'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-dim)'; e.currentTarget.style.color = 'var(--accent-text)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--accent)' }}
+          >
+            <FaArrowLeft size={14} />
+          </button>
+        )}
+        {canScrollRight && (
+          <button
+            onClick={() => scroll(1)}
+            style={{
+              position: 'absolute',
+              right: '0.5rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 3,
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
+              color: 'var(--accent)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+              backdropFilter: 'blur(8px)'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-dim)'; e.currentTarget.style.color = 'var(--accent-text)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--accent)' }}
+          >
+            <FaArrowRight size={14} />
+          </button>
+        )}
+
+        {/* Scroll container */}
+        <div className="h-scroll tilt-card" ref={scrollRef}>
+          {projects.map((p) => (
+            <a
+              key={p.id}
+              href={p.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-card tilt-card-inner"
+              onMouseMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect()
+                const x = e.clientX - r.left
+                const y = e.clientY - r.top
+                const cx = r.width / 2
+                const cy = r.height / 2
+                const rotX = ((y - cy) / cy) * -8
+                const rotY = ((x - cx) / cx) * 8
+                e.currentTarget.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02,1.02,1.02)`
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <span className="badge" style={{ fontSize: '0.6rem' }}>
+                  {p.featured ? '★ Destacado' : 'Proyecto'}
+                </span>
+                <FaGithub size={16} style={{ color: 'var(--fg-muted)', flexShrink: 0 }} />
+              </div>
+              {p.image && (
+                <div style={{
+                  width: '100%',
+                  height: '140px',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  marginBottom: '0.75rem',
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border)'
+                }}>
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
+                </div>
+              )}
+              <h3>{p.title}</h3>
+              <p>{p.description}</p>
+              <div className="tags">
+                {p.tags.map((t, i) => (
+                  <span key={i}>{t}</span>
+                ))}
+              </div>
+            </a>
           ))}
         </div>
       </div>
+
+      <div className="container" style={{ marginTop: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', alignItems: 'center', fontSize: '0.75rem', color: 'var(--fg-muted)' }}>
+          <a href="https://github.com/david-tkd203" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
+            Ver todos en GitHub →
+          </a>
+        </div>
+      </div>
     </section>
-  );
+  )
 }

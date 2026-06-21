@@ -1,32 +1,19 @@
-import { useState } from 'react';
-import { BookHalf, AwardFill } from 'react-bootstrap-icons';
-
-const EgressIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M16 5L9 12L4 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const CompleteIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.5"/>
-    <path d="M7 10L9 12L13 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const InProgressIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.5"/>
-    <circle cx="10" cy="10" r="4" fill="currentColor" opacity="0.5"/>
-  </svg>
-);
+const instLogos = {
+  'Universidad Finis Terrae': '/education/logo_ufinisterrae.png',
+  'Coder House': '/education/logo_coderhouse.png',
+  'Inst. Profesional AIEP': '/education/logo_aiep.png',
+  'AIEP': '/education/logo_aiep.png',
+  'Universidad Mayor': '/education/logo_umayor.png',
+  'RocketBot': '/images/logo_rocketbot.png',
+  'Manpower': '/education/logo_manpower.png',
+  'Conecta Empleo': '/education/logo_conectaempleo.png'
+}
 
 const education = [
   {
     id: 1,
     degree: 'Ingeniería Civil Informática',
     institution: 'Universidad Finis Terrae',
-    logo: '/education/logo_ufinisterrae.png',
     year: '2019 – 2025',
     status: 'Egresado'
   },
@@ -34,15 +21,13 @@ const education = [
     id: 2,
     degree: 'Licenciado en Ciencias de la Ingeniería',
     institution: 'Universidad Finis Terrae',
-    logo: '/education/logo_ufinisterrae.png',
     year: '2019 – 2025',
     status: 'Completado'
   },
   {
     id: 3,
-    degree: 'Carrera Desarrollador Fullstack',
+    degree: 'Desarrollador Fullstack',
     institution: 'Coder House',
-    logo: '/education/logo_coderhouse.png',
     year: '',
     status: 'En Progreso'
   },
@@ -50,7 +35,6 @@ const education = [
     id: 4,
     degree: 'Diplomado en Desarrollo Web',
     institution: 'Inst. Profesional AIEP',
-    logo: '/education/logo_aiep.png',
     year: '2023',
     status: 'Completado'
   },
@@ -58,324 +42,170 @@ const education = [
     id: 5,
     degree: 'Liderazgo y Emprendimiento',
     institution: 'Universidad Mayor',
-    logo: '/education/logo_umayor.png',
     year: '2020',
     status: 'Completado'
   }
-];
+]
 
 const certifications = [
-  { title: 'Rocketbot Framework - Certificación N1', institution: 'RocketBot', logo: '/images/logo_rocketbot.png', url: 'https://certificate.rocketbot.co/badges/25e6b377-0555-a869-e4d4-b2c3c6844ad3' },
-  { title: 'Rocketbot Framework - Certificación N2', institution: 'RocketBot', logo: '/images/logo_rocketbot.png', url: 'https://certificate.rocketbot.co/badges/3f02ca03-c200-7422-dd10-09d91bc2ebd6' },
-  { title: 'Rocketbot Framework - Certificación N3', institution: 'RocketBot', logo: '/images/logo_rocketbot.png', url: 'https://certificate.rocketbot.co/badges/0c5eddad-2418-4e7e-6a25-d502e992ce58' },
-  { title: 'React JS - Certificación', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '/certificates/certificado_react.png' },
-  { title: 'JavaScript - Certificación', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '/certificates/certificado_js.png' },
-  { title: 'Desarrollo Web (HTML, CSS, SASS, Bootstrap)', institution: 'Coder House', logo: '/education/logo_coderhouse.png', url: '/certificates/certificado_desarrolloweb.png' },
-  { title: 'Excel Avanzado - Certificación', institution: 'Manpower', logo: '/education/logo_manpower.png', url: '/certificates/Diploma Alumno David Simón Ñanculeo Bastías_excel_basico_intermedio_avanzado.pdf' },
-  { title: 'Gestión de Proyectos Agile - Metodologías (Cascada, Lean, Scrum, Kanban)', institution: 'Conecta Empleo', logo: '/education/logo_conectaempleo.png', url: '/certificates/FT Movistar y SENCE - Certificado_gestion_proyectos_metodologias_agiles_enfoquelean.pdf' },
-  { title: 'Ciberseguridad en Entornos de Aprendizaje', institution: 'Conecta Empleo', logo: '/education/logo_conectaempleo.png', url: '/certificates/FT Movistar y SENCE - Certificado_ciberseguridad_entornos_aprendizaje.pdf' },
-  { title: 'Diplomado Diseño Programación Web', institution: 'AIEP', logo: '/education/logo_aiep.png', url: '/certificates/Diplomado - Certificado_diseño_programacionweb.pdf' },
-  { title: 'Diplomado Módulo Diseño Web (HTML, CSS)', institution: 'AIEP', logo: '/education/logo_aiep.png', url: '/certificates/Diplomado - Diploma módulo_ diseño_web_html_css.pdf' },
-  { title: 'Diplomado Módulo Programación JavaScript', institution: 'AIEP', logo: '/education/logo_aiep.png', url: '/certificates/Diplomado - Diploma módulo_programacion_javascript.pdf' },
-  { title: 'Certificado WordPress - Diplomado', institution: 'AIEP', logo: '/education/logo_aiep.png', url: '/certificates/Diplomado - certificado_wordpress.pdf' }
-];
+  { title: 'Rocketbot Framework N1', institution: 'RocketBot', url: 'https://certificate.rocketbot.co/badges/25e6b377-0555-a869-e4d4-b2c3c6844ad3' },
+  { title: 'Rocketbot Framework N2', institution: 'RocketBot', url: 'https://certificate.rocketbot.co/badges/3f02ca03-c200-7422-dd10-09d91bc2ebd6' },
+  { title: 'Rocketbot Framework N3', institution: 'RocketBot', url: 'https://certificate.rocketbot.co/badges/0c5eddad-2418-4e7e-6a25-d502e992ce58' },
+  { title: 'React JS', institution: 'Coder House', url: '/certificates/certificado_react.png' },
+  { title: 'JavaScript', institution: 'Coder House', url: '/certificates/certificado_js.png' },
+  { title: 'Desarrollo Web (HTML, CSS, SASS)', institution: 'Coder House', url: '/certificates/certificado_desarrolloweb.png' },
+  { title: 'Excel Avanzado', institution: 'Manpower', url: '/certificates/Diploma Alumno David Simón Ñanculeo Bastías_excel_basico_intermedio_avanzado.pdf' },
+  { title: 'Gestión Proyectos Agile', institution: 'Conecta Empleo', url: '/certificates/FT Movistar y SENCE - Certificado_gestion_proyectos_metodologias_agiles_enfoquelean.pdf' },
+  { title: 'Ciberseguridad', institution: 'Conecta Empleo', url: '/certificates/FT Movistar y SENCE - Certificado_ciberseguridad_entornos_aprendizaje.pdf' },
+  { title: 'Diseño Programación Web', institution: 'AIEP', url: '/certificates/Diplomado - Certificado_diseño_programacionweb.pdf' },
+  { title: 'Módulo Diseño Web (HTML, CSS)', institution: 'AIEP', url: '/certificates/Diplomado - Diploma módulo_ diseño_web_html_css.pdf' },
+  { title: 'Módulo Programación JavaScript', institution: 'AIEP', url: '/certificates/Diplomado - Diploma módulo_programacion_javascript.pdf' },
+  { title: 'WordPress', institution: 'AIEP', url: '/certificates/Diplomado - certificado_wordpress.pdf' }
+]
 
 export default function Education() {
-  const sectionStyle = {
-    backgroundColor: '#0f0f0f',
-    padding: '6rem 2rem',
-    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a0033 100%)'
-  };
-
-  const h2Style = {
-    textAlign: 'center',
-    color: '#b800ff',
-    marginBottom: '1rem',
-    fontSize: '3rem',
-    fontWeight: '800',
-    textShadow: '0 0 20px rgba(184, 0, 255, 0.5)',
-    letterSpacing: '2px'
-  };
-
-  const subtitleStyle = {
-    textAlign: 'center',
-    color: '#aaaaaa',
-    marginBottom: '4rem',
-    fontSize: '1.1rem'
-  };
-
-  const containerStyle = {
-    maxWidth: '1000px',
-    margin: '0 auto'
-  };
-
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: '2.5rem',
-    marginBottom: '4rem'
-  };
-
-  const cardStyle = {
-    backgroundColor: '#1a1a2e',
-    borderRadius: '20px',
-    padding: '2.8rem',
-    border: '2.5px solid #b800ff',
-    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-    boxShadow: '0 12px 40px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.08)',
-    position: 'relative',
-    overflow: 'hidden',
-    background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(184, 0, 255, 0.08) 100%)'
-  };
-
-  const degreeStyle = {
-    color: '#ff00ff',
-    fontSize: '1.35rem',
-    fontWeight: '900',
-    margin: '0 0 0.8rem 0',
-    textShadow: '0 0 20px rgba(255, 0, 255, 0.4)',
-    letterSpacing: '0.5px'
-  };
-
-  const institutionStyle = {
-    color: '#00d4ff',
-    fontSize: '1.1rem',
-    fontWeight: '750',
-    margin: '0',
-    letterSpacing: '0.5px',
-    textShadow: '0 0 10px rgba(0, 212, 255, 0.3)'
-  };
-
-  const yearStyle = {
-    color: '#ffffff',
-    fontSize: '0.95rem',
-    margin: '1.2rem 0 0 0',
-    fontWeight: '700',
-    display: 'inline-block',
-    backgroundColor: 'linear-gradient(135deg, rgba(184, 0, 255, 0.2), rgba(0, 212, 255, 0.15))',
-    padding: '0.6rem 1.2rem',
-    borderRadius: '15px',
-    border: '1.5px solid rgba(0, 212, 255, 0.6)',
-    boxShadow: '0 4px 15px rgba(0, 212, 255, 0.2)',
-    background: 'linear-gradient(135deg, rgba(184, 0, 255, 0.2), rgba(0, 212, 255, 0.15))'
-  };
-
-  const descriptionStyle = {
-    color: '#dddddd',
-    fontSize: '0.95rem',
-    lineHeight: '1.7',
-    margin: '1rem 0 0 0',
-    fontWeight: '500'
-  };
-
-  const statusStyle = (status) => {
-    let bgColor, textColor, borderColor, iconColor, shadowColor;
-    let Icon;
-    
-    if (status === 'Egresado') {
-      bgColor = 'rgba(0, 255, 136, 0.2)';
-      textColor = '#00ff88';
-      borderColor = '#00ff88';
-      iconColor = '#00ff88';
-      shadowColor = '#00ff8850';
-      Icon = EgressIcon;
-    } else if (status === 'Completado') {
-      bgColor = 'rgba(0, 212, 255, 0.2)';
-      textColor = '#00d4ff';
-      borderColor = '#00d4ff';
-      iconColor = '#00d4ff';
-      shadowColor = '#00d4ff50';
-      Icon = CompleteIcon;
-    } else {
-      bgColor = 'rgba(0, 255, 200, 0.2)';
-      textColor = '#00ffc8';
-      borderColor = '#00ffc8';
-      iconColor = '#00ffc8';
-      shadowColor = '#00ffc850';
-      Icon = InProgressIcon;
-    }
-
-    return {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '0.9rem',
-      backgroundColor: bgColor,
-      color: textColor,
-      padding: '0.85rem 1.5rem',
-      borderRadius: '30px',
-      fontSize: '0.9rem',
-      marginTop: '1.5rem',
-      border: `2.5px solid ${borderColor}`,
-      fontWeight: '800',
-      transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-      boxShadow: `0 6px 20px ${shadowColor}, inset 0 0 10px ${borderColor}20`,
-      Icon,
-      iconColor,
-      textShadow: `0 0 10px ${borderColor}60`
-    };
-  };
-
   return (
-    <section id="education" style={sectionStyle}>
-      <div style={containerStyle}>
-        <h2 style={h2Style}><BookHalf size={32} style={{marginRight: '0.5rem', verticalAlign: 'middle'}} />Educación y Certificaciones</h2>
-        <p style={subtitleStyle}>Formación académica y certificaciones profesionales</p>
-        <div style={gridStyle}>
-          {education.map(edu => (
-            <div 
-              key={edu.id} 
-              style={cardStyle}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-14px) scale(1.06)';
-                e.currentTarget.style.boxShadow = '0 25px 60px rgba(255, 0, 255, 0.4), inset 0 0 30px rgba(255, 0, 255, 0.15)';
-                e.currentTarget.style.borderColor = '#00ffff';
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 12px 40px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.08)';
-                e.currentTarget.style.borderColor = '#b800ff';
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(184, 0, 255, 0.08) 100%)';
-              }}
-            >
-              <div style={{ 
-                display: 'flex', 
-                flexDirection: 'column',
-                alignItems: 'center', 
-                gap: '1.5rem', 
-                marginBottom: '2rem',
-                paddingBottom: '2rem',
-                borderBottom: '2.5px solid rgba(184, 0, 255, 0.3)',
-                position: 'relative'
-              }}>
-                <div className="cert-image-wrapper">
-                  <img 
-                    src={edu.logo} 
-                    alt={edu.institution}
-                    data-no-crop
-                  />
+    <section className="section reveal-el" id="education">
+      <div className="container">
+        <h2 className="section-title">Educación</h2>
+        <p className="section-sub">Formación académica y certificaciones profesionales</p>
+
+        {/* Education cards */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+          gap: '1.25rem',
+          marginBottom: '4rem'
+        }}>
+          {education.map((edu) => (
+            <div key={edu.id} className="edu-card" style={{
+              padding: '1.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              {/* subtle lime accent bar */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '3px',
+                height: '100%',
+                background: edu.status === 'Egresado' ? 'var(--accent)' : 'var(--accent-dim)',
+                borderRadius: '0 2px 2px 0'
+              }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{
+                  width: '48px', height: '48px', borderRadius: '10px',
+                  background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, padding: '6px', overflow: 'hidden'
+                }}>
+                  {instLogos[edu.institution] && (
+                    <img src={instLogos[edu.institution]} alt={edu.institution}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  )}
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                  <h3 style={degreeStyle}>{edu.degree}</h3>
-                  <p style={institutionStyle}>{edu.institution}</p>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1rem, 2.5vw, 1.35rem)',
+                    lineHeight: 1.1,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.02em',
+                    color: edu.status === 'Egresado' ? 'var(--accent)' : 'var(--fg)'
+                  }}>
+                    {edu.degree}
+                  </h3>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--fg-muted)', marginTop: '0.15rem' }}>
+                    {edu.institution}
+                  </p>
                 </div>
               </div>
-              {edu.year && <p style={yearStyle}>{edu.year}</p>}
-              {(() => {
-                const statusConfig = statusStyle(edu.status);
-                const Icon = statusConfig.Icon;
-                return (
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: statusConfig.gap,
-                    backgroundColor: statusConfig.backgroundColor,
-                    color: statusConfig.color,
-                    padding: statusConfig.padding,
-                    borderRadius: statusConfig.borderRadius,
-                    fontSize: statusConfig.fontSize,
-                    marginTop: statusConfig.marginTop,
-                    border: statusConfig.border,
-                    fontWeight: statusConfig.fontWeight,
-                    transition: statusConfig.transition
-                  }}>
-                    <Icon />
-                    {edu.status}
-                  </div>
-                );
-              })()}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {edu.year && <span style={{ fontSize: '0.7rem', color: 'var(--fg-muted)' }}>{edu.year}</span>}
+                <span className="badge" style={{ fontSize: '0.6rem' }}>{edu.status}</span>
+              </div>
             </div>
           ))}
         </div>
-        
-        <div style={{ marginTop: '5rem', paddingTop: '4rem', borderTop: '3px solid #b800ff' }}>
-          <h3 style={{ ...h2Style, marginBottom: '3rem', textAlign: 'left', fontSize: '2.2rem', color: '#00d4ff', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-            <AwardFill size={32} style={{ color: '#00d4ff' }} />
-            Certificaciones Profesionales
-          </h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2rem'
-          }}>
-            {certifications.map((cert, idx) => (
-              <div 
-                key={idx} 
-                style={{ 
-                  ...cardStyle, 
-                  borderColor: '#00d4ff',
-                  borderWidth: '2.5px',
-                  background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(26, 26, 46, 0.95) 100%)',
-                  padding: '2rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '1.2rem',
-                  transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  cursor: cert.url ? 'pointer' : 'default',
-                  position: 'relative'
-                }}
-                onClick={() => cert.url && window.open(cert.url, '_blank')}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-12px) scale(1.06)';
-                  e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 212, 255, 0.35), inset 0 0 30px rgba(0, 212, 255, 0.1)';
-                  e.currentTarget.style.borderColor = '#00ffff';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(184, 0, 255, 0.25), inset 0 0 20px rgba(184, 0, 255, 0.08)';
-                  e.currentTarget.style.borderColor = '#00d4ff';
-                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(26, 26, 46, 0.95) 100%)';
-                }}
-              >
-                <div style={{
-                  width: '100px',
-                  height: '100px',
-                  borderRadius: '16px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '2px solid rgba(0, 212, 255, 0.5)',
-                  background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(26, 26, 46, 0.85) 100%)',
-                  boxShadow: '0 8px 25px rgba(0, 212, 255, 0.15)',
-                  transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  position: 'relative'
-                }}>
-                  <img 
-                    src={cert.logo} 
-                    alt={cert.institution} 
-                    style={{ width: '80px', height: '80px', objectFit: 'contain' }} 
-                  />
-                  {cert.url && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '5px',
-                      right: '5px',
-                      width: '24px',
-                      height: '24px',
-                      backgroundColor: '#00d4ff',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '16px',
-                      color: '#0a0a0a',
-                      fontWeight: '800'
-                    }}>↗</div>
-                  )}
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <p style={{ ...descriptionStyle, margin: 0, color: '#00d4ff', fontWeight: '700', fontSize: '0.95rem', marginBottom: '0.5rem' }}>✓ {cert.title}</p>
-                  <p style={{ color: '#aaaaaa', fontSize: '0.85rem', margin: 0, fontWeight: '600' }}>{cert.institution}</p>
-                  {cert.url && <p style={{ color: '#b800ff', fontSize: '0.8rem', margin: '0.5rem 0 0 0', fontWeight: '600' }}>Haz clic para ver certificado</p>}
-                </div>
+
+        {/* Certifications */}
+        <h3 style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.03em',
+          marginBottom: '1.5rem',
+          color: 'var(--accent)',
+          position: 'relative',
+          display: 'inline-block'
+        }}>
+          Certificaciones
+          <span style={{
+            position: 'absolute',
+            bottom: '-4px',
+            left: 0,
+            width: 'clamp(2rem, 5vw, 4rem)',
+            height: '3px',
+            background: 'var(--accent)',
+            borderRadius: '2px'
+          }} />
+        </h3>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+          gap: '0.75rem'
+        }}>
+          {certifications.map((cert, i) => (
+            <a
+              key={i}
+              href={cert.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="card"
+              style={{
+                padding: '0.75rem 1rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--accent-dim)'
+                e.currentTarget.style.background = 'var(--bg-hover)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border)'
+                e.currentTarget.style.background = 'var(--bg-card)'
+              }}
+            >
+              <div style={{
+                width: '36px', height: '36px', borderRadius: '8px',
+                background: 'var(--bg-elevated)',
+                border: '1px solid var(--border)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0, padding: '4px', overflow: 'hidden'
+              }}>
+                {instLogos[cert.institution] ? (
+                  <img src={instLogos[cert.institution]} alt={cert.institution}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                ) : (
+                  <span style={{ fontSize: '0.7rem', color: 'var(--accent)', fontWeight: 600 }}>✓</span>
+                )}
               </div>
-            ))}
-          </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: '0.78rem', fontWeight: 600, lineHeight: 1.3 }}>{cert.title}</p>
+                <p style={{ fontSize: '0.65rem', color: 'var(--fg-muted)', marginTop: '0.1rem' }}>{cert.institution}</p>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

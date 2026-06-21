@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Ñanculeo · Proyectos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f11;
+    --bg-card: #1a1a1e;
+    --bg-card-hover: #222228;
+    --fg: #e8e8ed;
+    --fg-muted: #88889a;
+    --accent: #f59e0b;
+    --accent-dim: #92400e;
+    --accent-glow: rgba(245, 158, 11, 0.12);
+    --border: #2a2a30;
+    --radius: 14px;
+    --font-display: 'Unbounded', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 6rem 2rem 3rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.5rem, 10vw, 7rem);
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p {
+    font-size: 1.125rem;
+    max-width: 560px;
+    color: var(--fg-muted);
+    margin-top: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-stats span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+  }
+  .hero-stats strong {
+    color: var(--fg);
+    font-weight: 500;
+  }
+
+  /* ─── SECTION TITLE ─── */
+  .section-title {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 4rem 2rem 1.5rem;
+  }
+  .section-title h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+  .section-title h2 small {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--fg-muted);
+    letter-spacing: 0;
+    margin-left: 0.75rem;
+  }
+  .section-title .bar {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 0.5rem;
+    border-radius: 2px;
+  }
+
+  /* ─── GRID ─── */
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+  }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.5rem 1.75rem;
+    transition: background 0.25s, border-color 0.25s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: #333;
+    transform: translateY(-2px);
+  }
+
+  .card-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-muted);
+    margin-bottom: 0.75rem;
+  }
+  .card-lang .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .card-lang .dot.python { background: #3572A5; }
+  .card-lang .dot.js { background: #f7df1e; }
+  .card-lang .dot.ts { background: #3178c6; }
+  .card-lang .dot.cs { background: #178600; }
+  .card-lang .dot.html { background: #e34c26; }
+
+  .card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    color: var(--fg);
+  }
+  .card h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .card h3 a:hover { color: var(--accent); }
+
+  .card-desc {
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    line-height: 1.55;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+  .card-meta .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .card-meta .tag.topics { background: rgba(245, 158, 11, 0.1); color: var(--accent); border-color: rgba(245, 158, 11, 0.2); }
+  .card-meta .tag.stars { background: rgba(255,255,255,0.03); }
+  .card-stars {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--fg-muted);
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+  }
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 4rem 1.25rem 2rem; }
+    .grid { grid-template-columns: 1fr; padding: 0 1.25rem 3rem; }
+    .section-title { padding: 3rem 1.25rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-tag">github.com/david-tkd203</div>
+  <h1>
+    David<br>
+    <span class="accent">Ñanculeo</span>
+  </h1>
+  <p>
+    27 repositorios públicos que cruzan ingeniería, ciberseguridad, 
+    machine learning, automatización laboral y salud digital. 
+    Stack principal: Python, Django, JavaScript/React, C#.
+  </p>
+  <div class="hero-stats">
+    <span>📦 <strong>27</strong> repos</span>
+    <span>⭐ <strong>4</strong> estrellas totales</span>
+    <span>🐍 <strong>Python</strong> · stack principal</span>
+    <span>📅 desde <strong>2020</strong></span>
+  </div>
+</section>
+
+<!-- ═══ PROYECTOS DESTACADOS ═══ -->
+<div class="section-title">
+  <div class="bar"></div>
+  <h2>Proyectos Destacados <small>— con README completo</small></h2>
+</div>
+
+<div class="grid">
+
+  <!-- 1. HMED -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · Django · React</div>
+    <h3><a href="https://github.com/david-tkd203/hmed" target="_blank">HMED</a></h3>
+    <div class="card-desc">
+      Plataforma web de <strong>Historial Clínico Global</strong> con extracción inteligente de datos 
+      desde PDFs e imágenes mediante OCR + patrones. Soporta múltiples idiomas, identifica 
+      medicamentos, alergias, observaciones clínicas y genera embeddings con MedSigLIP. 
+      Arquitectura Django + PostgreSQL + React con autenticación JWT, rate limiting y 
+      análisis de código estático con SonarQube. 4 servicios Docker Compose.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">salud</span>
+      <span class="tag topics">IA</span>
+      <span class="tag topics">OCR</span>
+      <span class="tag topics">Docker</span>
+      <span class="card-stars">⭐ 1</span>
+    </div>
+  </article>
+
+  <!-- 2. Poomsae Kinect 3D -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · OpenCV · MediaPipe · ML</div>
+    <h3><a href="https://github.com/david-tkd203/poomsae_kinect_3D" target="_blank">Poomsae Kinect 3D</a></h3>
+    <div class="card-desc">
+      Sistema de <strong>evaluación automatizada de exactitud en Poomsae (Taekwondo WT)</strong> 
+      usando Kinect v2 + cámaras RGB a 30 FPS. Estimación de pose con MediaPipe (33 landmarks), 
+      segmentación temporal de 36 movimientos técnicos, clasificación por Random Forest/SVM, 
+      y generación de reportes auditables en Excel + HTML. Clean Architecture, exportación 3D 
+      (OBJ/GLB), 37/37 checks de validación. Tesis de Licenciatura — Universidad Finis Terrae.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">deporte</span>
+      <span class="tag topics">Kinect</span>
+      <span class="tag topics">ML</span>
+      <span class="tag topics">3D</span>
+      <span class="card-stars">⭐ 1</span>
+    </div>
+  </article>
+
+  <!-- 3. SGSI Ciberseguridad -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · Excel VBA · XLSM</div>
+    <h3><a href="https://github.com/david-tkd203/ciberseguridad_auditoria" target="_blank">SGSI Ciberseguridad</a></h3>
+    <div class="card-desc">
+      <strong>Sistema de Gestión de Seguridad de la Información</strong> con soporte para Excel con macros 
+      (XLSM) — incluye matriz de riesgos, panel de control, Dashboard y Config_Tuning. 
+      Sistema de tuning del auditor con escala 1-5 y factores (0.70-1.30), scripts en Python 
+      para automatizar ajustes y generadores de documentos Word (.docx) con estructura 
+      profesional. Base documental completa para 22 controles SGSI (ISO 27001).
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">ciberseguridad</span>
+      <span class="tag topics">ISO 27001</span>
+      <span class="tag topics">VBA</span>
+      <span class="card-stars">⭐ 1</span>
+    </div>
+  </article>
+
+  <!-- 4. Automatización Laboral -->
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> Node.js · Puppeteer · Ollama</div>
+    <h3><a href="https://github.com/david-tkd203/automation-jobs" target="_blank">Automation Jobs</a></h3>
+    <div class="card-desc">
+      <strong>Automatización de postulaciones laborales</strong> en LinkedIn e Indeed. 
+      Dos bots independientes que buscan empleos, analizan compatibilidad con tu perfil 
+      y completan formularios de postulación automáticamente. Incluye detección de 
+      nivel salarial, análisis de stack tecnológico, recomendación con IA local (Ollama), 
+      llenado automático de formularios Easy Apply, paginación y delays aleatorios.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">automatización</span>
+      <span class="tag topics">LinkedIn</span>
+      <span class="tag topics">Puppeteer</span>
+      <span class="tag topics">IA</span>
+    </div>
+  </article>
+
+  <!-- 5. IST Investiga v2 -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · Django · PostgreSQL</div>
+    <h3><a href="https://github.com/david-tkd203/investigacion-accidentes_v2" target="_blank">IST Investiga v2</a></h3>
+    <div class="card-desc">
+      Plataforma web <strong>multi-tenant</strong> para investigar accidentes laborales con apoyo de IA. 
+      Migrada de MySQL single-tenant a PostgreSQL multi-tenant con django-tenants. 
+      Orquesta el flujo completo: entrevistas → evidencias → relato → hechos → 
+      árbol de causas → medidas correctivas → informe final. 23 esquemas, 160 trabajadores, 
+      141 accidentes registrados. La versión madura del sistema IST.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">multi-tenant</span>
+      <span class="tag topics">Django</span>
+      <span class="tag topics">PostgreSQL</span>
+      <span class="tag topics">IA</span>
+    </div>
+  </article>
+
+  <!-- 6. IST Investiga v1 -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · Django · MySQL</div>
+    <h3><a href="https://github.com/david-tkd203/investigacion-django_v2" target="_blank">IST Investiga v1</a></h3>
+    <div class="card-desc">
+      Versión original del <strong>Asistente de Investigación de Accidentes</strong> con Django y MySQL. 
+      Misma lógica de negocio: formularios guiados, gestión documental, árbol de causas, 
+      medidas correctivas e informe final. Base para la migración a PostgreSQL multi-tenant. 
+      La semilla de un sistema que hoy gestiona datos reales de múltiples empresas.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">Django</span>
+      <span class="tag topics">MySQL</span>
+      <span class="tag topics">docker</span>
+    </div>
+  </article>
+
+  <!-- 7. Instagram Unfollow Tool -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · Selenium · Docker</div>
+    <h3><a href="https://github.com/david-tkd203/Instagram-Unfollow-Tool" target="_blank">Instagram Unfollow Tool</a></h3>
+    <div class="card-desc">
+      Bot para <strong>cancelar solicitudes de seguimiento pendientes</strong> en Instagram 
+      usando Selenium + ChromeDriver. Inicia sesión, lee archivo JSON con solicitudes 
+      pendientes, las cancela una por una y registra resultados (exitosos/fallidos). 
+      Arquitectura limpia con clases: Logger, Registro, ChromeDriverDownloader, 
+      InstagramUnfollower y MainApp. Modo local y Docker. POO en acción.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">Selenium</span>
+      <span class="tag topics">Instagram</span>
+      <span class="tag topics">POO</span>
+      <span class="tag topics">Docker</span>
+      <span class="card-stars">⭐ 1</span>
+    </div>
+  </article>
+
+  <!-- 8. Análisis de Drogas -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · Pandas · Matplotlib</div>
+    <h3><a href="https://github.com/david-tkd203/An-lisis-de-Drogas" target="_blank">Análisis de Drogas</a></h3>
+    <div class="card-desc">
+      <strong>Análisis de contenido sobre drogas y narcotráfico</strong> en redes sociales y medios 
+      de comunicación chilenos. Procesa datos desde archivos Excel para obtener: 
+      recomendaciones, hashtags populares, métricas de publicación (impresiones, retweets, likes), 
+      período entre publicaciones y conteo por hoja. Visualización con Matplotlib.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">data analysis</span>
+      <span class="tag topics">pandas</span>
+      <span class="tag topics">redes sociales</span>
+    </div>
+  </article>
+
+  <!-- 9. Poke Web API -->
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python · Django · Docker</div>
+    <h3><a href="https://github.com/david-tkd203/Poke-Web-API" target="_blank">Poke Web API</a></h3>
+    <div class="card-desc">
+      <strong>Evaluación técnica Django</strong> que consume la PokéAPI, procesa y visualiza 
+      datos de Pokémon en una tabla ordenada por experiencia base. Login obligatorio, 
+      panel de administración, datos cacheados para evitar múltiples llamadas. 
+      Despliegue con Docker Compose. Prueba técnica superada con creces.
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">Django</span>
+      <span class="tag topics">API</span>
+      <span class="tag topics">Docker</span>
+      <span class="tag topics">test técnico</span>
+    </div>
+  </article>
+
+  <!-- 10. Matriz Lo Miranda -->
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> JavaScript · SheetJS · Bootstrap</div>
+    <h3><a href="https://github.com/david-tkd203/matriz-lo-miranda" target="_blank">Matriz Lo Miranda · VotME</a></h3>
+    <div class="card-desc">
+      <strong>IST × Filtros en cascada desde Excel</strong> — lee archivos .xlsx con SheetJS 
+      y aplica filtros en cascada (área → puesto → taréas). Dos modos: carga automática 
+      del archivo fuente o selección manual. Paleta corporativa IST (púrpura y fucsia). 
+      Bootstrap 5. Herramienta interna para la matriz de votación "Lo Miranda".
+    </div>
+    <div class="card-meta">
+      <span class="tag topics">Excel</span>
+      <span class="tag topics">Bootstrap</span>
+      <span class="tag topics">SheetJS</span>
+    </div>
+  </article>
+
+  <!-- 11. Logistic / Código Maison Page -->
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> JavaScript · React · Vite</div>
+    <h3><a href="https://github.com/david-tkd203/logistic" target="_blank">logistic</a></h3>
+    <div class="card-desc">
+      Template <strong>React + Vite</strong> con ESLint. README genérico del template oficial 
+      Vite. Sin desarrollo adicional documentado.
+    </div>
+    <div class="card-meta">
+      <span class="tag">template</span>
+      <span class="tag">React</span>
+      <span class="tag">Vite</span>
+    </div>
+  </article>
+
+  <!-- 12. Código Maison Page -->
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> JavaScript · React · Vite</div>
+    <h3><a href="https://github.com/david-tkd203/codigo-maison-page" target="_blank">Código Maison Page</a></h3>
+    <div class="card-desc">
+      Template <strong>React + Vite</strong> con ESLint. Mismo template base que 
+      `logistic`. Sin desarrollo adicional documentado.
+    </div>
+    <div class="card-meta">
+      <span class="tag">template</span>
+      <span class="tag">React</span>
+      <span class="tag">Vite</span>
+    </div>
+  </article>
+
+  <!-- 13. ServerMonitoringService -->
+  <article class="card">
+    <div class="card-lang"><span class="dot cs"></span> C#</div>
+    <h3><a href="https://github.com/david-tkd203/ServerMonitoringService" target="_blank">Server Monitoring Service</a></h3>
+    <div class="card-desc">
+      Servicio de <strong>monitoreo de servidores</strong> en C#. Sin README disponible. 
+      Windows service para supervisión de infraestructura.
+    </div>
+    <div class="card-meta">
+      <span class="tag">C#</span>
+      <span class="tag">monitoreo</span>
+    </div>
+  </article>
+
+  <!-- 14. Asysa Inmed Cenabast -->
+  <article class="card">
+    <div class="card-lang"><span class="dot cs"></span> C#</div>
+    <h3><a href="https://github.com/david-tkd203/asysa_inmed-cenabastv.1.0" target="_blank">ASysa · Inmed Cenabast</a></h3>
+    <div class="card-desc">
+      Sistema <strong>ASysa</strong> para Inmed/Cenabast v1.0 en C#. Sin README disponible.
+    </div>
+    <div class="card-meta">
+      <span class="tag">C#</span>
+      <span class="tag">ERP</span>
+    </div>
+  </article>
+
+</div>
+
+<!-- ═══ PROYECTOS MENORES ═══ -->
+<div class="section-title">
+  <div class="bar"></div>
+  <h2>Proyectos Académicos y Menores <small>— sin README o template</small></h2>
+</div>
+
+<div class="grid">
+
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python</div>
+    <h3><a href="https://github.com/david-tkd203/VOTME" target="_blank">VOTME</a></h3>
+    <div class="card-desc">Sistema de votación. Sin README.</div>
+    <div class="card-meta"><span class="tag">Python</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python</div>
+    <h3><a href="https://github.com/david-tkd203/poomsae_accuracy" target="_blank">Poomsae Accuracy</a></h3>
+    <div class="card-desc">Versión anterior/análisis de precisión en Poomsae. Precursor del proyecto Kinect 3D.</div>
+    <div class="card-meta"><span class="tag">Python</span><span class="tag">deporte</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot ts"></span> TypeScript</div>
+    <h3><a href="https://github.com/david-tkd203/ENTREGA-WEB-MOBILE" target="_blank">Entrega Web Mobile</a></h3>
+    <div class="card-desc">Entrega académica de desarrollo web mobile. TypeScript.</div>
+    <div class="card-meta"><span class="tag">TypeScript</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot ts"></span> TypeScript</div>
+    <h3><a href="https://github.com/david-tkd203/PROYECTO-WEB-MOBILE" target="_blank">Proyecto Web Mobile</a></h3>
+    <div class="card-desc">Proyecto académico de desarrollo web mobile. TypeScript.</div>
+    <div class="card-meta"><span class="tag">TypeScript</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot ts"></span> TypeScript</div>
+    <h3><a href="https://github.com/david-tkd203/Proyecto-React" target="_blank">Proyecto React</a></h3>
+    <div class="card-desc">Proyecto académico React con TypeScript.</div>
+    <div class="card-meta"><span class="tag">React</span><span class="tag">TypeScript</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> JavaScript</div>
+    <h3><a href="https://github.com/david-tkd203/matriz_riesgo" target="_blank">Matriz de Riesgo</a></h3>
+    <div class="card-desc">Matriz de riesgo interactiva en JavaScript.</div>
+    <div class="card-meta"><span class="tag">JavaScript</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> JavaScript</div>
+    <h3><a href="https://github.com/david-tkd203/activididad_didactica_curso-ist" target="_blank">Actividad Didáctica IST</a></h3>
+    <div class="card-desc">Actividad didáctica para curso IST. JavaScript.</div>
+    <div class="card-meta"><span class="tag">JavaScript</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> JavaScript</div>
+    <h3><a href="https://github.com/david-tkd203/Andrea-Ferretti-Propiedades" target="_blank">Andrea Ferretti Propiedades</a></h3>
+    <div class="card-desc">Landing page para corredora de propiedades.</div>
+    <div class="card-meta"><span class="tag">JavaScript</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot js"></span> JavaScript</div>
+    <h3><a href="https://github.com/david-tkd203/knailcure" target="_blank">Knailcure</a></h3>
+    <div class="card-desc">App JavaScript. Sin README.</div>
+    <div class="card-meta"><span class="tag">JavaScript</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot html"></span> HTML</div>
+    <h3><a href="https://github.com/david-tkd203/david-tkd203.github.io" target="_blank">david-tkd203.github.io</a></h3>
+    <div class="card-desc">GitHub Pages — sitio personal.</div>
+    <div class="card-meta"><span class="tag">GitHub Pages</span><span class="card-stars">⭐ 1</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot html"></span> HTML</div>
+    <h3><a href="https://github.com/david-tkd203/JavaScript" target="_blank">JavaScript</a></h3>
+    <div class="card-desc">Ejercicios básicos de JavaScript. HTML.</div>
+    <div class="card-meta"><span class="tag">HTML</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot html"></span> HTML</div>
+    <h3><a href="https://github.com/david-tkd203/repositorio-final" target="_blank">Repositorio Final</a></h3>
+    <div class="card-desc">Entrega final académica. HTML.</div>
+    <div class="card-meta"><span class="tag">HTML</span></div>
+  </article>
+
+  <article class="card">
+    <div class="card-lang"><span class="dot python"></span> Python</div>
+    <h3><a href="https://github.com/david-tkd203/python" target="_blank">Python</a></h3>
+    <div class="card-desc">Ejercicios iniciales de Python.</div>
+    <div class="card-meta"><span class="tag">Python</span></div>
+  </article>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <span>Generado desde datos reales de GitHub · <a href="https://github.com/david-tkd203" target="_blank">github.com/david-tkd203</a></span>
+  <span>David Ñanculeo · 2026</span>
+</footer>
+
+</body>
+</html>
