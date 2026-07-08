@@ -30,26 +30,24 @@ export default function Footer() {
         .secret-letter {
           display: inline-block;
           margin-top: 0.6rem;
-          font-size: 0.55rem;
+          font-size: 0.75rem;
           color: var(--fg-muted, #8888a0);
-          opacity: 0.2;
+          opacity: 0.45;
           text-decoration: none;
-          transition: opacity 0.5s ease, color 0.4s ease, transform 0.3s ease;
-          animation: heartBeat 4s ease-in-out infinite;
+          transition: opacity 0.4s ease, color 0.3s ease, transform 0.3s ease;
+          animation: heartBeat 3s ease-in-out infinite;
           cursor: pointer;
           user-select: none;
         }
         .secret-letter:hover {
-          opacity: 0.9;
+          opacity: 1;
           color: var(--accent, #84cc16);
-          transform: scale(1.4);
+          transform: scale(1.5);
           animation: none;
         }
         @keyframes heartBeat {
-          0%, 100% { opacity: 0.15; }
-          45% { opacity: 0.2; }
-          50% { opacity: 0.35; }
-          55% { opacity: 0.2; }
+          0%, 100% { opacity: 0.35; transform: scale(1); }
+          50% { opacity: 0.65; transform: scale(1.15); }
         }
       `}</style>
     </footer>
