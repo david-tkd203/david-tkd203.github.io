@@ -46292,7 +46292,7 @@ var logoMap = {
 	"APIs REST": "/images/logo_postman.png",
 	"Jenkins": "/images/logo_jenkins.png",
 	"Flask": "/images/logo_flask.png",
-	"TypeScript": "/images/logo_typescript.png",
+	"TypeScript": "/images/logo_typescript.svg",
 	"Jinja2": "/images/logo_jinja2.png"
 };
 var categories = [
