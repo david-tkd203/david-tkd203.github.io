@@ -45687,6 +45687,11 @@ var certifications = [
 		title: "WordPress",
 		institution: "AIEP",
 		url: "/certificates/Diplomado - certificado_wordpress.pdf"
+	},
+	{
+		title: "Introduction to Cybersecurity",
+		institution: "Cisco Networking Academy",
+		url: "/images/introduction-to-cybersecurity.png"
 	}
 ];
 function Education() {
