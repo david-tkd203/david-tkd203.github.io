@@ -46553,9 +46553,9 @@ function Contact() {
 //#region src/components/Footer.jsx
 function Footer() {
 	const year = (/* @__PURE__ */ new Date()).getFullYear();
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("footer", {
 		className: "footer",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "container",
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -46590,38 +46590,9 @@ function Footer() {
 						fontSize: "0.7rem"
 					},
 					children: "Ingeniero en Informática · Full Stack · RPA Specialist"
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-					href: "/carta-kati.html",
-					target: "_blank",
-					className: "secret-letter",
-					children: "♡"
 				})
 			]
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
-        .secret-letter {
-          display: inline-block;
-          margin-top: 0.6rem;
-          font-size: 0.75rem;
-          color: var(--fg-muted, #8888a0);
-          opacity: 0.45;
-          text-decoration: none;
-          transition: opacity 0.4s ease, color 0.3s ease, transform 0.3s ease;
-          animation: heartBeat 3s ease-in-out infinite;
-          cursor: pointer;
-          user-select: none;
-        }
-        .secret-letter:hover {
-          opacity: 1;
-          color: var(--accent, #84cc16);
-          transform: scale(1.5);
-          animation: none;
-        }
-        @keyframes heartBeat {
-          0%, 100% { opacity: 0.35; transform: scale(1); }
-          50% { opacity: 0.65; transform: scale(1.15); }
-        }
-      ` })]
+		})
 	});
 }
 //#endregion
