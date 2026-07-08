@@ -60,7 +60,8 @@ const certifications = [
   { title: 'Diseño Programación Web', institution: 'AIEP', url: '/certificates/Diplomado - Certificado_diseño_programacionweb.pdf' },
   { title: 'Módulo Diseño Web (HTML, CSS)', institution: 'AIEP', url: '/certificates/Diplomado - Diploma módulo_ diseño_web_html_css.pdf' },
   { title: 'Módulo Programación JavaScript', institution: 'AIEP', url: '/certificates/Diplomado - Diploma módulo_programacion_javascript.pdf' },
-  { title: 'WordPress', institution: 'AIEP', url: '/certificates/Diplomado - certificado_wordpress.pdf' }
+  { title: 'WordPress', institution: 'AIEP', url: '/certificates/Diplomado - certificado_wordpress.pdf' },
+  { title: 'Introduction to Cybersecurity', institution: 'Cisco Networking Academy', url: '/images/introduction-to-cybersecurity.png' }
 ]
 
 export default function Education() {
