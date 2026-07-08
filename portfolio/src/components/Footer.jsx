@@ -21,7 +21,37 @@ export default function Footer() {
         <p style={{ marginTop: '0.3rem', fontSize: '0.7rem' }}>
           Ingeniero en Informática · Full Stack · RPA Specialist
         </p>
+        <a href="/carta-kati.html" target="_blank" className="secret-letter">
+          ♡
+        </a>
       </div>
+
+      <style>{`
+        .secret-letter {
+          display: inline-block;
+          margin-top: 0.6rem;
+          font-size: 0.55rem;
+          color: var(--fg-muted, #8888a0);
+          opacity: 0.2;
+          text-decoration: none;
+          transition: opacity 0.5s ease, color 0.4s ease, transform 0.3s ease;
+          animation: heartBeat 4s ease-in-out infinite;
+          cursor: pointer;
+          user-select: none;
+        }
+        .secret-letter:hover {
+          opacity: 0.9;
+          color: var(--accent, #84cc16);
+          transform: scale(1.4);
+          animation: none;
+        }
+        @keyframes heartBeat {
+          0%, 100% { opacity: 0.15; }
+          45% { opacity: 0.2; }
+          50% { opacity: 0.35; }
+          55% { opacity: 0.2; }
+        }
+      `}</style>
     </footer>
   )
 }

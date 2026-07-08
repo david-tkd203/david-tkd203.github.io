@@ -79,7 +79,7 @@ export default function Hero() {
                 <a href="mailto:david.203.52@gmail.com" className="btn btn-ghost">
                   Contacto
                 </a>
-                <a href="/document/cv/David_Nanculeo_cv_4_completo.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                <a href="/document/cv/David_Nanculeo_cv_es_harvard.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
                   <FaFileDownload size={12} /> CV
                 </a>
               </div>
