@@ -65,7 +65,7 @@ export default function About() {
             <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <FaAward size={24} style={{ color: 'var(--accent)', flexShrink: 0 }} />
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', lineHeight: 1, color: 'var(--accent)' }}>7+</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', lineHeight: 1, color: 'var(--accent)' }}>25+</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--fg-muted)' }}>Certificaciones</div>
               </div>
             </div>
