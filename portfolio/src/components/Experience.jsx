@@ -131,8 +131,8 @@ export default function Experience() {
   return (
     <section className="section reveal-el" id="experience">
       <div className="container">
-        <h2 className="section-title">Experiencia</h2>
-        <p className="section-sub">Trayectoria profesional en RPA, backend e ingeniería de software</p>
+        <h2 className="section-title">Trayectoria Profesional</h2>
+        <p className="section-sub">Experiencia en arquitectura de software, ciberseguridad, backend crítico y automatización RPA empresarial</p>
 
         {/* Timeline tabs */}
         <div style={{

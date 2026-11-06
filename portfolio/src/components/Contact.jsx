@@ -5,8 +5,8 @@ export default function Contact() {
   return (
     <section className="section reveal-el" id="contact">
       <div className="container">
-        <h2 className="section-title">Contacto</h2>
-        <p className="section-sub">Hablemos — estoy abierto a proyectos y oportunidades</p>
+        <h2 className="section-title">Contacto Directo</h2>
+        <p className="section-sub">Canales de comunicación para consultoría técnica, proyectos de arquitectura y oportunidades profesionales</p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '1rem', maxWidth: '800px' }}>
           <a href="mailto:david.203.52@gmail.com" className="contact-link">

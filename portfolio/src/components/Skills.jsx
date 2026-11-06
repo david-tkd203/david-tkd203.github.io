@@ -1,14 +1,13 @@
-import { Code, Palette, Database, Gear, BarChart, Link45deg } from 'react-bootstrap-icons'
+import { Code, Palette, Database, Gear, BarChart, Link45deg, ShieldCheck } from 'react-bootstrap-icons'
 
 const logoMap = {
   'Python': '/images/logo_python.png',
   'Django': '/images/logo_django.png',
-  'React 18': '/images/logo_react.png',
-  'React': '/images/logo_react.png',
+  'FastAPI': '/images/logo_apirest.png',
+  'React 19': '/images/logo_react.png',
   'Vite': '/images/logo_vite.png',
   'JavaScript': '/images/logo_js.png',
-  'HTML5': '/images/logo_html.png',
-  'CSS3/SASS': '/images/logo_css.png',
+  'HTML5/CSS3': '/images/logo_html.png',
   'Rocketbot': '/images/logo_rocketbot.png',
   'Power Automate': '/images/logo_power_automate.png',
   'Selenium': '/images/logo_selenium.svg',
@@ -25,44 +24,47 @@ const logoMap = {
   'Postman': '/images/logo_postman.png',
   'Pandas': '/images/logo_pandas.png',
   'Excel Avanzado': '/images/logo_excel.png',
-  'Excel VBA': '/images/logo_excel.png',
   'APIs REST': '/images/logo_postman.png',
   'Jenkins': '/images/logo_jenkins.png',
   'Flask': '/images/logo_flask.png',
   'TypeScript': '/images/logo_typescript.svg',
-  'Jinja2': '/images/logo_jinja2.png'
+  'Jinja2': '/images/logo_jinja2.png',
+  'Google Cybersecurity': '/education/logo_google.svg',
+  'ISO 27001': '/images/introduction-to-cybersecurity.png',
+  'Linux & SQL Security': '/education/logo_google.svg',
+  'SIEM & Detection': '/education/logo_google.svg'
 }
 
 const categories = [
   {
-    title: 'Backend & RPA',
+    title: 'Arquitectura, Backend & RPA',
     icon: Gear,
-    skills: ['Python', 'Django', 'Rocketbot', 'Power Automate', 'Selenium', 'Flask']
+    skills: ['Python', 'Django', 'FastAPI', 'Rocketbot', 'Power Automate', 'Selenium', 'Flask']
   },
   {
-    title: 'Frontend',
-    icon: Palette,
-    skills: ['React 18', 'React', 'Vite', 'JavaScript', 'HTML5', 'CSS3/SASS', 'TypeScript']
+    title: 'Ciberseguridad & Gobernanza',
+    icon: ShieldCheck,
+    skills: ['Google Cybersecurity', 'ISO 27001', 'SIEM & Detection', 'Linux & SQL Security']
   },
   {
-    title: 'Bases de Datos',
+    title: 'Bases de Datos & Persistencia',
     icon: Database,
-    skills: ['MySQL', 'PostgreSQL', 'SQL Server', 'Firebase', 'PhpMyAdmin']
+    skills: ['PostgreSQL', 'MySQL', 'SQL Server', 'Firebase', 'PhpMyAdmin']
   },
   {
-    title: 'DevOps & Herramientas',
+    title: 'DevOps, CI/CD & Infraestructura',
     icon: Gear,
-    skills: ['Docker', 'Git', 'Nginx', 'Jira', 'CPanel', 'Postman', 'Jenkins', 'Jinja2']
+    skills: ['Docker', 'Git', 'Nginx', 'Jenkins', 'Postman', 'Jira', 'CPanel', 'Jinja2']
   },
   {
-    title: 'Data & Análisis',
+    title: 'Ingeniería de Datos & Analítica',
     icon: BarChart,
-    skills: ['Pandas', 'Excel Avanzado', 'Excel VBA']
+    skills: ['Pandas', 'Excel Avanzado', 'APIs REST']
   },
   {
-    title: 'APIs & Cloud',
-    icon: Link45deg,
-    skills: ['APIs REST', 'Postman']
+    title: 'Frontend & Interfaces',
+    icon: Palette,
+    skills: ['React 19', 'TypeScript', 'JavaScript', 'Vite', 'HTML5/CSS3']
   }
 ]
 
@@ -70,21 +72,23 @@ export default function Skills() {
   return (
     <section className="section reveal-el" id="skills">
       <div className="container">
-        <h2 className="section-title">Tecnologías</h2>
-        <p className="section-sub">Stack completo para construir soluciones modernas</p>
+        <h2 className="section-title">Competencias Técnicas</h2>
+        <p className="section-sub">
+          Tecnologías y estándares aplicados en desarrollo backend, ciberseguridad y automatización empresarial
+        </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
           {categories.map((cat, i) => {
             const Icon = cat.icon
             return (
-              <div key={i}>
+              <div key={i} className="skill-category-block">
                 <h3 style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+                  fontSize: 'clamp(1rem, 2vw, 1.35rem)',
                   textTransform: 'uppercase',
-                  letterSpacing: '0.03em',
+                  letterSpacing: '0.02em',
                   color: 'var(--accent)',
-                  marginBottom: '1rem',
+                  marginBottom: '0.85rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.6rem'
@@ -92,11 +96,11 @@ export default function Skills() {
                   <Icon size={16} />
                   {cat.title}
                 </h3>
-                <div className="grid-auto">
+                <div className="grid-auto" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 115px), 1fr))', gap: '0.75rem' }}>
                   {cat.skills.map((s, j) => (
-                    <div key={j} className="skill-logo">
-                      {logoMap[s] && <img src={logoMap[s]} alt={s} />}
-                      <span>{s}</span>
+                    <div key={j} className="skill-logo" style={{ padding: '0.85rem 0.5rem' }}>
+                      {logoMap[s] && <img src={logoMap[s]} alt={s} style={{ width: '28px', height: '28px', objectFit: 'contain' }} />}
+                      <span style={{ fontSize: '0.68rem', fontWeight: 500, marginTop: '0.2rem' }}>{s}</span>
                     </div>
                   ))}
                 </div>
@@ -105,9 +109,15 @@ export default function Skills() {
           })}
         </div>
 
-        <div className="card" style={{ marginTop: '3rem', textAlign: 'center', padding: '2rem' }}>
-          <p style={{ fontSize: '0.85rem', color: 'var(--accent-text)', fontWeight: 600 }}>
-            Especialista en integraciones Backend & RPA con +4 años de experiencia
+        <div className="card" style={{
+          marginTop: '3rem',
+          textAlign: 'center',
+          padding: '1.75rem',
+          background: 'linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elevated) 100%)',
+          border: '1px solid rgba(132, 204, 22, 0.2)'
+        }}>
+          <p style={{ fontSize: '0.88rem', color: 'var(--accent-text)', fontWeight: 600, letterSpacing: '0.01em' }}>
+            Práctica técnica basada en Arquitectura Limpia, Seguridad por Diseño y Automatización Robótica de Procesos (RPA)
           </p>
         </div>
       </div>

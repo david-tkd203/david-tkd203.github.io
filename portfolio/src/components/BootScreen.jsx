@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 
 const messages = [
-  { text: 'Loading kernel modules...', done: false },
-  { text: 'Initializing display server...', done: false },
-  { text: 'Mounting filesystems...', done: false },
-  { text: 'Starting services...', done: false },
-  { text: 'Ready.', done: false },
+  { text: 'Iniciando módulos de arquitectura...', done: false },
+  { text: 'Cargando directivas de seguridad...', done: false },
+  { text: 'Sincronizando servicios e infraestructura...', done: false },
+  { text: 'Compilando entorno de ingeniería...', done: false },
+  { text: 'Sistema listo.', done: false },
 ]
 
 export default function BootScreen({ onComplete }) {

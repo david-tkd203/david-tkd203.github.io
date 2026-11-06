@@ -17,9 +17,9 @@ export default function Footer() {
             <FaEnvelope size={14} /> Email
           </a>
         </div>
-        <p>© {year} David Nanculeo</p>
-        <p style={{ marginTop: '0.3rem', fontSize: '0.7rem' }}>
-          Ingeniero en Informática · Full Stack · RPA Specialist
+        <p>© {year} David Simón Ñanculeo Bastías</p>
+        <p style={{ marginTop: '0.3rem', fontSize: '0.72rem', color: 'var(--fg-muted)' }}>
+          Ingeniero Civil Informático · Arquitectura de Software, Backend Crítico &amp; Ciberseguridad
         </p>
       </div>
     </footer>
