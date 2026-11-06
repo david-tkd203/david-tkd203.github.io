@@ -44210,6 +44210,17 @@ function FaMapMarkerAlt(props) {
 		}]
 	})(props);
 }
+function FaGlobe(props) {
+	return GenIcon({
+		"tag": "svg",
+		"attr": { "viewBox": "0 0 496 512" },
+		"child": [{
+			"tag": "path",
+			"attr": { "d": "M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z" },
+			"child": []
+		}]
+	})(props);
+}
 function FaFilePdf(props) {
 	return GenIcon({
 		"tag": "svg",
@@ -45585,11 +45596,72 @@ function Experience() {
 }
 //#endregion
 //#region src/components/Projects.jsx
+var filterCategories$1 = [
+	"Todos",
+	"En Producción (Live)",
+	"Arquitectura & Backend",
+	"Ciberseguridad & Datos",
+	"Automatización & RPA"
+];
 var projects = [
+	{
+		id: 101,
+		title: "SIMSA 3D · Plataforma Biomecánica 3D",
+		url: "https://simsa3d.site",
+		image: "/projects/simsa3d_preview.png",
+		badge: "● Live en Producción",
+		isLive: true,
+		categories: ["En Producción (Live)", "Arquitectura & Backend"],
+		description: "Plataforma web de investigación y reconstrucción tridimensional para la evaluación experimental de exactitud en artes marciales (Taegeuk Pal Jang - Taekwondo WT). Renderiza mallas 3D interactivas, modelos de cinemática y análisis de visión computacional en un entorno de alto rendimiento.",
+		tags: [
+			"WebGL 3D",
+			"React",
+			"Three.js",
+			"Visión Computacional",
+			"Taekwondo WT"
+		]
+	},
+	{
+		id: 102,
+		title: "Siyash Perfumería · E-Commerce & Retail",
+		url: "https://siyash.cl",
+		image: "/projects/siyash_preview.png",
+		badge: "● Live en Producción",
+		isLive: true,
+		categories: ["En Producción (Live)"],
+		description: "Plataforma web comercial y catálogo mayorista/detalle para importadora directa de perfumería exclusiva en Chile. Arquitectura frontend optimizada con Tailwind CSS, animaciones fluidas (GSAP / Lenis), catálogo dinámico de fragancias y flujo de conversión comercial automatizado.",
+		tags: [
+			"E-Commerce",
+			"Tailwind CSS",
+			"GSAP / Lenis",
+			"Catálogo Digital",
+			"Chile"
+		]
+	},
+	{
+		id: 103,
+		title: "SrMartinez · Texturas GTA V & Roleplay",
+		url: "https://srmartinez.site",
+		image: "/projects/srmartinez_preview.png",
+		badge: "● Live en Producción",
+		isLive: true,
+		categories: ["En Producción (Live)"],
+		description: "Repositorio comercial y catálogo web interactivo de texturas 3D optimizadas y prendas personalizadas para comunidades de GTA V Roleplay (FiveM). Enfoque en rendimiento gráfico puro, optimización de polígonos y visualización de assets en tiempo real.",
+		tags: [
+			"Catálogo 3D",
+			"FiveM / GTA V",
+			"Optimización de Assets",
+			"UI/UX Moderna"
+		]
+	},
 	{
 		id: 10,
 		title: "VINCULOsync · Legal-Tech UC",
-		description: "Arquitectura de software para plataforma institucional de gestión y licenciamiento de derechos de autor en producciones UC. Microservicios con FastAPI, React, PostgreSQL, Docker, modelo C4, firma digital (Ley 19.799) y seguridad institucional (Leyes 21.663 y 21.719).",
+		url: "https://github.com/david-tkd203",
+		badge: "Sistema Institucional",
+		isLive: false,
+		categories: ["Arquitectura & Backend", "Ciberseguridad & Datos"],
+		description: "Arquitectura de software para plataforma institucional de gestión y licenciamiento de derechos de autor en producciones audiovisuales UC. Microservicios con FastAPI, React, PostgreSQL, Docker, modelo C4, firma digital (Ley 19.799) y seguridad institucional (Leyes 21.663 y 21.719).",
 		tags: [
 			"FastAPI",
 			"React",
@@ -45597,13 +45669,16 @@ var projects = [
 			"Docker",
 			"Modelo C4",
 			"ISO 27001"
-		],
-		link: "https://github.com/david-tkd203",
-		featured: true
+		]
 	},
 	{
 		id: 1,
 		title: "Hmed · Historial Clínico Global",
+		url: "https://github.com/david-tkd203/hmed",
+		image: "/projects/hmed_landing.png",
+		badge: "Microservicios & OCR",
+		isLive: false,
+		categories: ["Arquitectura & Backend"],
 		description: "Plataforma de interoperabilidad médica y extracción inteligente de datos clínicos desde PDFs e imágenes mediante OCR. Arquitectura de 4 microservicios con Django, React, PostgreSQL y autenticación JWT en contenedores Docker.",
 		tags: [
 			"Python",
@@ -45612,109 +45687,107 @@ var projects = [
 			"Docker",
 			"OCR",
 			"JWT"
-		],
-		link: "https://github.com/david-tkd203/hmed",
-		image: "/projects/hmed_landing.png",
-		featured: true
+		]
 	},
 	{
 		id: 2,
 		title: "SGSI · ISO 27001 Ciberseguridad",
+		url: "https://github.com/david-tkd203/ciberseguridad_auditoria",
+		badge: "Ciberseguridad",
+		isLive: false,
+		categories: ["Ciberseguridad & Datos"],
 		description: "Sistema de Gestión de Seguridad de la Información estructurado bajo norma ISO 27001. Incorpora matriz automatizada de evaluación de riesgos de activos, panel de control de amenazas y generación documental técnica.",
 		tags: [
 			"Python",
 			"ISO 27001",
 			"Ciberseguridad",
 			"Matriz de Riesgo"
-		],
-		link: "https://github.com/david-tkd203/ciberseguridad_auditoria",
-		featured: true
+		]
 	},
 	{
 		id: 3,
 		title: "Poomsae Kinect 3D · Visión & ML",
-		description: "Tesis de grado para evaluación biomecánica y técnica en Taekwondo WT. Extracción de articulaciones en tiempo real con Kinect v2 + MediaPipe, clasificación mediante Random Forest/SVM y renderizado de mallas 3D (OBJ/GLB).",
+		url: "https://github.com/david-tkd203/poomsae_kinect_3D",
+		image: "/projects/evaluacion_taekwondo.gif",
+		badge: "Tesis Licenciatura",
+		isLive: false,
+		categories: ["Arquitectura & Backend", "Ciberseguridad & Datos"],
+		description: "Tesis de grado para evaluación biomecánica y técnica en Taekwondo WT. Extracción de articulaciones en tiempo real con Kinect v2 + MediaPipe, clasificación mediante Random Forest/SVM y renderizado de mallas 3D (OBJ/GLB). Base del proyecto web SIMSA 3D.",
 		tags: [
 			"Python",
 			"OpenCV",
 			"MediaPipe",
 			"Machine Learning",
 			"3D"
-		],
-		link: "https://github.com/david-tkd203/poomsae_kinect_3D",
-		image: "/projects/evaluacion_taekwondo.gif",
-		featured: true
+		]
 	},
 	{
 		id: 8,
 		title: "Automation Jobs · Agente Autónomo",
+		url: "https://github.com/david-tkd203/automation-jobs",
+		badge: "IA & Automatización",
+		isLive: false,
+		categories: ["Automatización & RPA"],
 		description: "Motor inteligente para búsqueda y postulación desatendida en LinkedIn e Indeed con Puppeteer. Evaluación semántica de compatibilidad mediante modelos locales de lenguaje (Ollama) y completado automático de formularios.",
 		tags: [
 			"Node.js",
 			"Puppeteer",
 			"Ollama IA",
 			"Automatización"
-		],
-		link: "https://github.com/david-tkd203/automation-jobs",
-		featured: true
+		]
 	},
 	{
 		id: 9,
 		title: "Matriz Causal Lo Miranda · IST",
-		description: "Herramienta de análisis causal desarrollada para el Instituto de Seguridad del Trabajo. Procesamiento dinámico de hojas de cálculo con SheetJS y filtrado en cascada para investigación de accidentes.",
+		url: "https://github.com/david-tkd203/matriz-lo-miranda",
+		badge: "Herramienta IST",
+		isLive: false,
+		categories: ["Ciberseguridad & Datos"],
+		description: "Herramienta de análisis causal desarrollada para el Instituto de Seguridad del Trabajo. Procesamiento dinámico de hojas de cálculo con SheetJS y filtrado en cascada para investigación de accidentes laborales.",
 		tags: [
 			"JavaScript",
 			"SheetJS",
 			"Bootstrap",
 			"Análisis Causal"
-		],
-		link: "https://github.com/david-tkd203/matriz-lo-miranda",
-		featured: false
+		]
 	},
 	{
 		id: 5,
 		title: "Inteligencia de Datos & Redes",
+		url: "https://github.com/david-tkd203/An-lisis-de-Drogas",
+		badge: "Minería de Datos",
+		isLive: false,
+		categories: ["Ciberseguridad & Datos"],
 		description: "Pipeline de recolección y análisis cuantitativo de datos digitales en redes sociales chilenas. Minería de datos con Pandas para identificación de patrones, frecuencias y métricas.",
 		tags: [
 			"Python",
 			"Pandas",
 			"Data Analysis",
 			"ETL"
-		],
-		link: "https://github.com/david-tkd203/An-lisis-de-Drogas",
-		featured: false
+		]
 	},
 	{
 		id: 6,
 		title: "Motor de Automatización Web",
+		url: "https://github.com/david-tkd203/Instagram-Unfollow-Tool",
+		badge: "RPA & Scraping",
+		isLive: false,
+		categories: ["Automatización & RPA"],
 		description: "Framework modular de automatización orientado a objetos (POO) con Selenium WebDriver, diseñado para ejecución robusta de flujos web en entornos locales y contenedorizados con Docker.",
 		tags: [
 			"Python",
 			"Selenium",
 			"Docker",
 			"POO"
-		],
-		link: "https://github.com/david-tkd203/Instagram-Unfollow-Tool",
-		featured: false
-	},
-	{
-		id: 7,
-		title: "Microservicio REST Django",
-		description: "Implementación backend con Django para consumo y normalización de endpoints externos. Cuenta con autenticación de usuarios, panel administrativo y orquestación con Docker Compose.",
-		tags: [
-			"Django",
-			"Python",
-			"REST API",
-			"Docker"
-		],
-		link: "https://github.com/david-tkd203/Poke-Web-API",
-		featured: false
+		]
 	}
 ];
 function Projects() {
+	const [activeFilter, setActiveFilter] = (0, import_react.useState)("Todos");
 	const scrollRef = (0, import_react.useRef)(null);
 	const [canScrollLeft, setCanScrollLeft] = (0, import_react.useState)(false);
 	const [canScrollRight, setCanScrollRight] = (0, import_react.useState)(true);
+	const visibleProjects = activeFilter === "Todos" ? projects : projects.filter((p) => p.categories.includes(activeFilter));
 	const updateScrollState = () => {
 		const el = scrollRef.current;
 		if (!el) return;
@@ -45727,12 +45800,12 @@ function Projects() {
 		el.addEventListener("scroll", updateScrollState, { passive: true });
 		updateScrollState();
 		return () => el.removeEventListener("scroll", updateScrollState);
-	}, []);
+	}, [visibleProjects]);
 	const scroll = (dir) => {
 		const el = scrollRef.current;
 		if (!el) return;
 		el.scrollBy({
-			left: dir * 360,
+			left: dir * 380,
 			behavior: "smooth"
 		});
 	};
@@ -45748,17 +45821,17 @@ function Projects() {
 						display: "flex",
 						justifyContent: "space-between",
 						alignItems: "flex-end",
-						marginBottom: "0.5rem",
+						marginBottom: "1rem",
 						flexWrap: "wrap",
 						gap: "1rem"
 					},
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 						className: "section-title",
-						children: "Proyectos de Ingeniería"
+						children: "Proyectos & Aplicaciones en Producción"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "section-sub",
 						style: { marginBottom: 0 },
-						children: "Sistemas de misión crítica, arquitecturas backend, ciberseguridad y soluciones de automatización"
+						children: "Sistemas desplegados en vivo, arquitecturas de software de misión crítica y plataformas interactivas"
 					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						style: {
 							display: "flex",
@@ -45804,20 +45877,59 @@ function Projects() {
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					style: {
+						display: "flex",
+						flexWrap: "wrap",
+						gap: "0.5rem",
+						marginBottom: "1.25rem"
+					},
+					children: filterCategories$1.map((cat) => {
+						const count = cat === "Todos" ? projects.length : projects.filter((p) => p.categories.includes(cat)).length;
+						const isActive = activeFilter === cat;
+						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							type: "button",
+							onClick: () => setActiveFilter(cat),
+							style: {
+								background: isActive ? "var(--accent)" : "var(--bg-card)",
+								color: isActive ? "#07090e" : "var(--fg-muted)",
+								border: `1px solid ${isActive ? "var(--accent)" : "var(--border)"}`,
+								padding: "0.4rem 0.85rem",
+								borderRadius: "999px",
+								fontSize: "0.75rem",
+								fontFamily: "var(--font-mono, monospace)",
+								fontWeight: 600,
+								cursor: "pointer",
+								transition: "all 0.2s ease",
+								display: "flex",
+								alignItems: "center",
+								gap: "0.45rem"
+							},
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: cat }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								style: {
+									fontSize: "0.65rem",
+									opacity: .85,
+									background: isActive ? "rgba(0,0,0,0.25)" : "var(--bg-elevated)",
+									padding: "0.05rem 0.4rem",
+									borderRadius: "6px"
+								},
+								children: count
+							})]
+						}, cat);
+					})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "h-scroll",
 					ref: scrollRef,
-					style: {
-						marginTop: "1.75rem",
-						paddingBottom: "1rem"
-					},
-					children: projects.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-						href: p.link,
+					style: { paddingBottom: "1rem" },
+					children: visibleProjects.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+						href: p.url,
 						target: "_blank",
 						rel: "noopener noreferrer",
 						className: "project-card",
 						style: {
 							textDecoration: "none",
-							color: "inherit"
+							color: "inherit",
+							border: p.isLive ? "1px solid rgba(132, 204, 22, 0.35)" : "1px solid var(--border)"
 						},
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -45829,15 +45941,29 @@ function Projects() {
 								},
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 									className: "badge",
-									style: { fontSize: "0.65rem" },
-									children: p.featured ? "★ Sistema Crítico" : "Proyecto"
+									style: {
+										fontSize: "0.65rem",
+										background: p.isLive ? "rgba(132, 204, 22, 0.15)" : void 0,
+										borderColor: p.isLive ? "rgba(132, 204, 22, 0.4)" : void 0
+									},
+									children: p.badge
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									style: {
 										display: "flex",
 										alignItems: "center",
 										gap: "0.5rem"
 									},
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {
+									children: [p.isLive ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+										style: {
+											display: "flex",
+											alignItems: "center",
+											gap: "0.35rem",
+											fontSize: "0.7rem",
+											color: "var(--accent-text)",
+											fontWeight: 600
+										},
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGlobe, { size: 13 }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Live" })]
+									}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {
 										size: 15,
 										style: { color: "var(--fg-muted)" }
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaExternalLinkAlt, {
@@ -45849,15 +45975,16 @@ function Projects() {
 									})]
 								})]
 							}),
-							p.image && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							p.image ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 								style: {
 									width: "100%",
-									height: "140px",
+									height: "155px",
 									borderRadius: "8px",
 									overflow: "hidden",
 									marginBottom: "0.85rem",
 									background: "var(--bg-elevated)",
-									border: "1px solid var(--border)"
+									border: "1px solid var(--border)",
+									position: "relative"
 								},
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 									src: p.image,
@@ -45867,7 +45994,32 @@ function Projects() {
 										height: "100%",
 										objectFit: "cover",
 										display: "block"
-									}
+									},
+									loading: "lazy"
+								})
+							}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									width: "100%",
+									height: "110px",
+									borderRadius: "8px",
+									marginBottom: "0.85rem",
+									background: "linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-hover) 100%)",
+									border: "1px solid var(--border)",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									padding: "1rem",
+									textAlign: "center"
+								},
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									style: {
+										fontFamily: "var(--font-mono, monospace)",
+										fontSize: "0.75rem",
+										color: "var(--accent)",
+										letterSpacing: "0.05em",
+										fontWeight: 600
+									},
+									children: p.title.split("·")[0]
 								})
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
