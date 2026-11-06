@@ -13022,23 +13022,23 @@ var import_jsx_runtime = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
 })))();
 var messages = [
 	{
-		text: "Loading kernel modules...",
+		text: "Iniciando módulos de arquitectura...",
 		done: false
 	},
 	{
-		text: "Initializing display server...",
+		text: "Cargando directivas de seguridad...",
 		done: false
 	},
 	{
-		text: "Mounting filesystems...",
+		text: "Sincronizando servicios e infraestructura...",
 		done: false
 	},
 	{
-		text: "Starting services...",
+		text: "Compilando entorno de ingeniería...",
 		done: false
 	},
 	{
-		text: "Ready.",
+		text: "Sistema listo.",
 		done: false
 	}
 ];
@@ -44155,13 +44155,35 @@ function FaTimes(props) {
 		}]
 	})(props);
 }
-function FaRocket(props) {
+function FaShieldAlt(props) {
 	return GenIcon({
 		"tag": "svg",
 		"attr": { "viewBox": "0 0 512 512" },
 		"child": [{
 			"tag": "path",
-			"attr": { "d": "M505.12019,19.09375c-1.18945-5.53125-6.65819-11-12.207-12.1875C460.716,0,435.507,0,410.40747,0,307.17523,0,245.26909,55.20312,199.05238,128H94.83772c-16.34763.01562-35.55658,11.875-42.88664,26.48438L2.51562,253.29688A28.4,28.4,0,0,0,0,264a24.00867,24.00867,0,0,0,24.00582,24H127.81618l-22.47457,22.46875c-11.36521,11.36133-12.99607,32.25781,0,45.25L156.24582,406.625c11.15623,11.1875,32.15619,13.15625,45.27726,0l22.47457-22.46875V488a24.00867,24.00867,0,0,0,24.00581,24,28.55934,28.55934,0,0,0,10.707-2.51562l98.72834-49.39063c14.62888-7.29687,26.50776-26.5,26.50776-42.85937V312.79688c72.59753-46.3125,128.03493-108.40626,128.03493-211.09376C512.07526,76.5,512.07526,51.29688,505.12019,19.09375ZM384.04033,168A40,40,0,1,1,424.05,128,40.02322,40.02322,0,0,1,384.04033,168Z" },
+			"attr": { "d": "M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C360.1 472.6 496 349.3 496 128c0-19.4-11.7-36.9-29.5-44.3zM256.1 446.3l-.1-381 175.9 73.3c-3.3 151.4-82.1 261.1-175.8 307.7z" },
+			"child": []
+		}]
+	})(props);
+}
+function FaServer(props) {
+	return GenIcon({
+		"tag": "svg",
+		"attr": { "viewBox": "0 0 512 512" },
+		"child": [{
+			"tag": "path",
+			"attr": { "d": "M480 160H32c-17.673 0-32-14.327-32-32V64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm112 248H32c-17.673 0-32-14.327-32-32v-64c0-17.673 14.327-32 32-32h448c17.673 0 32 14.327 32 32v64c0 17.673-14.327 32-32 32zm-48-88c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm-64 0c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24z" },
+			"child": []
+		}]
+	})(props);
+}
+function FaRobot(props) {
+	return GenIcon({
+		"tag": "svg",
+		"attr": { "viewBox": "0 0 640 512" },
+		"child": [{
+			"tag": "path",
+			"attr": { "d": "M32,224H64V416H32A31.96166,31.96166,0,0,1,0,384V256A31.96166,31.96166,0,0,1,32,224Zm512-48V448a64.06328,64.06328,0,0,1-64,64H160a64.06328,64.06328,0,0,1-64-64V176a79.974,79.974,0,0,1,80-80H288V32a32,32,0,0,1,64,0V96H464A79.974,79.974,0,0,1,544,176ZM264,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,264,256Zm-8,128H192v32h64Zm96,0H288v32h64ZM456,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,456,256Zm-8,128H384v32h64ZM640,256V384a31.96166,31.96166,0,0,1-32,32H576V224h32A31.96166,31.96166,0,0,1,640,256Z" },
 			"child": []
 		}]
 	})(props);
@@ -44184,6 +44206,17 @@ function FaMapMarkerAlt(props) {
 		"child": [{
 			"tag": "path",
 			"attr": { "d": "M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z" },
+			"child": []
+		}]
+	})(props);
+}
+function FaFilePdf(props) {
+	return GenIcon({
+		"tag": "svg",
+		"attr": { "viewBox": "0 0 384 512" },
+		"child": [{
+			"tag": "path",
+			"attr": { "d": "M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z" },
 			"child": []
 		}]
 	})(props);
@@ -44221,13 +44254,35 @@ function FaEnvelope(props) {
 		}]
 	})(props);
 }
-function FaCode(props) {
+function FaCogs(props) {
 	return GenIcon({
 		"tag": "svg",
 		"attr": { "viewBox": "0 0 640 512" },
 		"child": [{
 			"tag": "path",
-			"attr": { "d": "M278.9 511.5l-61-17.7c-6.4-1.8-10-8.5-8.2-14.9L346.2 8.7c1.8-6.4 8.5-10 14.9-8.2l61 17.7c6.4 1.8 10 8.5 8.2 14.9L293.8 503.3c-1.9 6.4-8.5 10.1-14.9 8.2zm-114-112.2l43.5-46.4c4.6-4.9 4.3-12.7-.8-17.2L117 256l90.6-79.7c5.1-4.5 5.5-12.3.8-17.2l-43.5-46.4c-4.5-4.8-12.1-5.1-17-.5L3.8 247.2c-5.1 4.7-5.1 12.8 0 17.5l144.1 135.1c4.9 4.6 12.5 4.4 17-.5zm327.2.6l144.1-135.1c5.1-4.7 5.1-12.8 0-17.5L492.1 112.1c-4.8-4.5-12.4-4.3-17 .5L431.6 159c-4.6 4.9-4.3 12.7.8 17.2L523 256l-90.6 79.7c-5.1 4.5-5.5 12.3-.8 17.2l43.5 46.4c4.5 4.9 12.1 5.1 17 .6z" },
+			"attr": { "d": "M512.1 191l-8.2 14.3c-3 5.3-9.4 7.5-15.1 5.4-11.8-4.4-22.6-10.7-32.1-18.6-4.6-3.8-5.8-10.5-2.8-15.7l8.2-14.3c-6.9-8-12.3-17.3-15.9-27.4h-16.5c-6 0-11.2-4.3-12.2-10.3-2-12-2.1-24.6 0-37.1 1-6 6.2-10.4 12.2-10.4h16.5c3.6-10.1 9-19.4 15.9-27.4l-8.2-14.3c-3-5.2-1.9-11.9 2.8-15.7 9.5-7.9 20.4-14.2 32.1-18.6 5.7-2.1 12.1.1 15.1 5.4l8.2 14.3c10.5-1.9 21.2-1.9 31.7 0L552 6.3c3-5.3 9.4-7.5 15.1-5.4 11.8 4.4 22.6 10.7 32.1 18.6 4.6 3.8 5.8 10.5 2.8 15.7l-8.2 14.3c6.9 8 12.3 17.3 15.9 27.4h16.5c6 0 11.2 4.3 12.2 10.3 2 12 2.1 24.6 0 37.1-1 6-6.2 10.4-12.2 10.4h-16.5c-3.6 10.1-9 19.4-15.9 27.4l8.2 14.3c3 5.2 1.9 11.9-2.8 15.7-9.5 7.9-20.4 14.2-32.1 18.6-5.7 2.1-12.1-.1-15.1-5.4l-8.2-14.3c-10.4 1.9-21.2 1.9-31.7 0zm-10.5-58.8c38.5 29.6 82.4-14.3 52.8-52.8-38.5-29.7-82.4 14.3-52.8 52.8zM386.3 286.1l33.7 16.8c10.1 5.8 14.5 18.1 10.5 29.1-8.9 24.2-26.4 46.4-42.6 65.8-7.4 8.9-20.2 11.1-30.3 5.3l-29.1-16.8c-16 13.7-34.6 24.6-54.9 31.7v33.6c0 11.6-8.3 21.6-19.7 23.6-24.6 4.2-50.4 4.4-75.9 0-11.5-2-20-11.9-20-23.6V418c-20.3-7.2-38.9-18-54.9-31.7L74 403c-10 5.8-22.9 3.6-30.3-5.3-16.2-19.4-33.3-41.6-42.2-65.7-4-10.9.4-23.2 10.5-29.1l33.3-16.8c-3.9-20.9-3.9-42.4 0-63.4L12 205.8c-10.1-5.8-14.6-18.1-10.5-29 8.9-24.2 26-46.4 42.2-65.8 7.4-8.9 20.2-11.1 30.3-5.3l29.1 16.8c16-13.7 34.6-24.6 54.9-31.7V57.1c0-11.5 8.2-21.5 19.6-23.5 24.6-4.2 50.5-4.4 76-.1 11.5 2 20 11.9 20 23.6v33.6c20.3 7.2 38.9 18 54.9 31.7l29.1-16.8c10-5.8 22.9-3.6 30.3 5.3 16.2 19.4 33.2 41.6 42.1 65.8 4 10.9.1 23.2-10 29.1l-33.7 16.8c3.9 21 3.9 42.5 0 63.5zm-117.6 21.1c59.2-77-28.7-164.9-105.7-105.7-59.2 77 28.7 164.9 105.7 105.7zm243.4 182.7l-8.2 14.3c-3 5.3-9.4 7.5-15.1 5.4-11.8-4.4-22.6-10.7-32.1-18.6-4.6-3.8-5.8-10.5-2.8-15.7l8.2-14.3c-6.9-8-12.3-17.3-15.9-27.4h-16.5c-6 0-11.2-4.3-12.2-10.3-2-12-2.1-24.6 0-37.1 1-6 6.2-10.4 12.2-10.4h16.5c3.6-10.1 9-19.4 15.9-27.4l-8.2-14.3c-3-5.2-1.9-11.9 2.8-15.7 9.5-7.9 20.4-14.2 32.1-18.6 5.7-2.1 12.1.1 15.1 5.4l8.2 14.3c10.5-1.9 21.2-1.9 31.7 0l8.2-14.3c3-5.3 9.4-7.5 15.1-5.4 11.8 4.4 22.6 10.7 32.1 18.6 4.6 3.8 5.8 10.5 2.8 15.7l-8.2 14.3c6.9 8 12.3 17.3 15.9 27.4h16.5c6 0 11.2 4.3 12.2 10.3 2 12 2.1 24.6 0 37.1-1 6-6.2 10.4-12.2 10.4h-16.5c-3.6 10.1-9 19.4-15.9 27.4l8.2 14.3c3 5.2 1.9 11.9-2.8 15.7-9.5 7.9-20.4 14.2-32.1 18.6-5.7 2.1-12.1-.1-15.1-5.4l-8.2-14.3c-10.4 1.9-21.2 1.9-31.7 0zM501.6 431c38.5 29.6 82.4-14.3 52.8-52.8-38.5-29.6-82.4 14.3-52.8 52.8z" },
+			"child": []
+		}]
+	})(props);
+}
+function FaCheckCircle(props) {
+	return GenIcon({
+		"tag": "svg",
+		"attr": { "viewBox": "0 0 512 512" },
+		"child": [{
+			"tag": "path",
+			"attr": { "d": "M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" },
+			"child": []
+		}]
+	})(props);
+}
+function FaBrain(props) {
+	return GenIcon({
+		"tag": "svg",
+		"attr": { "viewBox": "0 0 576 512" },
+		"child": [{
+			"tag": "path",
+			"attr": { "d": "M208 0c-29.9 0-54.7 20.5-61.8 48.2-.8 0-1.4-.2-2.2-.2-35.3 0-64 28.7-64 64 0 4.8.6 9.5 1.7 14C52.5 138 32 166.6 32 200c0 12.6 3.2 24.3 8.3 34.9C16.3 248.7 0 274.3 0 304c0 33.3 20.4 61.9 49.4 73.9-.9 4.6-1.4 9.3-1.4 14.1 0 39.8 32.2 72 72 72 4.1 0 8.1-.5 12-1.2 9.6 28.5 36.2 49.2 68 49.2 39.8 0 72-32.2 72-72V64c0-35.3-28.7-64-64-64zm368 304c0-29.7-16.3-55.3-40.3-69.1 5.2-10.6 8.3-22.3 8.3-34.9 0-33.4-20.5-62-49.7-74 1-4.5 1.7-9.2 1.7-14 0-35.3-28.7-64-64-64-.8 0-1.5.2-2.2.2C422.7 20.5 397.9 0 368 0c-35.3 0-64 28.6-64 64v376c0 39.8 32.2 72 72 72 31.8 0 58.4-20.7 68-49.2 3.9.7 7.9 1.2 12 1.2 39.8 0 72-32.2 72-72 0-4.8-.5-9.5-1.4-14.1 29-12 49.4-40.6 49.4-73.9z" },
 			"child": []
 		}]
 	})(props);
@@ -44292,11 +44347,11 @@ function FaArrowDown(props) {
 var links = [
 	{
 		href: "#about",
-		label: "Acerca"
+		label: "Perfil"
 	},
 	{
 		href: "#experience",
-		label: "Exp."
+		label: "Experiencia"
 	},
 	{
 		href: "#projects",
@@ -44304,11 +44359,11 @@ var links = [
 	},
 	{
 		href: "#education",
-		label: "Edu"
+		label: "Educación"
 	},
 	{
 		href: "#skills",
-		label: "Skills"
+		label: "Competencias"
 	},
 	{
 		href: "#contact",
@@ -44320,12 +44375,18 @@ function Header() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
 		className: "header",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "header-inner",
+			className: "header-inner container",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 					href: "#home",
-					className: "header-logo",
-					children: "DN"
+					className: "header-brand",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: "brand-name",
+						children: "DAVID ÑANCULEO"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: "brand-role",
+						children: "ING. CIVIL INFORMÁTICO"
+					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 					onClick: () => setOpen(!open),
@@ -44339,19 +44400,96 @@ function Header() {
 						padding: "0.25rem"
 					},
 					className: "menu-btn",
+					"aria-label": "Toggle navigation",
 					children: open ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaTimes, {}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaBars, {})
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("nav", {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("nav", {
 					className: "header-nav",
 					style: { display: open ? "flex" : void 0 },
-					children: links.map((l) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+					children: [links.map((l) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 						href: l.href,
 						onClick: () => setOpen(false),
+						className: "nav-link",
 						children: l.label
-					}, l.href))
+					}, l.href)), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+						href: "/document/cv/David_Nanculeo_cv_es_harvard.pdf",
+						target: "_blank",
+						rel: "noopener noreferrer",
+						className: "nav-cv-btn",
+						onClick: () => setOpen(false),
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaFilePdf, { size: 12 }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "CV" })]
+					})]
 				})
 			]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
+        .header {
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          background: rgba(7, 9, 14, 0.9);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-bottom: 1px solid var(--border);
+        }
+        .header-inner {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 64px;
+        }
+        .header-brand {
+          display: flex;
+          flex-direction: column;
+          text-decoration: none;
+        }
+        .brand-name {
+          font-family: var(--font-display);
+          font-size: 1.15rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          color: var(--fg);
+          line-height: 1.1;
+        }
+        .brand-role {
+          font-family: var(--font-mono, monospace);
+          font-size: 0.6rem;
+          color: var(--accent);
+          letter-spacing: 0.08em;
+          font-weight: 600;
+        }
+        .header-nav {
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+        }
+        .nav-link {
+          font-size: 0.8rem;
+          font-weight: 500;
+          color: var(--fg-muted);
+          transition: color 0.2s ease;
+          text-decoration: none;
+        }
+        .nav-link:hover {
+          color: var(--accent);
+        }
+        .nav-cv-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.35rem 0.75rem;
+          border-radius: 6px;
+          background: rgba(132, 204, 22, 0.1);
+          border: 1px solid rgba(132, 204, 22, 0.25);
+          color: var(--accent-text);
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+        .nav-cv-btn:hover {
+          background: var(--accent);
+          color: #050508;
+        }
         .menu-btn { display: none !important; }
         @media (max-width: 767px) {
           .menu-btn { display: flex !important; }
@@ -44362,11 +44500,16 @@ function Header() {
             left: 0;
             right: 0;
             flex-direction: column;
-            background: rgba(5,5,8,0.98);
-            backdrop-filter: blur(16px);
+            background: rgba(7, 9, 14, 0.98);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            padding: 1rem var(--section-px);
-            gap: 0.75rem;
+            padding: 1.25rem var(--section-px);
+            gap: 1rem;
+            align-items: stretch;
+          }
+          .nav-cv-btn {
+            justify-content: center;
+            padding: 0.6rem;
           }
         }
       ` })]
@@ -44374,46 +44517,6 @@ function Header() {
 }
 //#endregion
 //#region src/components/Hero.jsx
-var tickerItems = [
-	"Python",
-	"Django",
-	"React",
-	"TypeScript",
-	"Docker",
-	"RPA",
-	"APIs REST",
-	"PostgreSQL",
-	"MySQL",
-	"Pandas",
-	"Git",
-	"Linux",
-	"Selenium",
-	"Rocketbot",
-	"Power Automate",
-	"Jenkins",
-	"Flask",
-	"HTML/CSS",
-	"Odoo",
-	"Nginx",
-	"Jira",
-	"Cloud Computing"
-];
-var Ticker = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	className: "ticker",
-	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: "ticker-track",
-		children: [...Array(3)].map((_, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			style: {
-				display: "inline-flex",
-				gap: "3rem"
-			},
-			children: tickerItems.map((item, j) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-				className: "ticker-item",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "ticker-dot" }), item]
-			}, `${i}-${j}`))
-		}, i))
-	})
-});
 function Hero() {
 	const heroRef = (0, import_react.useRef)(null);
 	const glowRef = (0, import_react.useRef)(null);
@@ -44442,143 +44545,324 @@ function Hero() {
 			hero.removeEventListener("mouseenter", onEnter);
 		};
 	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "section hero",
-			id: "home",
-			ref: heroRef,
-			style: {
-				position: "relative",
-				overflow: "hidden"
-			},
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "section hero",
+		id: "home",
+		ref: heroRef,
+		style: {
+			position: "relative",
+			overflow: "hidden"
+		},
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "hero-glow",
 				ref: glowRef,
 				style: { zIndex: 1 }
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "container",
 				style: {
 					position: "relative",
-					zIndex: 2
+					zIndex: 2,
+					width: "100%"
 				},
 				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "hero-grid",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "display-sm",
-							style: {
-								color: "var(--accent)",
-								marginBottom: "0.25rem"
-							},
-							children: "DAVID NANCULEO"
+					className: "hero-content",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "hero-badge-wrapper",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+								className: "hero-status-pill",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "status-dot-pulse" }), "Ingeniero Civil Informático · Consultor en Arquitectura & Ciberseguridad"]
+							})
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
-							className: "hero-name",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "accent",
-									children: "<"
-								}),
-								" ",
-								"CODE",
-								" ",
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "accent",
-									children: "/>"
-								})
-							]
+							className: "hero-title",
+							children: ["DAVID ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "accent",
+								children: "ÑANCULEO"
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+							className: "hero-tagline",
+							children: "Arquitectura de Software, Backend de Misión Crítica & Ciberseguridad"
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "hero-sub",
-							children: "Ingeniero Civil Informático especializado en Backend, RPA y automatización inteligente. Construyo sistemas que funcionan mientras dormís."
+							children: "Especialista en diseño de arquitecturas escalables bajo modelo C4, microservicios transaccionales con FastAPI y Django, automatización inteligente de procesos corporativos (RPA) y seguridad de la información con cumplimiento normativo (ISO 27001, Leyes 21.663, 21.719 y 19.799)."
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "hero-pillars",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+									className: "pillar-item",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaServer, {
+										size: 12,
+										className: "pillar-icon"
+									}), " Arquitectura C4 & Microservicios"]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+									className: "pillar-item",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaShieldAlt, {
+										size: 12,
+										className: "pillar-icon"
+									}), " Ciberseguridad & ISO 27001"]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+									className: "pillar-item",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCogs, {
+										size: 12,
+										className: "pillar-icon"
+									}), " RPA Empresarial & Automatización"]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+									className: "pillar-item",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaAward, {
+										size: 12,
+										className: "pillar-icon"
+									}), " Google Cybersecurity Professional"]
+								})
+							]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "hero-actions",
 							children: [
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-									href: "#projects",
+									href: "#experience",
 									className: "btn btn-primary",
-									children: ["Ver Proyectos ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowDown, { size: 12 })]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "mailto:david.203.52@gmail.com",
-									className: "btn btn-ghost",
-									children: "Contacto"
+									children: ["Ver Trayectoria ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowDown, { size: 12 })]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 									href: "/document/cv/David_Nanculeo_cv_es_harvard.pdf",
 									target: "_blank",
 									rel: "noopener noreferrer",
+									className: "btn btn-secondary",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaFileDownload, { size: 13 }), " Descargar CV (Formato Harvard)"]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+									href: "#contact",
 									className: "btn btn-ghost",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaFileDownload, { size: 12 }), " CV"]
+									children: "Contacto Directo"
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "hero-metrics-grid",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "metric-box",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-num",
+											children: "4+"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-label",
+											children: "Años de Trayectoria"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-detail",
+											children: "Ingeniería & Soluciones Críticas"
+										})
+									]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "metric-box",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-num",
+											children: "15+"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-label",
+											children: "Sistemas & Flujos RPA"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-detail",
+											children: "En Producción (UC, IST, CCU)"
+										})
+									]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "metric-box",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-num",
+											children: "25+"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-label",
+											children: "Certificaciones"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-detail",
+											children: "Google, Cisco, Rocketbot N1-N3"
+										})
+									]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "metric-box",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-num",
+											children: "C4 / ISO"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-label",
+											children: "Estándares & Compliance"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "metric-detail",
+											children: "Seguridad por Diseño"
+										})
+									]
 								})
 							]
 						})
-					] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "hero-stats",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "stat",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "stat-num",
-									children: "2+"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "stat-label",
-									children: "Años Exp."
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "stat",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "stat-num",
-									children: "15+"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "stat-label",
-									children: "Proyectos"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "stat",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "stat-num",
-									children: "7+"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "stat-label",
-									children: "Certs"
-								})]
-							})
-						]
-					})]
+					]
 				})
-			})]
-		}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ticker, {}),
-		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
         .hero {
-          min-height: 70vh;
+          min-height: 85vh;
           display: flex;
           align-items: center;
-          padding-top: 6rem;
+          padding-top: clamp(4.5rem, 8vw, 7rem);
+          padding-bottom: clamp(3rem, 6vw, 5rem);
+        }
+        .hero-content {
+          max-width: 960px;
+        }
+        .hero-badge-wrapper {
+          margin-bottom: 1.25rem;
+        }
+        .hero-status-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          padding: 0.4rem 0.95rem;
+          border-radius: 999px;
+          background: rgba(132, 204, 22, 0.08);
+          border: 1px solid rgba(132, 204, 22, 0.22);
+          color: var(--accent-text);
+          font-family: var(--font-mono, monospace);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+        }
+        .status-dot-pulse {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: var(--accent);
+          box-shadow: 0 0 10px var(--accent);
+          animation: pulse-ring 2s infinite ease-in-out;
+        }
+        @keyframes pulse-ring {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(1.3); }
+        }
+        .hero-title {
+          font-family: var(--font-display);
+          font-size: clamp(2.8rem, 7.5vw, 5.5rem);
+          line-height: 1.02;
+          letter-spacing: -0.02em;
+          color: var(--fg);
+          margin-bottom: 0.5rem;
+          font-weight: 800;
+        }
+        .hero-tagline {
+          font-size: clamp(1.1rem, 2.3vw, 1.65rem);
+          font-weight: 600;
+          color: var(--fg-secondary, #cbd5e1);
+          line-height: 1.35;
+          margin-bottom: 1.25rem;
+          letter-spacing: -0.01em;
+        }
+        .hero-sub {
+          font-size: clamp(0.9rem, 1.25vw, 1.05rem);
+          color: var(--fg-muted);
+          line-height: 1.75;
+          margin-bottom: 1.75rem;
+          max-width: 820px;
+        }
+        .hero-pillars {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.6rem;
+          margin-bottom: 2.25rem;
+        }
+        .pillar-item {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          padding: 0.35rem 0.75rem;
+          border-radius: 6px;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          font-family: var(--font-mono, monospace);
+          font-size: 0.73rem;
+          color: var(--fg-secondary, #cbd5e1);
+        }
+        .pillar-icon {
+          color: var(--accent);
+        }
+        .hero-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.85rem;
+          margin-bottom: 3rem;
+          align-items: center;
+        }
+        .hero-metrics-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+          gap: 1rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid var(--border);
+        }
+        .metric-box {
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius, 10px);
+          padding: 1rem 1.2rem;
+          transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+        .metric-box:hover {
+          border-color: var(--accent-dim);
+          transform: translateY(-2px);
+        }
+        .metric-num {
+          font-family: var(--font-display);
+          font-size: 1.75rem;
+          font-weight: 800;
+          line-height: 1.1;
+          color: var(--accent);
+        }
+        .metric-label {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--fg);
+          margin-top: 0.2rem;
+        }
+        .metric-detail {
+          font-size: 0.68rem;
+          color: var(--fg-muted);
+          margin-top: 0.15rem;
         }
         @media (max-width: 767px) {
-          .hero { min-height: 60vh; padding-top: 5rem; }
-          .hero-stats { margin-top: 1rem; }
+          .hero-metrics-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+          .hero-actions {
+            flex-direction: column;
+            align-items: stretch;
+          }
         }
       ` })
-	] });
-}
-//#endregion
-//#region node_modules/react-icons/fa6/index.mjs
-function FaShieldHalved(props) {
-	return GenIcon({
-		"tag": "svg",
-		"attr": { "viewBox": "0 0 512 512" },
-		"child": [{
-			"tag": "path",
-			"attr": { "d": "M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8l0 378.1C394 378 431.1 230.1 432 141.4L256 66.8s0 0 0 0z" },
-			"child": []
-		}]
-	})(props);
+		]
+	});
 }
 //#endregion
 //#region src/components/About.jsx
@@ -44592,40 +44876,62 @@ var primarySkills = [
 		logo: "/images/logo_django.png"
 	},
 	{
-		name: "React",
-		logo: "/images/logo_react.png"
-	},
-	{
-		name: "Vite",
-		logo: "/images/logo_vite.png"
-	},
-	{
-		name: "Rocketbot",
-		logo: "/images/logo_rocketbot.png"
-	},
-	{
-		name: "Pandas",
-		logo: "/images/logo_pandas.png"
-	},
-	{
-		name: "Power Automate",
-		logo: "/images/logo_power_automate.png"
+		name: "FastAPI",
+		logo: "/images/logo_apirest.png"
 	},
 	{
 		name: "Docker",
 		logo: "/images/logo_docker.png"
 	},
 	{
-		name: "MySQL",
-		logo: "/images/logo_mysql.png"
+		name: "PostgreSQL",
+		logo: "/images/logo_postgres.png"
 	},
 	{
-		name: "APIs REST",
-		logo: "/images/logo_postman.png"
+		name: "Rocketbot",
+		logo: "/images/logo_rocketbot.png"
+	},
+	{
+		name: "Power Automate",
+		logo: "/images/logo_power_automate.png"
+	},
+	{
+		name: "Pandas",
+		logo: "/images/logo_pandas.png"
 	},
 	{
 		name: "Git",
 		logo: "/images/logo_git.png"
+	},
+	{
+		name: "Linux",
+		logo: "/images/logo_cpanel.png"
+	},
+	{
+		name: "React",
+		logo: "/images/logo_react.png"
+	}
+];
+var competencies = [
+	{
+		icon: FaServer,
+		title: "Arquitectura & Backend Crítico",
+		desc: "Diseño bajo modelo C4, microservicios en FastAPI y Django, transacciones atómicas, multi-tenancy y despliegue contenedorizado con Docker."
+	},
+	{
+		icon: FaShieldAlt,
+		title: "Ciberseguridad & Compliance",
+		desc: "Certificación Profesional Google Cybersecurity, gestión de riesgos ISO 27001, firma digital (Ley 19.799) y marcos regulatorios (Leyes 21.663 y 21.719)."
+	},
+	{
+		icon: FaRobot,
+		title: "Automatización Empresarial (RPA)",
+		desc: "Certificado Rocketbot N1, N2 y N3, Power Automate, web scraping con XPath dinámicos e integración con ERPs (SQL Server, Odoo)."
+	},
+	{
+		icon: FaBrain,
+		title: "Inteligencia de Datos & ML",
+		desc: "Pipelines ETL con Pandas, modelos predictivos y visión computacional (tesis de grado con Kinect v2, MediaPipe y clasificación ML)."
 	}
 ];
 function About() {
@@ -44634,177 +44940,211 @@ function About() {
 		id: "about",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "container",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-				className: "section-title",
-				children: "Acerca de mí"
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid-2",
-				style: { gap: "3rem" },
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						style: {
-							fontSize: "0.9rem",
-							color: "var(--fg-muted)",
-							lineHeight: "1.8",
-							marginBottom: "1.5rem"
-						},
-						children: "Soy Ingeniero Civil Informático especializado en desarrollo Backend con Python, Django y APIs REST. Experiencia en diseño, desarrollo e implementación de soluciones críticas utilizando Docker, Git y arquitecturas escalables."
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						style: {
-							fontSize: "0.9rem",
-							color: "var(--fg-muted)",
-							lineHeight: "1.8",
-							marginBottom: "2rem"
-						},
-						children: "Especialista en automatización de procesos (RPA) con Rocketbot, sólida experiencia en ingeniería de datos, web scraping y optimización de flujos operativos. También con conocimientos en Power Automate."
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-						style: {
-							fontFamily: "var(--font-display)",
-							fontSize: "clamp(1.25rem, 3vw, 1.75rem)",
-							textTransform: "uppercase",
-							marginBottom: "1rem",
-							color: "var(--accent)"
-						},
-						children: "Habilidades Clave"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "grid-auto",
-						children: primarySkills.map((sk, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "skill-logo",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-								src: sk.logo,
-								alt: sk.name
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: sk.name })]
-						}, i))
-					})
-				] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+					className: "section-title",
+					children: "Perfil Profesional"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "section-sub",
+					children: "Ingeniería de software con foco en robustez arquitectónica, seguridad por diseño y automatización operativa"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "grid-2",
 					style: {
-						display: "flex",
-						flexDirection: "column",
-						gap: "1rem"
+						gap: "3rem",
+						alignItems: "start"
 					},
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "card",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 							style: {
-								display: "flex",
-								alignItems: "center",
-								gap: "1rem"
+								fontSize: "0.95rem",
+								color: "var(--fg-secondary, #cbd5e1)",
+								lineHeight: "1.8",
+								marginBottom: "1.25rem"
 							},
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCode, {
-								size: 24,
-								style: {
-									color: "var(--accent)",
-									flexShrink: 0
-								}
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontFamily: "var(--font-display)",
-									fontSize: "1.5rem",
-									lineHeight: 1,
-									color: "var(--accent)"
-								},
-								children: "2+"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontSize: "0.75rem",
-									color: "var(--fg-muted)"
-								},
-								children: "Años de Experiencia"
-							})] })]
+							children: [
+								"Soy ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Ingeniero Civil Informático" }),
+								" y Licenciado en Ciencias de la Ingeniería de la Universidad Finis Terrae. Mi trabajo se centra en el diseño de ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "arquitecturas de software confiables" }),
+								", el desarrollo de servicios backend de alto rendimiento y la implementación de marcos rigurosos de ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "ciberseguridad y cumplimiento normativo" }),
+								"."
+							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "card",
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 							style: {
-								display: "flex",
-								alignItems: "center",
-								gap: "1rem"
+								fontSize: "0.92rem",
+								color: "var(--fg-muted)",
+								lineHeight: "1.8",
+								marginBottom: "1.25rem"
 							},
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaRocket, {
-								size: 24,
-								style: {
-									color: "var(--accent)",
-									flexShrink: 0
-								}
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontFamily: "var(--font-display)",
-									fontSize: "1.5rem",
-									lineHeight: 1,
-									color: "var(--accent)"
-								},
-								children: "15+"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontSize: "0.75rem",
-									color: "var(--fg-muted)"
-								},
-								children: "Proyectos RPA & Backend"
-							})] })]
+							children: [
+								"Actualmente me desempeño como ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Consultor Senior de Arquitectura y Ciberseguridad para la Pontificia Universidad Católica de Chile" }),
+								" en el proyecto ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: "VINCULOsync" }),
+								" (plataforma Legal-Tech adjudicada por la DAE con co-evaluación VRID), estructurando microservicios en FastAPI, firma digital institucional y gobernanza de datos bajo las Leyes 21.663 y 21.719."
+							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "card",
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 							style: {
-								display: "flex",
-								alignItems: "center",
-								gap: "1rem"
+								fontSize: "0.92rem",
+								color: "var(--fg-muted)",
+								lineHeight: "1.8",
+								marginBottom: "2rem"
 							},
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaAward, {
-								size: 24,
-								style: {
-									color: "var(--accent)",
-									flexShrink: 0
-								}
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontFamily: "var(--font-display)",
-									fontSize: "1.5rem",
-									lineHeight: 1,
-									color: "var(--accent)"
-								},
-								children: "25+"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontSize: "0.75rem",
-									color: "var(--fg-muted)"
-								},
-								children: "Certificaciones"
-							})] })]
+							children: [
+								"En mi trayectoria en el ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Instituto de Seguridad del Trabajo (IST)" }),
+								" y consultoras como ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Seidor y Automatiza Tech" }),
+								", lideré desarrollos con Django transaccional, diagramación causal automatizada y soluciones RPA masivas en banca, salud y hotelería."
+							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "card",
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 							style: {
-								display: "flex",
-								alignItems: "center",
-								gap: "1rem"
+								fontFamily: "var(--font-display)",
+								fontSize: "1.2rem",
+								letterSpacing: "0.02em",
+								textTransform: "uppercase",
+								marginBottom: "1rem",
+								color: "var(--accent)"
 							},
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaShieldHalved, {
-								size: 24,
-								style: {
-									color: "var(--accent)",
-									flexShrink: 0
-								}
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontFamily: "var(--font-display)",
-									fontSize: "1.5rem",
-									lineHeight: 1,
-									color: "var(--accent)"
-								},
-								children: "ISO 27001"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								style: {
-									fontSize: "0.75rem",
-									color: "var(--fg-muted)"
-								},
-								children: "Ciberseguridad"
-							})] })]
+							children: "Núcleo Tecnológico"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "grid-auto",
+							style: {
+								gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 105px), 1fr))",
+								gap: "0.75rem"
+							},
+							children: primarySkills.map((sk, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "skill-logo",
+								style: { padding: "0.85rem 0.5rem" },
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+									src: sk.logo,
+									alt: sk.name,
+									style: {
+										width: "28px",
+										height: "28px",
+										objectFit: "contain"
+									}
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									style: {
+										fontSize: "0.68rem",
+										fontWeight: 500
+									},
+									children: sk.name
+								})]
+							}, i))
 						})
-					]
-				})]
-			})]
+					] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: {
+							display: "flex",
+							flexDirection: "column",
+							gap: "1rem"
+						},
+						children: [competencies.map((comp, idx) => {
+							const Icon = comp.icon;
+							return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "card",
+								style: {
+									padding: "1.25rem 1.4rem",
+									display: "flex",
+									alignItems: "flex-start",
+									gap: "1rem",
+									background: "var(--bg-card)",
+									border: "1px solid var(--border)"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									style: {
+										width: "40px",
+										height: "40px",
+										borderRadius: "8px",
+										background: "rgba(132, 204, 22, 0.08)",
+										border: "1px solid rgba(132, 204, 22, 0.2)",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										flexShrink: 0,
+										marginTop: "2px"
+									},
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+										size: 18,
+										style: { color: "var(--accent)" }
+									})
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", {
+									style: {
+										fontSize: "0.95rem",
+										fontWeight: 700,
+										color: "var(--fg)",
+										marginBottom: "0.3rem",
+										letterSpacing: "-0.01em"
+									},
+									children: comp.title
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+									style: {
+										fontSize: "0.8rem",
+										color: "var(--fg-muted)",
+										lineHeight: "1.6"
+									},
+									children: comp.desc
+								})] })]
+							}, idx);
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "card",
+							style: {
+								marginTop: "0.5rem",
+								padding: "1.2rem",
+								background: "linear-gradient(135deg, rgba(18,18,26,0.9) 0%, rgba(26,32,46,0.6) 100%)",
+								border: "1px solid rgba(132, 204, 22, 0.25)",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "space-between",
+								flexWrap: "wrap",
+								gap: "1rem"
+							},
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: {
+									display: "flex",
+									alignItems: "center",
+									gap: "0.5rem"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaCheckCircle, {
+									size: 14,
+									style: { color: "var(--accent)" }
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									style: {
+										fontSize: "0.82rem",
+										fontWeight: 700,
+										color: "var(--fg)"
+									},
+									children: "Currículum Vitae Normalizado"
+								})]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								style: {
+									fontSize: "0.72rem",
+									color: "var(--fg-muted)",
+									marginTop: "0.2rem"
+								},
+								children: "Formato Harvard listo para evaluación técnica y ejecutiva"
+							})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+								href: "/document/cv/David_Nanculeo_cv_es_harvard.pdf",
+								target: "_blank",
+								rel: "noopener noreferrer",
+								className: "btn btn-secondary",
+								style: {
+									fontSize: "0.78rem",
+									padding: "0.45rem 1rem"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaFilePdf, { size: 12 }), " Ver CV Harvard"]
+							})]
+						})]
+					})]
+				})
+			]
 		})
 	});
 }
@@ -44968,11 +45308,11 @@ function Experience() {
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 					className: "section-title",
-					children: "Experiencia"
+					children: "Trayectoria Profesional"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "section-sub",
-					children: "Trayectoria profesional en RPA, backend e ingeniería de software"
+					children: "Experiencia en arquitectura de software, ciberseguridad, backend crítico y automatización RPA empresarial"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					style: {
@@ -45247,15 +45587,31 @@ function Experience() {
 //#region src/components/Projects.jsx
 var projects = [
 	{
+		id: 10,
+		title: "VINCULOsync · Legal-Tech UC",
+		description: "Arquitectura de software para plataforma institucional de gestión y licenciamiento de derechos de autor en producciones UC. Microservicios con FastAPI, React, PostgreSQL, Docker, modelo C4, firma digital (Ley 19.799) y seguridad institucional (Leyes 21.663 y 21.719).",
+		tags: [
+			"FastAPI",
+			"React",
+			"PostgreSQL",
+			"Docker",
+			"Modelo C4",
+			"ISO 27001"
+		],
+		link: "https://github.com/david-tkd203",
+		featured: true
+	},
+	{
 		id: 1,
-		title: "Hmed",
-		description: "Plataforma web de Historial Clínico Global con extracción inteligente desde PDFs e imágenes mediante OCR. Arquitectura Django + React + PostgreSQL con autenticación JWT y 4 servicios Docker.",
+		title: "Hmed · Historial Clínico Global",
+		description: "Plataforma de interoperabilidad médica y extracción inteligente de datos clínicos desde PDFs e imágenes mediante OCR. Arquitectura de 4 microservicios con Django, React, PostgreSQL y autenticación JWT en contenedores Docker.",
 		tags: [
 			"Python",
 			"Django",
 			"React",
 			"Docker",
-			"OCR"
+			"OCR",
+			"JWT"
 		],
 		link: "https://github.com/david-tkd203/hmed",
 		image: "/projects/hmed_landing.png",
@@ -45263,26 +45619,26 @@ var projects = [
 	},
 	{
 		id: 2,
-		title: "SGSI Ciberseguridad",
-		description: "Sistema de Gestión de Seguridad de la Información ISO 27001 con matriz de riesgos, dashboard interactivo, scripts Python y generación de documentos Word profesionales.",
+		title: "SGSI · ISO 27001 Ciberseguridad",
+		description: "Sistema de Gestión de Seguridad de la Información estructurado bajo norma ISO 27001. Incorpora matriz automatizada de evaluación de riesgos de activos, panel de control de amenazas y generación documental técnica.",
 		tags: [
 			"Python",
-			"VBA",
 			"ISO 27001",
-			"Excel"
+			"Ciberseguridad",
+			"Matriz de Riesgo"
 		],
 		link: "https://github.com/david-tkd203/ciberseguridad_auditoria",
 		featured: true
 	},
 	{
 		id: 3,
-		title: "Poomsae Kinect 3D",
-		description: "Sistema de evaluación automatizada de exactitud en Poomsae (Taekwondo WT) usando Kinect v2 + MediaPipe. Clasificación con Random Forest/SVM y exportación 3D (OBJ/GLB). Tesis de Licenciatura.",
+		title: "Poomsae Kinect 3D · Visión & ML",
+		description: "Tesis de grado para evaluación biomecánica y técnica en Taekwondo WT. Extracción de articulaciones en tiempo real con Kinect v2 + MediaPipe, clasificación mediante Random Forest/SVM y renderizado de mallas 3D (OBJ/GLB).",
 		tags: [
 			"Python",
 			"OpenCV",
-			"ML",
-			"Kinect",
+			"MediaPipe",
+			"Machine Learning",
 			"3D"
 		],
 		link: "https://github.com/david-tkd203/poomsae_kinect_3D",
@@ -45291,47 +45647,47 @@ var projects = [
 	},
 	{
 		id: 8,
-		title: "Automation Jobs",
-		description: "Bots que buscan empleos en LinkedIn e Indeed, analizan compatibilidad con tu perfil usando IA local (Ollama) y completan formularios Easy Apply automáticamente.",
+		title: "Automation Jobs · Agente Autónomo",
+		description: "Motor inteligente para búsqueda y postulación desatendida en LinkedIn e Indeed con Puppeteer. Evaluación semántica de compatibilidad mediante modelos locales de lenguaje (Ollama) y completado automático de formularios.",
 		tags: [
 			"Node.js",
 			"Puppeteer",
-			"Ollama",
-			"Automation"
+			"Ollama IA",
+			"Automatización"
 		],
 		link: "https://github.com/david-tkd203/automation-jobs",
 		featured: true
 	},
 	{
-		id: 5,
-		title: "Análisis Narcotráfico",
-		description: "Análisis de contenido sobre drogas y narcotráfico en redes sociales chilenas. Procesa datos Excel con Pandas para obtener métricas, hashtags y visualizaciones.",
-		tags: [
-			"Python",
-			"Pandas",
-			"Data Analysis",
-			"APIs"
-		],
-		link: "https://github.com/david-tkd203/An-lisis-de-Drogas",
-		featured: false
-	},
-	{
 		id: 9,
-		title: "Matriz Lo Miranda · VotME",
-		description: "Herramienta IST con filtros en cascada desde Excel (SheetJS). Dos modos: carga automática del archivo fuente o selección manual. Bootstrap 5.",
+		title: "Matriz Causal Lo Miranda · IST",
+		description: "Herramienta de análisis causal desarrollada para el Instituto de Seguridad del Trabajo. Procesamiento dinámico de hojas de cálculo con SheetJS y filtrado en cascada para investigación de accidentes.",
 		tags: [
 			"JavaScript",
 			"SheetJS",
 			"Bootstrap",
-			"Excel"
+			"Análisis Causal"
 		],
 		link: "https://github.com/david-tkd203/matriz-lo-miranda",
 		featured: false
 	},
 	{
+		id: 5,
+		title: "Inteligencia de Datos & Redes",
+		description: "Pipeline de recolección y análisis cuantitativo de datos digitales en redes sociales chilenas. Minería de datos con Pandas para identificación de patrones, frecuencias y métricas.",
+		tags: [
+			"Python",
+			"Pandas",
+			"Data Analysis",
+			"ETL"
+		],
+		link: "https://github.com/david-tkd203/An-lisis-de-Drogas",
+		featured: false
+	},
+	{
 		id: 6,
-		title: "Unfollower Tool",
-		description: "Bot para cancelar solicitudes de seguimiento pendientes en Instagram. Arquitectura limpia con clases POO, modo local y Docker.",
+		title: "Motor de Automatización Web",
+		description: "Framework modular de automatización orientado a objetos (POO) con Selenium WebDriver, diseñado para ejecución robusta de flujos web en entornos locales y contenedorizados con Docker.",
 		tags: [
 			"Python",
 			"Selenium",
@@ -45343,8 +45699,8 @@ var projects = [
 	},
 	{
 		id: 7,
-		title: "Poke Web API",
-		description: "Evaluación técnica Django que consume la PokéAPI, procesa datos en tabla ordenada por experiencia base. Login, panel admin y Docker Compose.",
+		title: "Microservicio REST Django",
+		description: "Implementación backend con Django para consumo y normalización de endpoints externos. Cuenta con autenticación de usuarios, panel administrativo y orquestación con Docker Compose.",
 		tags: [
 			"Django",
 			"Python",
@@ -45368,220 +45724,195 @@ function Projects() {
 	(0, import_react.useEffect)(() => {
 		const el = scrollRef.current;
 		if (!el) return;
-		el.addEventListener("scroll", updateScrollState);
+		el.addEventListener("scroll", updateScrollState, { passive: true });
 		updateScrollState();
 		return () => el.removeEventListener("scroll", updateScrollState);
 	}, []);
 	const scroll = (dir) => {
 		const el = scrollRef.current;
 		if (!el) return;
-		const card = el.querySelector(".project-card");
-		const amount = card ? card.offsetWidth + 24 : 400;
 		el.scrollBy({
-			left: dir * amount,
+			left: dir * 360,
 			behavior: "smooth"
 		});
 	};
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		className: "section reveal-el",
 		id: "projects",
-		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "container",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "section-title",
-					children: "Proyectos"
-				})
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				style: {
-					position: "relative",
-					padding: "0 var(--section-px)"
-				},
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-						position: "absolute",
-						left: 0,
-						top: 0,
-						bottom: 0,
-						width: "clamp(2rem, 5vw, 4rem)",
-						background: `linear-gradient(to right, var(--bg), transparent)`,
-						zIndex: 2,
-						pointerEvents: "none",
-						opacity: canScrollLeft ? 1 : 0,
-						transition: "opacity 0.3s"
-					} }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-						position: "absolute",
-						right: 0,
-						top: 0,
-						bottom: 0,
-						width: "clamp(2rem, 5vw, 4rem)",
-						background: `linear-gradient(to left, var(--bg), transparent)`,
-						zIndex: 2,
-						pointerEvents: "none",
-						opacity: canScrollRight ? 1 : 0,
-						transition: "opacity 0.3s"
-					} }),
-					canScrollLeft && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-						onClick: () => scroll(-1),
-						style: {
-							position: "absolute",
-							left: "0.5rem",
-							top: "50%",
-							transform: "translateY(-50%)",
-							zIndex: 3,
-							width: "40px",
-							height: "40px",
-							borderRadius: "50%",
-							background: "var(--bg-card)",
-							border: "1px solid var(--border)",
-							color: "var(--accent)",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-							cursor: "pointer",
-							transition: "all 0.2s",
-							boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
-							backdropFilter: "blur(8px)"
-						},
-						onMouseEnter: (e) => {
-							e.currentTarget.style.borderColor = "var(--accent-dim)";
-							e.currentTarget.style.color = "var(--accent-text)";
-						},
-						onMouseLeave: (e) => {
-							e.currentTarget.style.borderColor = "var(--border)";
-							e.currentTarget.style.color = "var(--accent)";
-						},
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowLeft, { size: 14 })
-					}),
-					canScrollRight && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-						onClick: () => scroll(1),
-						style: {
-							position: "absolute",
-							right: "0.5rem",
-							top: "50%",
-							transform: "translateY(-50%)",
-							zIndex: 3,
-							width: "40px",
-							height: "40px",
-							borderRadius: "50%",
-							background: "var(--bg-card)",
-							border: "1px solid var(--border)",
-							color: "var(--accent)",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-							cursor: "pointer",
-							transition: "all 0.2s",
-							boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
-							backdropFilter: "blur(8px)"
-						},
-						onMouseEnter: (e) => {
-							e.currentTarget.style.borderColor = "var(--accent-dim)";
-							e.currentTarget.style.color = "var(--accent-text)";
-						},
-						onMouseLeave: (e) => {
-							e.currentTarget.style.borderColor = "var(--border)";
-							e.currentTarget.style.color = "var(--accent)";
-						},
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowRight, { size: 14 })
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "h-scroll tilt-card",
-						ref: scrollRef,
-						children: projects.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-							href: p.link,
-							target: "_blank",
-							rel: "noopener noreferrer",
-							className: "project-card tilt-card-inner",
-							onMouseMove: (e) => {
-								const r = e.currentTarget.getBoundingClientRect();
-								const x = e.clientX - r.left;
-								const y = e.clientY - r.top;
-								const cx = r.width / 2;
-								const cy = r.height / 2;
-								const rotX = (y - cy) / cy * -8;
-								const rotY = (x - cx) / cx * 8;
-								e.currentTarget.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02,1.02,1.02)`;
-							},
-							onMouseLeave: (e) => {
-								e.currentTarget.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
-							},
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									style: {
-										display: "flex",
-										justifyContent: "space-between",
-										alignItems: "flex-start",
-										marginBottom: "0.75rem"
-									},
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										className: "badge",
-										style: { fontSize: "0.6rem" },
-										children: p.featured ? "★ Destacado" : "Proyecto"
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {
-										size: 16,
-										style: {
-											color: "var(--fg-muted)",
-											flexShrink: 0
-										}
-									})]
-								}),
-								p.image && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									style: {
-										width: "100%",
-										height: "140px",
-										borderRadius: "8px",
-										overflow: "hidden",
-										marginBottom: "0.75rem",
-										background: "var(--bg-elevated)",
-										border: "1px solid var(--border)"
-									},
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-										src: p.image,
-										alt: p.title,
-										style: {
-											width: "100%",
-											height: "100%",
-											objectFit: "cover",
-											display: "block"
-										}
-									})
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: p.title }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: p.description }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "tags",
-									children: p.tags.map((t, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: t }, i))
-								})
-							]
-						}, p.id))
-					})
-				]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "container",
-				style: { marginTop: "1.5rem" },
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		style: { position: "relative" },
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "container",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					style: {
 						display: "flex",
-						gap: "0.5rem",
-						justifyContent: "center",
-						alignItems: "center",
-						fontSize: "0.75rem",
-						color: "var(--fg-muted)"
+						justifyContent: "space-between",
+						alignItems: "flex-end",
+						marginBottom: "0.5rem",
+						flexWrap: "wrap",
+						gap: "1rem"
 					},
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "section-title",
+						children: "Proyectos de Ingeniería"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "section-sub",
+						style: { marginBottom: 0 },
+						children: "Sistemas de misión crítica, arquitecturas backend, ciberseguridad y soluciones de automatización"
+					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: {
+							display: "flex",
+							gap: "0.5rem"
+						},
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							onClick: () => scroll(-1),
+							disabled: !canScrollLeft,
+							style: {
+								width: "38px",
+								height: "38px",
+								borderRadius: "8px",
+								background: "var(--bg-card)",
+								border: "1px solid var(--border)",
+								color: canScrollLeft ? "var(--accent)" : "var(--border)",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								cursor: canScrollLeft ? "pointer" : "default",
+								transition: "all 0.2s ease"
+							},
+							"aria-label": "Scroll left",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowLeft, { size: 13 })
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							onClick: () => scroll(1),
+							disabled: !canScrollRight,
+							style: {
+								width: "38px",
+								height: "38px",
+								borderRadius: "8px",
+								background: "var(--bg-card)",
+								border: "1px solid var(--border)",
+								color: canScrollRight ? "var(--accent)" : "var(--border)",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								cursor: canScrollRight ? "pointer" : "default",
+								transition: "all 0.2s ease"
+							},
+							"aria-label": "Scroll right",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaArrowRight, { size: 13 })
+						})]
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "h-scroll",
+					ref: scrollRef,
+					style: {
+						marginTop: "1.75rem",
+						paddingBottom: "1rem"
+					},
+					children: projects.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+						href: p.link,
+						target: "_blank",
+						rel: "noopener noreferrer",
+						className: "project-card",
+						style: {
+							textDecoration: "none",
+							color: "inherit"
+						},
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								style: {
+									display: "flex",
+									justifyContent: "space-between",
+									alignItems: "center",
+									marginBottom: "0.85rem"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "badge",
+									style: { fontSize: "0.65rem" },
+									children: p.featured ? "★ Sistema Crítico" : "Proyecto"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									style: {
+										display: "flex",
+										alignItems: "center",
+										gap: "0.5rem"
+									},
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, {
+										size: 15,
+										style: { color: "var(--fg-muted)" }
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaExternalLinkAlt, {
+										size: 10,
+										style: {
+											color: "var(--accent)",
+											opacity: .8
+										}
+									})]
+								})]
+							}),
+							p.image && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								style: {
+									width: "100%",
+									height: "140px",
+									borderRadius: "8px",
+									overflow: "hidden",
+									marginBottom: "0.85rem",
+									background: "var(--bg-elevated)",
+									border: "1px solid var(--border)"
+								},
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+									src: p.image,
+									alt: p.title,
+									style: {
+										width: "100%",
+										height: "100%",
+										objectFit: "cover",
+										display: "block"
+									}
+								})
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+								style: {
+									fontSize: "1.05rem",
+									fontWeight: 700,
+									marginBottom: "0.4rem",
+									color: "var(--fg)",
+									letterSpacing: "-0.01em"
+								},
+								children: p.title
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								style: {
+									fontSize: "0.78rem",
+									color: "var(--fg-muted)",
+									lineHeight: "1.6",
+									flex: 1
+								},
+								children: p.description
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "tags",
+								style: { marginTop: "1rem" },
+								children: p.tags.map((t, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: t }, i))
+							})
+						]
+					}, p.id))
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					style: {
+						textAlign: "center",
+						marginTop: "2rem"
+					},
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 						href: "https://github.com/david-tkd203",
 						target: "_blank",
 						rel: "noopener noreferrer",
-						style: { color: "var(--accent)" },
-						children: "Ver todos en GitHub →"
+						className: "btn btn-ghost",
+						style: { fontSize: "0.8rem" },
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FaGithub, { size: 14 }), " Explorar todos los repositorios en GitHub"]
 					})
 				})
-			})
-		]
+			]
+		})
 	});
 }
 //#endregion
@@ -46418,7 +46749,7 @@ Gear.propTypes = {
 	className: import_prop_types.default.string
 };
 //#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/link-45deg.js
+//#region node_modules/react-bootstrap-icons/dist/icons/palette.js
 var _excluded$1 = [
 	"color",
 	"size",
@@ -46452,7 +46783,7 @@ function _objectWithoutPropertiesLoose$1(r, e) {
 	}
 	return t;
 }
-var Link45deg = /* @__PURE__ */ (0, import_react.forwardRef)(function(_ref, ref) {
+var Palette = /* @__PURE__ */ (0, import_react.forwardRef)(function(_ref, ref) {
 	var _ref$color = _ref.color, color = _ref$color === void 0 ? "currentColor" : _ref$color, _ref$size = _ref.size, size = _ref$size === void 0 ? "1em" : _ref$size, _ref$title = _ref.title, title = _ref$title === void 0 ? null : _ref$title, _ref$className = _ref.className, className = _ref$className === void 0 ? "" : _ref$className, rest = _objectWithoutProperties$1(_ref, _excluded$1);
 	return /* @__PURE__ */ import_react.createElement("svg", _extends$1({
 		ref,
@@ -46463,19 +46794,19 @@ var Link45deg = /* @__PURE__ */ (0, import_react.forwardRef)(function(_ref, ref)
 		fill: color,
 		className: [
 			"bi",
-			"bi-link-45deg",
+			"bi-palette",
 			className
 		].filter(Boolean).join(" ")
-	}, rest), title ? /* @__PURE__ */ import_react.createElement("title", null, title) : null, /* @__PURE__ */ import_react.createElement("path", { d: "M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z" }), /* @__PURE__ */ import_react.createElement("path", { d: "M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z" }));
+	}, rest), title ? /* @__PURE__ */ import_react.createElement("title", null, title) : null, /* @__PURE__ */ import_react.createElement("path", { d: "M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" }), /* @__PURE__ */ import_react.createElement("path", { d: "M16 8c0 3.15-1.866 2.585-3.567 2.07C11.42 9.763 10.465 9.473 10 10c-.603.683-.475 1.819-.351 2.92C9.826 14.495 9.996 16 8 16a8 8 0 1 1 8-8m-8 7c.611 0 .654-.171.655-.176.078-.146.124-.464.07-1.119-.014-.168-.037-.37-.061-.591-.052-.464-.112-1.005-.118-1.462-.01-.707.083-1.61.704-2.314.369-.417.845-.578 1.272-.618.404-.038.812.026 1.16.104.343.077.702.186 1.025.284l.028.008c.346.105.658.199.953.266.653.148.904.083.991.024C14.717 9.38 15 9.161 15 8a7 7 0 1 0-7 7" }));
 });
-Link45deg.propTypes = {
+Palette.propTypes = {
 	color: import_prop_types.default.string,
 	size: import_prop_types.default.oneOfType([import_prop_types.default.string, import_prop_types.default.number]),
 	title: import_prop_types.default.string,
 	className: import_prop_types.default.string
 };
 //#endregion
-//#region node_modules/react-bootstrap-icons/dist/icons/palette.js
+//#region node_modules/react-bootstrap-icons/dist/icons/shield-check.js
 var _excluded = [
 	"color",
 	"size",
@@ -46509,7 +46840,7 @@ function _objectWithoutPropertiesLoose(r, e) {
 	}
 	return t;
 }
-var Palette = /* @__PURE__ */ (0, import_react.forwardRef)(function(_ref, ref) {
+var ShieldCheck = /* @__PURE__ */ (0, import_react.forwardRef)(function(_ref, ref) {
 	var _ref$color = _ref.color, color = _ref$color === void 0 ? "currentColor" : _ref$color, _ref$size = _ref.size, size = _ref$size === void 0 ? "1em" : _ref$size, _ref$title = _ref.title, title = _ref$title === void 0 ? null : _ref$title, _ref$className = _ref.className, className = _ref$className === void 0 ? "" : _ref$className, rest = _objectWithoutProperties(_ref, _excluded);
 	return /* @__PURE__ */ import_react.createElement("svg", _extends({
 		ref,
@@ -46520,12 +46851,12 @@ var Palette = /* @__PURE__ */ (0, import_react.forwardRef)(function(_ref, ref) {
 		fill: color,
 		className: [
 			"bi",
-			"bi-palette",
+			"bi-shield-check",
 			className
 		].filter(Boolean).join(" ")
-	}, rest), title ? /* @__PURE__ */ import_react.createElement("title", null, title) : null, /* @__PURE__ */ import_react.createElement("path", { d: "M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" }), /* @__PURE__ */ import_react.createElement("path", { d: "M16 8c0 3.15-1.866 2.585-3.567 2.07C11.42 9.763 10.465 9.473 10 10c-.603.683-.475 1.819-.351 2.92C9.826 14.495 9.996 16 8 16a8 8 0 1 1 8-8m-8 7c.611 0 .654-.171.655-.176.078-.146.124-.464.07-1.119-.014-.168-.037-.37-.061-.591-.052-.464-.112-1.005-.118-1.462-.01-.707.083-1.61.704-2.314.369-.417.845-.578 1.272-.618.404-.038.812.026 1.16.104.343.077.702.186 1.025.284l.028.008c.346.105.658.199.953.266.653.148.904.083.991.024C14.717 9.38 15 9.161 15 8a7 7 0 1 0-7 7" }));
+	}, rest), title ? /* @__PURE__ */ import_react.createElement("title", null, title) : null, /* @__PURE__ */ import_react.createElement("path", { d: "M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56" }), /* @__PURE__ */ import_react.createElement("path", { d: "M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0" }));
 });
-Palette.propTypes = {
+ShieldCheck.propTypes = {
 	color: import_prop_types.default.string,
 	size: import_prop_types.default.oneOfType([import_prop_types.default.string, import_prop_types.default.number]),
 	title: import_prop_types.default.string,
@@ -46536,12 +46867,11 @@ Palette.propTypes = {
 var logoMap = {
 	"Python": "/images/logo_python.png",
 	"Django": "/images/logo_django.png",
-	"React 18": "/images/logo_react.png",
-	"React": "/images/logo_react.png",
+	"FastAPI": "/images/logo_apirest.png",
+	"React 19": "/images/logo_react.png",
 	"Vite": "/images/logo_vite.png",
 	"JavaScript": "/images/logo_js.png",
-	"HTML5": "/images/logo_html.png",
-	"CSS3/SASS": "/images/logo_css.png",
+	"HTML5/CSS3": "/images/logo_html.png",
 	"Rocketbot": "/images/logo_rocketbot.png",
 	"Power Automate": "/images/logo_power_automate.png",
 	"Selenium": "/images/logo_selenium.svg",
@@ -46558,20 +46888,24 @@ var logoMap = {
 	"Postman": "/images/logo_postman.png",
 	"Pandas": "/images/logo_pandas.png",
 	"Excel Avanzado": "/images/logo_excel.png",
-	"Excel VBA": "/images/logo_excel.png",
 	"APIs REST": "/images/logo_postman.png",
 	"Jenkins": "/images/logo_jenkins.png",
 	"Flask": "/images/logo_flask.png",
 	"TypeScript": "/images/logo_typescript.svg",
-	"Jinja2": "/images/logo_jinja2.png"
+	"Jinja2": "/images/logo_jinja2.png",
+	"Google Cybersecurity": "/education/logo_google.svg",
+	"ISO 27001": "/images/introduction-to-cybersecurity.png",
+	"Linux & SQL Security": "/education/logo_google.svg",
+	"SIEM & Detection": "/education/logo_google.svg"
 };
 var categories = [
 	{
-		title: "Backend & RPA",
+		title: "Arquitectura, Backend & RPA",
 		icon: Gear,
 		skills: [
 			"Python",
 			"Django",
+			"FastAPI",
 			"Rocketbot",
 			"Power Automate",
 			"Selenium",
@@ -46579,56 +46913,59 @@ var categories = [
 		]
 	},
 	{
-		title: "Frontend",
-		icon: Palette,
+		title: "Ciberseguridad & Gobernanza",
+		icon: ShieldCheck,
 		skills: [
-			"React 18",
-			"React",
-			"Vite",
-			"JavaScript",
-			"HTML5",
-			"CSS3/SASS",
-			"TypeScript"
+			"Google Cybersecurity",
+			"ISO 27001",
+			"SIEM & Detection",
+			"Linux & SQL Security"
 		]
 	},
 	{
-		title: "Bases de Datos",
+		title: "Bases de Datos & Persistencia",
 		icon: Database,
 		skills: [
-			"MySQL",
 			"PostgreSQL",
+			"MySQL",
 			"SQL Server",
 			"Firebase",
 			"PhpMyAdmin"
 		]
 	},
 	{
-		title: "DevOps & Herramientas",
+		title: "DevOps, CI/CD & Infraestructura",
 		icon: Gear,
 		skills: [
 			"Docker",
 			"Git",
 			"Nginx",
+			"Jenkins",
+			"Postman",
 			"Jira",
 			"CPanel",
-			"Postman",
-			"Jenkins",
 			"Jinja2"
 		]
 	},
 	{
-		title: "Data & Análisis",
+		title: "Ingeniería de Datos & Analítica",
 		icon: BarChart,
 		skills: [
 			"Pandas",
 			"Excel Avanzado",
-			"Excel VBA"
+			"APIs REST"
 		]
 	},
 	{
-		title: "APIs & Cloud",
-		icon: Link45deg,
-		skills: ["APIs REST", "Postman"]
+		title: "Frontend & Interfaces",
+		icon: Palette,
+		skills: [
+			"React 19",
+			"TypeScript",
+			"JavaScript",
+			"Vite",
+			"HTML5/CSS3"
+		]
 	}
 ];
 function Skills() {
@@ -46640,43 +46977,63 @@ function Skills() {
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 					className: "section-title",
-					children: "Tecnologías"
+					children: "Competencias Técnicas"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "section-sub",
-					children: "Stack completo para construir soluciones modernas"
+					children: "Tecnologías y estándares aplicados en desarrollo backend, ciberseguridad y automatización empresarial"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					style: {
 						display: "flex",
 						flexDirection: "column",
-						gap: "3rem"
+						gap: "2.5rem"
 					},
 					children: categories.map((cat, i) => {
 						const Icon = cat.icon;
-						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
-							style: {
-								fontFamily: "var(--font-display)",
-								fontSize: "clamp(1rem, 2.5vw, 1.5rem)",
-								textTransform: "uppercase",
-								letterSpacing: "0.03em",
-								color: "var(--accent)",
-								marginBottom: "1rem",
-								display: "flex",
-								alignItems: "center",
-								gap: "0.6rem"
-							},
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { size: 16 }), cat.title]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "grid-auto",
-							children: cat.skills.map((s, j) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "skill-logo",
-								children: [logoMap[s] && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-									src: logoMap[s],
-									alt: s
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: s })]
-							}, j))
-						})] }, i);
+						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "skill-category-block",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", {
+								style: {
+									fontFamily: "var(--font-display)",
+									fontSize: "clamp(1rem, 2vw, 1.35rem)",
+									textTransform: "uppercase",
+									letterSpacing: "0.02em",
+									color: "var(--accent)",
+									marginBottom: "0.85rem",
+									display: "flex",
+									alignItems: "center",
+									gap: "0.6rem"
+								},
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { size: 16 }), cat.title]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "grid-auto",
+								style: {
+									gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 115px), 1fr))",
+									gap: "0.75rem"
+								},
+								children: cat.skills.map((s, j) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "skill-logo",
+									style: { padding: "0.85rem 0.5rem" },
+									children: [logoMap[s] && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+										src: logoMap[s],
+										alt: s,
+										style: {
+											width: "28px",
+											height: "28px",
+											objectFit: "contain"
+										}
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										style: {
+											fontSize: "0.68rem",
+											fontWeight: 500,
+											marginTop: "0.2rem"
+										},
+										children: s
+									})]
+								}, j))
+							})]
+						}, i);
 					})
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -46684,15 +47041,18 @@ function Skills() {
 					style: {
 						marginTop: "3rem",
 						textAlign: "center",
-						padding: "2rem"
+						padding: "1.75rem",
+						background: "linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elevated) 100%)",
+						border: "1px solid rgba(132, 204, 22, 0.2)"
 					},
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						style: {
-							fontSize: "0.85rem",
+							fontSize: "0.88rem",
 							color: "var(--accent-text)",
-							fontWeight: 600
+							fontWeight: 600,
+							letterSpacing: "0.01em"
 						},
-						children: "Especialista en integraciones Backend & RPA con +4 años de experiencia"
+						children: "Práctica técnica basada en Arquitectura Limpia, Seguridad por Diseño y Automatización Robótica de Procesos (RPA)"
 					})
 				})
 			]
@@ -46710,11 +47070,11 @@ function Contact() {
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 					className: "section-title",
-					children: "Contacto"
+					children: "Contacto Directo"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "section-sub",
-					children: "Hablemos — estoy abierto a proyectos y oportunidades"
+					children: "Canales de comunicación para consultoría técnica, proyectos de arquitectura y oportunidades profesionales"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					style: {
@@ -46847,14 +47207,15 @@ function Footer() {
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: [
 					"© ",
 					year,
-					" David Nanculeo"
+					" David Simón Ñanculeo Bastías"
 				] }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					style: {
 						marginTop: "0.3rem",
-						fontSize: "0.7rem"
+						fontSize: "0.72rem",
+						color: "var(--fg-muted)"
 					},
-					children: "Ingeniero en Informática · Full Stack · RPA Specialist"
+					children: "Ingeniero Civil Informático · Arquitectura de Software, Backend Crítico & Ciberseguridad"
 				})
 			]
 		})
